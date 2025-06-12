@@ -29,7 +29,7 @@ actor {
   };
 
   // Prosta informacja o systemie / Basic system info
-  public query func info(name : Text) : async Text {
+  public query func info() : async Text {
     return "HELLO WORLD";
   };
 
