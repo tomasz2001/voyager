@@ -1,3 +1,5 @@
+PROJEKT PUBLIC CHAT
+TELEGRAM = [https://t.me/voyager_system]
 
 LICENCE = "AGPLv3"
 NAME = "VOYAGER"
