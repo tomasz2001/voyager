@@ -7,7 +7,7 @@ export interface Voyager { 'conn' : string, 'mode' : string }
 export interface _SERVICE {
   'frend_add' : ActorMethod<[string, string], string>,
   'frend_one' : ActorMethod<[bigint], Voyager>,
-  'info' : ActorMethod<[string], string>,
+  'info' : ActorMethod<[], string>,
   'moderator' : ActorMethod<[string, bigint], string>,
   'url_add' : ActorMethod<[string, string], string>,
   'url_one' : ActorMethod<[bigint], Con_url>,

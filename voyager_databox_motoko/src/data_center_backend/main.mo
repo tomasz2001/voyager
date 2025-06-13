@@ -3,7 +3,7 @@ import Principal "mo:base/Principal";
 import Text "mo:base/Text";
 import _Option "mo:base/Option";
 import Nat "mo:base/Nat";
-import Blob "mo:base/Blob";
+
 
 actor {
 
@@ -18,8 +18,9 @@ actor {
 
   // Struktura pojedynczego Voyagera / Data structure for a Voyager node
   type Voyager = { 
+    conn: Text;
     mode: Text;
-    conn: Text; 
+     
   };
 
   // Struktura pojedynczego URL-a / Data structure for a single URL
@@ -29,22 +30,38 @@ actor {
   };
 
   // Prosta informacja o systemie / Basic system info
-  public query func info(name : Text) : async Text {
+  public query func info() : async Text {
     return "HELLO WORLD";
   };
 
   // Funkcja zapytania o konkretnego Voyagera / Query a specific Voyager
   public query func frend_one(target: Nat): async Voyager {
-    return frend.get(target);
+    if ( frend.size() > target ) { 
+      return frend.get(target);
+
+    } else {
+      return {
+        conn = "NULL";
+        mode = "NULL";
+      };
+    };
   };
 
   // Funkcja zapytania o konkretny URL / Query a specific URL
   public query func url_one(target: Nat): async Con_url {
-    return url.get(target);
+    if ( url.size() > target ) {
+      return url.get(target);
+
+    } else {
+      return {
+        conn = "NULL";
+        title = "NULL";
+      };
+    };
   };
 
   // Publiczna funkcja dodająca Voyagera / Public function to add a Voyager
-  public func frend_add(modee: Text, connn: Text): async Text {
+  public func frend_add(connn: Text, modee: Text): async Text {
     let make: Voyager = {
       mode = modee;
       conn = connn;
