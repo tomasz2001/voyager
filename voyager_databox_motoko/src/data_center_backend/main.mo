@@ -3,7 +3,7 @@ import Principal "mo:base/Principal";
 import Text "mo:base/Text";
 import _Option "mo:base/Option";
 import Nat "mo:base/Nat";
-import Blob "mo:base/Blob";
+
 
 actor {
 
@@ -14,18 +14,19 @@ actor {
   let frend = Buffer.Buffer<Voyager>(15);
 
   // Bufor przechowujący testowe URL-e / Buffer for storing test URLs
-  var url = Buffer.Buffer<Con_url>(50);
+  var app = Buffer.Buffer<Conn>(50);
 
   // Struktura pojedynczego Voyagera / Data structure for a Voyager node
   type Voyager = { 
+    conn: Text;
     mode: Text;
-    conn: Text; 
   };
 
   // Struktura pojedynczego URL-a / Data structure for a single URL
-  type Con_url = {
+  type Conn = {
     conn: Text;
     title: Text;
+    conector: [Text];
   };
 
   // Prosta informacja o systemie / Basic system info
@@ -35,16 +36,33 @@ actor {
 
   // Funkcja zapytania o konkretnego Voyagera / Query a specific Voyager
   public query func frend_one(target: Nat): async Voyager {
-    return frend.get(target);
+    if ( frend.size() > target ) { 
+      return frend.get(target);
+
+    } else {
+      return {
+        conn = "NULL";
+        mode = "NULL";
+      };
+    };
   };
 
   // Funkcja zapytania o konkretny URL / Query a specific URL
-  public query func url_one(target: Nat): async Con_url {
-    return url.get(target);
+  public query func url_one(target: Nat): async Conn {
+    if ( app.size() > target ) {
+      return app.get(target);
+
+    } else {
+      return {
+        conn = "NULL";
+        title = "NULL";
+        conector = ["NULL"]
+      };
+    };
   };
 
   // Publiczna funkcja dodająca Voyagera / Public function to add a Voyager
-  public func frend_add(modee: Text, connn: Text): async Text {
+  public func frend_add(connn: Text, modee: Text): async Text {
     let make: Voyager = {
       mode = modee;
       conn = connn;
@@ -54,12 +72,13 @@ actor {
   };
 
   // Publiczna funkcja dodająca URL / Public function to add a URL
-  public func url_add(connn: Text, titlee: Text): async Text {
-    let make: Con_url = {
+  public func url_add(connn: Text, titlee: Text, conecto: [Text]): async Text {
+    let make: Conn = {
       conn = connn;
       title = titlee;
+      conector = conecto;
     };
-    ignore url.add(make);
+    ignore app.add(make);
     return "Dodano URL / URL added";
   };
 
@@ -71,7 +90,7 @@ actor {
     if (caller_principal == root) {
 
       if (line == "url") {
-        ignore url.remove(target);
+        ignore app.remove(target);
         return "Dostęp przyznany – zadanie wykonane / Access granted – task completed";
       };
 
