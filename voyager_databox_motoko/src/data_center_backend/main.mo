@@ -4,6 +4,23 @@ import Text "mo:base/Text";
 import _Option "mo:base/Option";
 import Nat "mo:base/Nat";
 
+//                                   B^                                 
+//                                 .J@B~        !^                      
+//                                 J@@@&.     ^P!.                      
+//                                #@@@@@@:   ~7                         
+//                              ~#@@@@@@@&Y.                            
+//                          .J?#@@@@@@@@@@@@JJ!                         
+//             :::::   ::~&#@@@@@@@@@@@@@@@@@@@#&5::   .::::::::::      
+//            .JJJJJ   ?JP@@@@@@@@@@@@@@@@@@@@@@@&?J.  !JJJJJJJJJJ.     
+//                        ..7&#@@@@@@@@@@@@@&&G..                       
+//                             ^P@@@@@@@@@#7                            
+//                           :   .&@@@@@@!                              
+//                         7J7    ~B@@@@?                               
+//                      .!P^       ^&@&5                                
+//                     JJ~           @!                                 
+//                  :75:             .                                  
+//                .Y?^                                                  
+//               !Y.
 
 actor {
 
@@ -56,7 +73,7 @@ actor {
       return {
         conn = "NULL";
         title = "NULL";
-        conector = ["NULL"]
+        conector = ["NULL", "more"]
       };
     };
   };
