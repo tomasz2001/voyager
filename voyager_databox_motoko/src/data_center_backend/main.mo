@@ -28,7 +28,7 @@ actor {
   let root : Principal = Principal.fromText("ilqyx-par5p-y6cnk-rufql-xqhgw-tzpw4-bsbih-knin6-ui74t-aji5h-oqe");
  
   // Bufor przechowujący inne Voyagery / Buffer for other Voyager data boxes
-  let frend = Buffer.Buffer<Voyager>(15);
+  var frend = Buffer.Buffer<Voyager>(15);
 
   // Bufor przechowujący testowe URL-e / Buffer for storing test URLs
   var app = Buffer.Buffer<Conn>(50);
