@@ -7,6 +7,6 @@ type Conn =
 service : {
   glue_get: (get: vec text) -> (text) query;
   glue_push: (push: vec text) -> (text);
-  help: (line: int) -> (text) query;
+  help: (line: nat) -> (text) query;
   hwoisme: () -> (vec Conn) query;
 }

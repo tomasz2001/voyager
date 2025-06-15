@@ -7,7 +7,7 @@ export const idlFactory = ({ IDL }) => {
   return IDL.Service({
     'glue_get' : IDL.Func([IDL.Vec(IDL.Text)], [IDL.Text], ['query']),
     'glue_push' : IDL.Func([IDL.Vec(IDL.Text)], [IDL.Text], []),
-    'help' : IDL.Func([IDL.Int], [IDL.Text], ['query']),
+    'help' : IDL.Func([IDL.Nat], [IDL.Text], ['query']),
     'hwoisme' : IDL.Func([], [IDL.Vec(Conn)], ['query']),
   });
 };

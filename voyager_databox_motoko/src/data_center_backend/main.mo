@@ -51,7 +51,7 @@ actor {
     return "HELLO WORLD";
   };
 
-  // Funkcja zapytania o konkretnego Voyagera / Query a specific Voyager
+  // Funkcja zapytania o konkretnego Voyagera-databox / Query a specific Voyager-databox
   public query func frend_one(target: Nat): async Voyager {
     if ( frend.size() > target ) { 
       return frend.get(target);
@@ -64,7 +64,7 @@ actor {
     };
   };
 
-  // Funkcja zapytania o konkretny URL / Query a specific URL
+  // Funkcja zapytania o konkretny voyager-app / Query a specific voyager-app
   public query func url_one(target: Nat): async Conn {
     if ( app.size() > target ) {
       return app.get(target);
@@ -73,7 +73,7 @@ actor {
       return {
         conn = "NULL";
         title = "NULL";
-        conector = ["NULL", "more"]
+        conector = ["NULL"]
       };
     };
   };

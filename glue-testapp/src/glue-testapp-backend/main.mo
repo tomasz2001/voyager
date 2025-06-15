@@ -21,6 +21,7 @@ actor {
     conn: Text;
     title: Text;
     conector: [Text];
+    
   };
 
   public query func hwoisme() : async [Conn]{
@@ -36,13 +37,13 @@ actor {
   public query func glue_get(get : [Text]) : async Text{
   switch(get[0]){
     case("watch"){
-      if (get.size() <  1){
-        return "plesse ad nuber post value";
+      if (get.size() < 1){
+        return "plese ad nuber post value";
       };
       let target = Nat.fromText(get[1]); 
       var targett : Nat = Option.get(target, 0);
       if (targett < table.size()){   
-        targett := table.size() - targett;
+        targett := table.size() - targett - 1;
         let point = table.get(targett);
         return point.nick # "\n" # point.post # "\n" # point.aart;
 
@@ -65,22 +66,41 @@ actor {
   };
   // glue interface func 
   public func glue_push(push : [Text]) : async Text{
-  return "Hello";
+    switch(push[0]){
+      case("post"){
 
+        let post_push: Post = {
+          nick = push[1];
+          post = push[2];
+          aart = push[3]; 
+
+        };
+        table.add(post_push);
+        return"post added";
+      };
+     case(_){
+      return"NULL"
+
+     };
+
+
+    };
   };
 
   // help interface func 
-  public query func help(line : Int) : async Text{
+  public query func help(line : Nat) : async Text{
     
     switch(line){
      case(0){return "Hello to voyager-chan /-/ this is ascii art chan on voyager technology";};
      case(1){return "intervace glue help 
-     /[watch] [nuber] watch post
-     /[post] [nick] [text] [ascii-art] add new post";};
-     case(2){return "";};
-     case(_){return "NONE";}
+     /watch] [nuber] watch post
+     /post] [nick] [text] [ascii-art] add new post";};
+     case(_){return "NULL";}
 
     };
     
   };
+
+
+
 };
