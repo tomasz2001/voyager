@@ -9,9 +9,9 @@ type Con_url =
    title: text;
  };
 service : {
-  frend_add: (modee: text, connn: text) -> (text);
+  frend_add: (connn: text, modee: text) -> (text);
   frend_one: (target: nat) -> (Voyager) query;
-  info: (name: text) -> (text) query;
+  info: () -> (text) query;
   moderator: (line: text, target: nat) -> (text);
   url_add: (connn: text, titlee: text) -> (text);
   url_one: (target: nat) -> (Con_url) query;
