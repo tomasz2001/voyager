@@ -5,28 +5,49 @@ import _Option "mo:base/Option";
 import Nat "mo:base/Nat";
 
 
+//                                   B^                                 
+//                                 .J@B~        !^                      
+//                                 J@@@&.     ^P!.                      
+//                                #@@@@@@:   ~7                         
+//                              ~#@@@@@@@&Y.                            
+//                          .J?#@@@@@@@@@@@@JJ!                         
+//             :::::   ::~&#@@@@@@@@@@@@@@@@@@@#&5::   .::::::::::      
+//            .JJJJJ   ?JP@@@@@@@@@@@@@@@@@@@@@@@&?J.  !JJJJJJJJJJ.     
+//                        ..7&#@@@@@@@@@@@@@&&G..                       
+//                             ^P@@@@@@@@@#7                            
+//                           :   .&@@@@@@!                              
+//                         7J7    ~B@@@@?                               
+//                      .!P^       ^&@&5                                
+//                     JJ~           @!                                 
+//                  :75:             .                                  
+//                .Y?^                                                  
+//               !Y.
+
+
+
 actor {
 
   // Główny administrator systemu / Root admin of the system
   let root : Principal = Principal.fromText("ilqyx-par5p-y6cnk-rufql-xqhgw-tzpw4-bsbih-knin6-ui74t-aji5h-oqe");
  
   // Bufor przechowujący inne Voyagery / Buffer for other Voyager data boxes
-  let frend = Buffer.Buffer<Voyager>(15);
+  var frend = Buffer.Buffer<Voyager>(15);
 
   // Bufor przechowujący testowe URL-e / Buffer for storing test URLs
-  var url = Buffer.Buffer<Con_url>(50);
+  var app = Buffer.Buffer<Conn>(50);
 
   // Struktura pojedynczego Voyagera / Data structure for a Voyager node
   type Voyager = { 
     conn: Text;
     mode: Text;
-     
+
   };
 
   // Struktura pojedynczego URL-a / Data structure for a single URL
-  type Con_url = {
+  type Conn = {
     conn: Text;
     title: Text;
+    conector: [Text];
   };
 
   // Prosta informacja o systemie / Basic system info
@@ -34,7 +55,7 @@ actor {
     return "HELLO WORLD";
   };
 
-  // Funkcja zapytania o konkretnego Voyagera / Query a specific Voyager
+  // Funkcja zapytania o konkretnego Voyagera-databox / Query a specific Voyager-databox
   public query func frend_one(target: Nat): async Voyager {
     if ( frend.size() > target ) { 
       return frend.get(target);
@@ -47,15 +68,25 @@ actor {
     };
   };
 
-  // Funkcja zapytania o konkretny URL / Query a specific URL
+
+  // Funkcja zapytania o konkretny voyager-app / Query a specific voyager-app
+  public query func url_one(target: Nat): async Conn {
+    if ( app.size() > target ) {
+      return app.get(target);
+
+  // Funkcja zapytania o konkretny / Query a specific
   public query func url_one(target: Nat): async Con_url {
     if ( url.size() > target ) {
       return url.get(target);
+
 
     } else {
       return {
         conn = "NULL";
         title = "NULL";
+
+        conector = ["NULL"]
+
       };
     };
   };
@@ -71,12 +102,13 @@ actor {
   };
 
   // Publiczna funkcja dodająca URL / Public function to add a URL
-  public func url_add(connn: Text, titlee: Text): async Text {
-    let make: Con_url = {
+  public func url_add(connn: Text, titlee: Text, conecto: [Text]): async Text {
+    let make: Conn = {
       conn = connn;
       title = titlee;
+      conector = conecto;
     };
-    ignore url.add(make);
+    ignore app.add(make);
     return "Dodano URL / URL added";
   };
 
@@ -88,7 +120,7 @@ actor {
     if (caller_principal == root) {
 
       if (line == "url") {
-        ignore url.remove(target);
+        ignore app.remove(target);
         return "Dostęp przyznany – zadanie wykonane / Access granted – task completed";
       };
 
