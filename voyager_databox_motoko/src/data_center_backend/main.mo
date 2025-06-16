@@ -4,7 +4,6 @@ import Text "mo:base/Text";
 import _Option "mo:base/Option";
 import Nat "mo:base/Nat";
 
-
 //                                   B^                                 
 //                                 .J@B~        !^                      
 //                                 J@@@&.     ^P!.                      
@@ -23,8 +22,6 @@ import Nat "mo:base/Nat";
 //                .Y?^                                                  
 //               !Y.
 
-
-
 actor {
 
   // Główny administrator systemu / Root admin of the system
@@ -40,7 +37,6 @@ actor {
   type Voyager = { 
     conn: Text;
     mode: Text;
-
   };
 
   // Struktura pojedynczego URL-a / Data structure for a single URL
@@ -68,25 +64,16 @@ actor {
     };
   };
 
-
   // Funkcja zapytania o konkretny voyager-app / Query a specific voyager-app
-  public query func url_one(target: Nat): async Conn {
+  public query func conn_one(target: Nat): async Conn {
     if ( app.size() > target ) {
       return app.get(target);
-
-  // Funkcja zapytania o konkretny / Query a specific
-  public query func url_one(target: Nat): async Con_url {
-    if ( url.size() > target ) {
-      return url.get(target);
-
 
     } else {
       return {
         conn = "NULL";
         title = "NULL";
-
         conector = ["NULL"]
-
       };
     };
   };
