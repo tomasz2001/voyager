@@ -89,7 +89,7 @@ actor {
   };
 
   // Publiczna funkcja dodająca URL / Public function to add a URL
-  public func url_add(connn: Text, titlee: Text, conecto: [Text]): async Text {
+  public func conn_add(connn: Text, titlee: Text, conecto: [Text]): async Text {
     let make: Conn = {
       conn = connn;
       title = titlee;
@@ -106,7 +106,7 @@ actor {
 
     if (caller_principal == root) {
 
-      if (line == "url") {
+      if (line == "conn") {
         ignore app.remove(target);
         return "Dostęp przyznany – zadanie wykonane / Access granted – task completed";
       };
