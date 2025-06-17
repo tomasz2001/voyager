@@ -64,7 +64,7 @@ actor {
     };
   };
 
-  // Funkcja zapytania o konkretny voyager-app / Query a specific voyager-app
+  // Funkcja zapytania o konkretny conn / Query a specific conn
   public query func conn_one(target: Nat): async Conn {
     if ( app.size() > target ) {
       return app.get(target);
@@ -88,7 +88,7 @@ actor {
     return "Dodano VOYAGER DATA BOX / Voyager data box added";
   };
 
-  // Publiczna funkcja dodająca URL / Public function to add a URL
+  // Publiczna funkcja dodająca conn / Public function to add a conn
   public func conn_add(connn: Text, titlee: Text, conecto: [Text]): async Text {
     let make: Conn = {
       conn = connn;
