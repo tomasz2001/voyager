@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.1.1 Chrome/132.0.6834.210 Electron/34.3.3 Safari/537.36" version="26.1.1">
   <diagram name="Strona-1" id="OEVlBU5JiqOXGSREfoKp">
-    <mxGraphModel dx="2066" dy="2218" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="4180" dy="3966" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -363,7 +363,7 @@
         <mxCell id="kO42d1QU_VV1tafERWCC-112" value="&lt;pre data-indent-type=&quot;space&quot; data-indent-length=&quot;1&quot; class=&quot;language-motoko&quot; data-pm-slice=&quot;1 1 []&quot;&gt;&lt;code&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;public query func hwoisme() : async [Conn]{&lt;br&gt;       return [ {&lt;br&gt;        conn = &quot;adress aplication&quot;;&lt;br&gt;        title = &quot;Hello to voyager chat /-/ this is ascii art chan on....&quot;;&lt;br&gt;        conector = [&quot;glue&quot;, &quot;help&quot;];&lt;br&gt;       }&lt;br&gt;       ];&lt;br&gt;  };&lt;/font&gt;&lt;/code&gt;&lt;/pre&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="960" y="1370" width="450" height="310" as="geometry" />
         </mxCell>
-        <mxCell id="kO42d1QU_VV1tafERWCC-124" value="CONN_ONE-FUNK" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;strokeColor=default;fontSize=16;" vertex="1" parent="1">
+        <mxCell id="kO42d1QU_VV1tafERWCC-124" value="CONN-FUNK" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;strokeColor=default;fontSize=16;" vertex="1" parent="1">
           <mxGeometry x="360" y="290" width="400" height="190" as="geometry" />
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-125" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=16;" vertex="1" parent="kO42d1QU_VV1tafERWCC-124">
@@ -435,7 +435,7 @@
             <mxRectangle width="100" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="kO42d1QU_VV1tafERWCC-137" value="T" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;strokeColor=default;fontSize=16;" vertex="1" parent="1">
+        <mxCell id="kO42d1QU_VV1tafERWCC-137" value="FREND-FUNK" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;strokeColor=default;fontSize=16;" vertex="1" parent="1">
           <mxGeometry x="360" y="490" width="400" height="180" as="geometry" />
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-138" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=16;" vertex="1" parent="kO42d1QU_VV1tafERWCC-137">
@@ -514,7 +514,7 @@
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="920" y="545" />
-              <mxPoint x="920" y="10" />
+              <mxPoint x="920" y="-35" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -522,8 +522,8 @@
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="170" y="210" />
-              <mxPoint x="-480" y="210" />
-              <mxPoint x="-480" y="-84" />
+              <mxPoint x="-370" y="210" />
+              <mxPoint x="-370" y="-84" />
             </Array>
           </mxGeometry>
         </mxCell>
