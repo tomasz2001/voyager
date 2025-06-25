@@ -24,13 +24,13 @@ actor {
     
   };
 
-  public query func hwoisme() : async [Conn]{
-       return [ {
+  public query func hwoisme() : async Conn{
+       return {
         conn = "adress aplication";
         title = "Hello to voyager chat /-/ this is ascii art chan on voyager technology";
         conector = ["glue", "help"];
        }
-       ];
+       ;
   };
 
   // glue interface func 

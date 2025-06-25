@@ -3,6 +3,7 @@ import Principal "mo:base/Principal";
 import Text "mo:base/Text";
 import _Option "mo:base/Option";
 import Nat "mo:base/Nat";
+import Hash "mo:base/Hash";
 
 //                                   B^                                 
 //                                 .J@B~        !^                      
@@ -24,6 +25,25 @@ import Nat "mo:base/Nat";
 
 actor {
 
+
+    type Cyber_pen = {   // pojedynczy zapis o informacji pisu z hash korzystać z [Buffer]
+    vapp: Principal;
+    user: Principal;
+    hash: Nat32;
+    key: Text;
+
+  }; 
+  type Cyber_paper ={  // pojedynczy zapis danej aplikacji [hashmap-Pripical voyager-app]
+    trust_add: Nat32;
+    trust_rem: Nat32;
+
+  };
+  type Cyber_book = {  // pojedynczy zapis danej aplikacji [hashmap-Pripical voyager-databox]
+    trust: Bool;
+    
+
+  };
+
   // Główny administrator systemu / Root admin of the system
   let root : Principal = Principal.fromText("ilqyx-par5p-y6cnk-rufql-xqhgw-tzpw4-bsbih-knin6-ui74t-aji5h-oqe");
  
@@ -33,10 +53,12 @@ actor {
   // Bufor przechowujący testowe URL-e / Buffer for storing test URLs
   var app = Buffer.Buffer<Conn>(50);
 
+
   // Struktura pojedynczego Voyagera / Data structure for a Voyager node
   type Voyager = { 
     conn: Text;
-    mode: Text;
+    title: Text;
+    conector: [Text];
   };
 
   // Struktura pojedynczego URL-a / Data structure for a single URL
@@ -59,7 +81,8 @@ actor {
     } else {
       return {
         conn = "NULL";
-        mode = "NULL";
+        title = "NULL";
+        conector = ["NULL"];
       };
     };
   };
@@ -73,30 +96,31 @@ actor {
       return {
         conn = "NULL";
         title = "NULL";
-        conector = ["NULL"]
+        conector = ["NULL"];
       };
     };
   };
 
   // Publiczna funkcja dodająca Voyagera / Public function to add a Voyager
-  public func frend_add(connn: Text, modee: Text): async Text {
+  public func frend_add(connn: Text, titlee: Text, conectorr: [Text]): async Text {
     let make: Voyager = {
-      mode = modee;
       conn = connn;
+      title = titlee;
+      conector = conectorr
     };
     ignore frend.add(make);
     return "Dodano VOYAGER DATA BOX / Voyager data box added";
   };
 
   // Publiczna funkcja dodająca conn / Public function to add a conn
-  public func conn_add(connn: Text, titlee: Text, conecto: [Text]): async Text {
+  public func conn_add(connn: Text, titlee: Text, conectorr: [Text]): async Text {
     let make: Conn = {
       conn = connn;
       title = titlee;
-      conector = conecto;
+      conector = conectorr;
     };
     ignore app.add(make);
-    return "Dodano URL / URL added";
+    return "Dodano APP / APP added";
   };
 
   // Funkcja administracyjna do zarządzania danymi / Admin function for managing data
