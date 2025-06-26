@@ -4,7 +4,11 @@ TELEGRAM = [https://t.me/voyager_system]
 LICENCE = "AGPLv3"
 NAME = "VOYAGER"
 
+[pamientaj przy pracą systemem voyager][
+nie skompilowany agnet [the panda] 
+wymaga zainstalowania bibliotek asyncio oraz ic-py poprzez pip
 
+]
 
 🧭 Plan działania systemu Voyager
 
@@ -68,7 +72,7 @@ Nie chodzi o to, żebyś tworzył kolejną przeglądarkę.
 Chodzi o to, żebyś stworzył swój własny internet.
 
 
-
+\--- dlasza cześć readme jest niepoważna czytasz na własną odpowiedzialność ---\
 
 Ktoś rzucił, że to "to samo co Ceneo"...
 Szczerze? Męczy mnie już tłumaczenie coraz bardziej technicznych różnic. LEEEEEL
