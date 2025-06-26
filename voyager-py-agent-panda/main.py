@@ -85,20 +85,6 @@ async def icpcon(metode, item1):
             
 
 async def monitor():
-
-glue_array.clear()
-    print("glue multi text test")
-    while True:
-        user_input = input("> ")
-        if user_input.strip().lower() == "push":
-            break
-        if user_input.strip():
-            glue_array.append(user_input.strip())
-
-    print(f"\go push {glue_array}\n")
-    raport = await icpcon("glue", glue_array)
-    if(raport == "PUSH"):
-        raport = await icpcon("gluePUSH", glue_array)
 # glue test 
     
     command = input("comand ready: ")
@@ -121,7 +107,10 @@ glue_array.clear()
         print(raport)
 
     elif(command == "target"):
-        canisterId = input("wpisz canister usługi z którą chcesz rozmawiać")
+        canisterId = input("wpisz canister usługi z n/ którą chcesz rozmawiać: ")
+
+    else:
+        print("komenda nie obsługiwana")
 
     
 
