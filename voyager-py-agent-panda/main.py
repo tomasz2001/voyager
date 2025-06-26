@@ -108,7 +108,12 @@ async def monitor():
 
     elif(command == "target"):
         canisterId = input("wpisz canister usługi z n/ którą chcesz rozmawiać: ")
-
+    
+    elif(command == "help"):
+        print("target: wybierz caniser z którym chcesz rozmawiać")
+        print("glue: skorzystaj z interfejsu glue z wybranym targetem")
+        print("")
+        
     else:
         print("komenda nie obsługiwana")
 
@@ -116,5 +121,8 @@ async def monitor():
 
 
 if __name__ == '__main__':
+    print("[the panda] naiprosztrzy agnet do voyagera")
+    print("zyczymy miłej zabawy jak [nie wiesz] co robić")
+    print("wpisz [help]")
     while True:
        asyncio.run(monitor())
