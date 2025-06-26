@@ -1,3 +1,5 @@
+README BĘDZIE JESZCZE POPRAWIANY TEN KTÓRY TO NAPISAŁ NIE ZAPOMNI O TYM
+
 PROJEKT PUBLIC CHAT
 TELEGRAM = [https://t.me/voyager_system]
 
@@ -72,7 +74,7 @@ Nie chodzi o to, żebyś tworzył kolejną przeglądarkę.
 Chodzi o to, żebyś stworzył swój własny internet.
 
 
-\--- dlasza cześć readme jest niepoważna czytasz na własną odpowiedzialność ---\
+\--- dalsza cześć readme jest niepoważna czytasz na własną odpowiedzialność ---\
 
 Ktoś rzucił, że to "to samo co Ceneo"...
 Szczerze? Męczy mnie już tłumaczenie coraz bardziej technicznych różnic. LEEEEEL
