@@ -16,7 +16,7 @@ import signal
 er_data = False
 
 #voyager start point voyager_databox
-canisterId = '5dgyf-maaaa-aaaab-aaeia-cai'
+canisterId = 'p2137-cai'
 
 glue_array = []
 
@@ -32,11 +32,12 @@ async def icpcon(metode, item1):
     agent = Agent(identity, client)
 
     # zmienna param przechowuje dane które chcemy przesłać na canister
-    param_glue = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
-    param_qwery = [{'type': Types.Nat, 'value': item1}]
+    
+    
     
     try:
         if metode == 'glue':
+            param_glue = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
             # tu jest powtórka z rozrywki wiec pomine tłumaczenia tego
             result = await agent.query_raw_async(canisterId, "glue_get", encode(param_glue))
 
@@ -56,9 +57,33 @@ async def icpcon(metode, item1):
                 print("data error")
                 return None
 
+        
         if metode == 'gluePUSH':
+            param_glue = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
             # tu jest powtórka z rozrywki wiec pomine tłumaczenia tego
             result = await agent.update_raw_async(canisterId, "glue_push", encode(param_glue))
+
+
+
+            if isinstance(result, list) and len(result) > 0:
+                first_element = result[0]
+
+                if isinstance(first_element, dict) and 'value' in first_element:
+                    result_nice = first_element['value']
+                    print(f'raport: {result_nice}')
+                    return result_nice
+                else:
+                    print("data error")
+                    return None
+            else:
+                print("data error")
+                return None
+
+
+        if metode == 'help':
+            param_query = [{'type': Types.Nat, 'value': int(item1)}]
+            # tu jest powtórka z rozrywki wiec pomine tłumaczenia tego
+            result = await agent.query_raw_async(canisterId, "help", encode(param_query))
 
 
 
@@ -86,7 +111,7 @@ async def icpcon(metode, item1):
 
 async def monitor():
 # glue test 
-    
+    global canisterId
     command = input("comand ready: ")
     if(command == "glue"):
         # glue test 
@@ -107,13 +132,18 @@ async def monitor():
         print(raport)
 
     elif(command == "target"):
-        global canisterId 
+         
         canisterId = input("wpisz canister usługi z n/ którą chcesz rozmawiać: ")
     
     elif(command == "help"):
-        print("target: wybierz caniser z którym chcesz rozmawiać")
-        print("glue: skorzystaj z interfejsu glue z wybranym targetem")
-        print("")
+        
+        if(canisterId == "p2137-cai"):
+            print("target: wybierz caniser z którym chcesz rozmawiać")
+            print("glue: skorzystaj z interfejsu glue z wybranym targetem")
+            print("help: skorzystaj z pomocy")
+        else:
+            line = input("podaj strone pomocy tej usługi")
+            raport = await icpcon("help", line)
         
     else:
         print("komenda nie obsługiwana")
