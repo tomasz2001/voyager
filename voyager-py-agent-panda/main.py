@@ -107,6 +107,7 @@ async def monitor():
         print(raport)
 
     elif(command == "target"):
+        global canisterId 
         canisterId = input("wpisz canister usługi z n/ którą chcesz rozmawiać: ")
     
     elif(command == "help"):
