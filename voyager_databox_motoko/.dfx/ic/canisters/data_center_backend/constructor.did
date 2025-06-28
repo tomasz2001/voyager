@@ -1,0 +1,20 @@
+type Voyager = 
+ record {
+   conector: vec text;
+   conn: text;
+   title: text;
+ };
+type Conn = 
+ record {
+   conector: vec text;
+   conn: text;
+   title: text;
+ };
+service : {
+  conn_add: (connn: text, titlee: text, conectorr: vec text) -> (text);
+  conn_one: (target: nat) -> (Conn) query;
+  frend_add: (connn: text, titlee: text, conectorr: vec text) -> (text);
+  frend_one: (target: nat) -> (Voyager) query;
+  help: (line: nat) -> (text) query;
+  moderator: (line: text, target: nat) -> (text);
+}

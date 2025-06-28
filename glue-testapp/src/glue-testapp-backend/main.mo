@@ -26,7 +26,7 @@ actor {
 
   public query func hwoisme() : async Conn{
        return {
-        conn = "adress aplication";
+        conn = "iruwa-4iaaa-aaaam-aemaq-cai";
         title = "Hello to voyager chat /-/ this is ascii art chan on voyager technology";
         conector = ["glue", "help"];
        }

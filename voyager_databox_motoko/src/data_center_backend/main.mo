@@ -67,12 +67,24 @@ actor {
     title: Text;
     conector: [Text];
   };
-
   // Prosta informacja o systemie / Basic system info
-  public query func info() : async Text {
-    return "HELLO WORLD";
+  public query func help(line : Nat) : async Text{
+    
+    switch(line){
+     case(0){return "this databox voyager is bulding plesse wait to next update";};
+     case(_){return "NULL";}
+
+    };
   };
 
+   public query func hwoisme() : async Conn{
+       return {
+        conn = "--";
+        title = "Hello to voyager chat /-/ this is ascii art chan on voyager technology";
+        conector = ["one", "help"];
+       }
+       ;
+  };
   // Funkcja zapytania o konkretnego Voyagera-databox / Query a specific Voyager-databox
   public query func frend_one(target: Nat): async Voyager {
     if ( frend.size() > target ) { 

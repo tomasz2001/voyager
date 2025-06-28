@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.1.1 Chrome/132.0.6834.210 Electron/34.3.3 Safari/537.36" version="26.1.1">
   <diagram name="Strona-1" id="OEVlBU5JiqOXGSREfoKp">
-    <mxGraphModel dx="1893" dy="1711" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3172" dy="2362" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -314,7 +314,7 @@
           <mxGeometry x="170" y="1169" width="80" height="80" as="geometry" />
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-97" value="HWOISME-FUNK" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;strokeColor=default;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="290" y="1249" width="400" height="130" as="geometry" />
+          <mxGeometry x="290" y="1260" width="400" height="130" as="geometry" />
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-98" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=16;" parent="kO42d1QU_VV1tafERWCC-97" vertex="1">
           <mxGeometry y="30" width="400" height="50" as="geometry" />
