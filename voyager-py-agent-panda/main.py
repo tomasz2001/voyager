@@ -31,7 +31,7 @@ async def icpcon(metode, item1):
     identity = Identity()
     agent = Agent(identity, client)
 
-    # zmienna param przechowuje dane które chcemy przesłać na canister
+    
     
     
     
