@@ -104,10 +104,10 @@ async def icpcon(metode, item1):
         if metode == 'hwoisme' or metode == 'getapp' or metode == 'getbox':
             if metode == 'getapp':
                 param_query = [{'type': Types.Nat, 'value': int(item1)}]
-                result = await agent.query_raw_async(canisterId, "hwoisme", encode(param_query))
+                result = await agent.query_raw_async(canisterId, "conn_one", encode(param_query))
             elif metode == 'getbox':
                 param_query = [{'type': Types.Nat, 'value': int(item1)}]
-                result = await agent.query_raw_async(canisterId, "hwoisme", encode(param_query))
+                result = await agent.query_raw_async(canisterId, "frend_one", encode(param_query))
             else:
                 param_query = []
                 result = await agent.query_raw_async(canisterId, "hwoisme", encode(param_query))
@@ -201,7 +201,35 @@ async def monitor():
         else:
             print("Nie udało się odebrać danych Conn")
             print("")
-    
+
+    else(command == "getapp"):
+        print("")
+        get = input("podaj index: ")
+        print("")
+        raport = await icpcon("getapp", get)
+        if raport:
+            print("Dane Conn zostały pomyślnie odebrane:")
+            print(f"received_conn: {received_conn}")
+            print(f"received_title: {received_title}")  
+            print(f"received_conector: {received_conector}")
+        else:
+            print("Nie udało się odebrać danych Conn")
+            print("")
+
+    else(command == "getbox"):
+        print("")
+        get = input("podaj index: ")
+        print("")
+        raport = await icpcon("getbox", get)
+        if raport:
+            print("Dane Conn zostały pomyślnie odebrane:")
+            print(f"received_conn: {received_conn}")
+            print(f"received_title: {received_title}")  
+            print(f"received_conector: {received_conector}")
+        else:
+            print("Nie udało się odebrać danych Conn")
+            print("")
+        
     elif(command == "help"):
         print("");
         if(canisterId == "p2137-cai"):
@@ -223,8 +251,11 @@ async def monitor():
 
 if __name__ == '__main__':
     print("")
+    print("")
     print("[the panda] naiprosztrzy agnet do voyagera")
     print("zyczymy miłej zabawy jak [nie wiesz] co robić")
     print("wpisz [help]")
+    print("")
+    print("")
     while True:
        asyncio.run(monitor())

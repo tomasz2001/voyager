@@ -80,7 +80,7 @@ actor {
    public query func hwoisme() : async Conn{
        return {
         conn = "--";
-        title = "Hello to voyager chat /-/ this is ascii art chan on voyager technology";
+        title = "this is a voyager-databox";
         conector = ["one", "help"];
        }
        ;
