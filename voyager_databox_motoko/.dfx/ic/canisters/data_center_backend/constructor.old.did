@@ -15,6 +15,6 @@ service : {
   conn_one: (target: nat) -> (Conn) query;
   frend_add: (connn: text, titlee: text, conectorr: vec text) -> (text);
   frend_one: (target: nat) -> (Voyager) query;
-  info: () -> (text) query;
+  help: (line: nat) -> (text) query;
   moderator: (line: text, target: nat) -> (text);
 }

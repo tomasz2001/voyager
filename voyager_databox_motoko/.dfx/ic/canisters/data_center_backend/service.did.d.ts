@@ -18,6 +18,7 @@ export interface _SERVICE {
   'frend_add' : ActorMethod<[string, string, Array<string>], string>,
   'frend_one' : ActorMethod<[bigint], Voyager>,
   'help' : ActorMethod<[bigint], string>,
+  'hwoisme' : ActorMethod<[], Conn>,
   'moderator' : ActorMethod<[string, bigint], string>,
 }
 export declare const idlFactory: IDL.InterfaceFactory;

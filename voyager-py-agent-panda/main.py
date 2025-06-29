@@ -202,7 +202,7 @@ async def monitor():
             print("Nie udało się odebrać danych Conn")
             print("")
 
-    else(command == "getapp"):
+    elif(command == "getapp"):
         print("")
         get = input("podaj index: ")
         print("")
@@ -216,7 +216,7 @@ async def monitor():
             print("Nie udało się odebrać danych Conn")
             print("")
 
-    else(command == "getbox"):
+    elif(command == "getbox"):
         print("")
         get = input("podaj index: ")
         print("")
@@ -232,12 +232,13 @@ async def monitor():
         
     elif(command == "help"):
         print("");
-        if(canisterId == "p2137-cai"):
+        if(canisterId == "p2137-cai" or canisterId == ""):
             print("")
             print("hwosime: sprawdzi z kim rozmawiasz i jakie ma interfejsy")
             print("target: wybierz caniser z którym chcesz rozmawiać")
             print("glue: skorzystaj z interfejsu glue z wybranym targetem")
             print("help: skorzystaj z pomocy")
+            print("skorzystaj z fukcji one przy voyager data-box getapp/getbox")
         else:
             line = input("podaj strone pomocy tej usługi")
             raport = await icpcon("help", line)

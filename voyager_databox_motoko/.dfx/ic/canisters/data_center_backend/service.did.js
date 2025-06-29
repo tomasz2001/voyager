@@ -23,6 +23,7 @@ export const idlFactory = ({ IDL }) => {
       ),
     'frend_one' : IDL.Func([IDL.Nat], [Voyager], ['query']),
     'help' : IDL.Func([IDL.Nat], [IDL.Text], ['query']),
+    'hwoisme' : IDL.Func([], [Conn], ['query']),
     'moderator' : IDL.Func([IDL.Text, IDL.Nat], [IDL.Text], []),
   });
 };
