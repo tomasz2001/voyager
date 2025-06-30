@@ -171,8 +171,8 @@ async def monitor():
             if user_input.strip().lower() == "push":
                 break
             if user_input.strip():
-                glue_array.append(user_input.strip())
-
+                glue_array.append(user_input)
+    
         
         raport = await icpcon("glue", glue_array)
         print("");

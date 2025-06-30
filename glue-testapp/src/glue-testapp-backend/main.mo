@@ -65,28 +65,28 @@ actor {
    
   };
   // glue interface func 
-  public func glue_push(push : [Text]) : async Text{
-    switch(push[0]){
-      case("post"){
-
-        let post_push: Post = {
-          nick = push[1];
-          post = push[2];
-          aart = push[3]; 
-
+  public func glue_push(push : [Text]) : async Text {
+    switch (push[0]) {
+        case ("post") {
+            var aart_lines : Text = "";
+            var i = 3;
+            while (i < push.size()) {
+                aart_lines := aart_lines # push[i] # "\n";
+                i += 1;
+            };
+            let post_push: Post = {
+                nick = push[1];
+                post = push[2];
+                aart = aart_lines;
+            };
+            table.add(post_push);
+            return "post added";
         };
-        table.add(post_push);
-        return"post added";
-      };
-     case(_){
-      return"NULL"
-
-     };
-
-
+        case (_) {
+            return "NULL";
+        };
     };
-  };
-
+};
   // help interface func 
   public query func help(line : Nat) : async Text{
     
