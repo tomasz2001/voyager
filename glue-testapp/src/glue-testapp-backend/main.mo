@@ -2,7 +2,7 @@ import Buffer "mo:base/Buffer";
 import Text "mo:base/Text";
 import _Option "mo:base/Option";
 import Nat "mo:base/Nat";
-import Option "mo:base/Option";
+
 
 // every one here is chaos plesse dont reat wait to new update 
 
@@ -41,7 +41,7 @@ actor {
         return "plese ad nuber post value";
       };
       let target = Nat.fromText(get[1]); 
-      var targett : Nat = Option.get(target, 0);
+      var targett : Nat = _Option.get(target, 0);
       if (targett < table.size()){   
         targett := table.size() - targett - 1;
         let point = table.get(targett);

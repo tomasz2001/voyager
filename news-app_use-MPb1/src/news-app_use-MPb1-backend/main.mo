@@ -7,7 +7,7 @@ import Hash "mo:base/Hash";
 
 var file = Buffer.Buffer<file_box>(25);
 
-
+var news = Buffer.Buffer<post>(25);
 
 let root : Principal = Principal.fromText("ilqyx-par5p-y6cnk-rufql-xqhgw-tzpw4-bsbih-knin6-ui74t-aji5h-oqe");
 
@@ -21,7 +21,7 @@ type file_box = {
     ft: ?Text;
 };
 type post = {
-    maker: ?Principal;
+    maker: Principal;
     title: Text;
     text: Text;
     uf: [Nat];
@@ -29,6 +29,38 @@ type post = {
 
 
 actor {
+  
+  public query func glue_get(get : [Text]) : async Text{
+  switch(get[0]){
+    case("watch"){
+      if (get.size() < 1){
+        return "plese ad nuber post value";
+      };
+      let target = Nat.fromText(get[1]); 
+      var targett : Nat = _Option.get(target, 0);
+      if (targett < news.size()){   
+        targett := news.size() - targett - 1;
+        let point = news.get(targett);
+        
+        return "_" # Principal.toText(point.maker) # "_" # "\n" # point.title # "\n" # "\n" # point.text;
+
+      }else{
+       return"post not exist";
+ 
+      };
+    };
+    //ase("post"){
+    // return "PUSH";
+
+    //};
+    case(_){
+     return "NULL";
+
+    };
+  };
+
+   
+  };
   
   //moderate file
   public shared (msg) func file_moderator(target: Nat): async Text{
