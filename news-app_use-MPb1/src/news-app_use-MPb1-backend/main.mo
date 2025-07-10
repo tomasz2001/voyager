@@ -49,7 +49,7 @@ actor {
  
       };
     };
-    //ase("post"){
+    //case("post"){
     // return "PUSH";
 
     //};
