@@ -29,7 +29,6 @@ type post = {
 
 
 actor {
-  
   public query func glue_get(get : [Text]) : async Text{
   switch(get[0]){
     case("watch"){
@@ -61,7 +60,10 @@ actor {
 
    
   };
-  
+      // make it
+  //public query func tracker_file(command : Text, get : Nat) : async [Nat]{
+   
+  //};
   //moderate file
   public shared (msg) func file_moderator(target: Nat): async Text{
 
