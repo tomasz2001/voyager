@@ -1,7 +1,7 @@
 import Buffer "mo:base/Buffer";
 import Principal "mo:base/Principal";
 import Text "mo:base/Text";
-import _Option "mo:base/Option";
+import Option "mo:base/Option";
 import Nat "mo:base/Nat";
 import Hash "mo:base/Hash";
 
@@ -36,7 +36,7 @@ actor {
         return "plese ad nuber post value";
       };
       let target = Nat.fromText(get[1]); 
-      var targett : Nat = _Option.get(target, 0);
+      var targett : Nat = Option.get(target, 0);
       if (targett < news.size()){   
         targett := news.size() - targett - 1;
         let point = news.get(targett);
@@ -61,9 +61,27 @@ actor {
    
   };
       // make it
-  //public query func tracker_file(command : Text, get : Nat) : async [Nat]{
-   
-  //};
+  public query func tracker_file(command : Text, get : Nat) : async [Nat]{
+   switch(command){
+    case("watch"){
+      let target = (get); 
+      if (target < news.size()){   
+        let targett = news.size() - target;
+        let point = news.get(targett);
+        
+        return point.uf;
+
+      }else{
+       return [0];
+
+      };
+    };
+    case(_){
+      return [0];
+      
+    };
+   };
+  };
   //moderate file
   public shared (msg) func file_moderator(target: Nat): async Text{
 
