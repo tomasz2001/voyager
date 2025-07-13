@@ -5,30 +5,30 @@ import Option "mo:base/Option";
 import Nat "mo:base/Nat";
 import Hash "mo:base/Hash";
 
-var file = Buffer.Buffer<file_box>(25);
+actor {
 
-var news = Buffer.Buffer<post>(25);
+  var file = Buffer.Buffer<file_box>(25);
 
-let root : Principal = Principal.fromText("ilqyx-par5p-y6cnk-rufql-xqhgw-tzpw4-bsbih-knin6-ui74t-aji5h-oqe");
+  var news = Buffer.Buffer<post>(25);
 
-type Conn = {
+  let root : Principal = Principal.fromText("ilqyx-par5p-y6cnk-rufql-xqhgw-tzpw4-bsbih-knin6-ui74t-aji5h-oqe");
+
+  type Conn = {
     conn: Text;
     title: Text;
     conector: [Text];
-};
-type file_box = {
+  };
+  type file_box = {
     fd: ?Blob;
     ft: ?Text;
-};
-type post = {
+  };
+  type post = {
     maker: Principal;
     title: Text;
     text: Text;
     uf: [Nat];
-};
-
-
-actor {
+  };
+  
   public query func glue_get(get : [Text]) : async Text{
   switch(get[0]){
     case("watch"){
