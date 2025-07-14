@@ -46,7 +46,7 @@ actor {
   };
 
   // Główny administrator systemu / Root admin of the system
-  let root : Principal = Principal.fromText("ilqyx-par5p-y6cnk-rufql-xqhgw-tzpw4-bsbih-knin6-ui74t-aji5h-oqe");
+  let root : Principal = Principal.fromText("2001-1820");
  
   // Bufor przechowujący inne Voyagery / Buffer for other Voyager data boxes
   var frend = Buffer.Buffer<Voyager>(15);
@@ -138,6 +138,10 @@ actor {
 
   // Funkcja administracyjna do zarządzania danymi / Admin function for managing data
   public shared (msg) func moderator(line: Text, target: Nat): async Text {
+
+    if(root == Principal.fromText("2001-1820")){
+      return("this element is anarhic - not have root principal")
+    };
 
     let caller_principal = msg.caller;
 

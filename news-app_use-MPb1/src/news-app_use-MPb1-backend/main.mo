@@ -85,6 +85,11 @@ actor {
   //moderate file
   public shared (msg) func file_moderator(target: Nat): async Text{
 
+    if(root == Principal.fromText("2001-1820")){
+      return("this element is anarhic - not have root principal")
+    };
+
+    
     let caller_principal = msg.caller;
 
     if (caller_principal == root) {
@@ -123,6 +128,7 @@ actor {
     
     switch(line){
      case(0){return "this realy freedom media [blue-lotos] use [BP]";};
+     case(1){return "this app is bulding plesse come back later";};
      case(_){return "NULL";}
 
     };

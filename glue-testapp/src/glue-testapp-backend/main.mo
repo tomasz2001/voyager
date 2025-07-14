@@ -27,7 +27,7 @@ actor {
   public query func hwoisme() : async Conn{
        return {
         conn = "iruwa-4iaaa-aaaam-aemaq-cai";
-        title = "Hello to voyager chat /-/ this is ascii art chan on voyager technology";
+        title = "Hello to voyager-chan /-/ this is ascii art chan on voyager technology";
         conector = ["glue", "help"];
        }
        ;
@@ -93,8 +93,8 @@ actor {
     switch(line){
      case(0){return "Hello to voyager-chan /-/ this is ascii art chan on voyager technology";};
      case(1){return "intervace glue help 
-     /watch] [nuber] watch post
-     /post] [nick] [text] [ascii-art] add new post";};
+     /watch] [nuber] watch post on chan
+     /post] [nick] [text] [new line = new line asci art] add new chan post";};
      case(_){return "NULL";}
 
     };
