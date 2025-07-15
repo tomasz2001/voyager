@@ -9,19 +9,22 @@ import subprocess
 import os
 import signal
 
-
+# zmienna debug 
 er_data = False
 
-
+# wartość natywna wykorzystywana w kodzie 
+# nie jest prawdziwym canistrem 
 canisterId = 'p2137-cai'
 
+# zmienna do glue nie ruszać
 glue_array = []
 
+# zmienne trackery do określenia targetu komunikacji
 received_conn = ""
 received_title = ""
 received_conector = []
 
-
+# icpcon skomplikowana logika gadania z ICP w prostym pudełeczku
 async def icpcon(metode, item1):
     global er_data, received_conn, received_title, received_conector
    
@@ -157,13 +160,13 @@ async def icpcon(metode, item1):
         print(f'Error: {e} ')
         er_data = True
         return None
-            
-
+           
+# monitor kod w pentli wykorzytujący icpcon
 async def monitor():
     global canisterId, received_conn, received_title, received_conector
     command = input("comand ready: ")
     if(command == "glue"):
-        # glue test 
+        # czyszczenie tablicy glue przed ponownym wykorzystaniem 
         glue_array.clear()
         print("")
         while True:
@@ -173,7 +176,11 @@ async def monitor():
             if user_input.strip():
                 glue_array.append(user_input)
     
-        
+        # uwarzaj jakiego typu dane przesyłasz do danej komendy w icpcon
+        # bo inaczej wszytko si3 zesra 
+        # wiencej o tym dowiesz się z dokumentacji voyager lub
+        # interpetująć kod icpcon 
+        # zmienna = zawsze przez await icpcon([komenda], [dane])
         raport = await icpcon("glue", glue_array)
         print("");
         
@@ -248,8 +255,7 @@ async def monitor():
         print("komenda nie obsługiwana")
 
     
-
-
+# !!! monitor zawsze uruchamiamy po przez [asyncio.run]
 if __name__ == '__main__':
     print("")
     print("")
