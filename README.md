@@ -1,93 +1,86 @@
-README BĘDZIE JESZCZE POPRAWIANY TEN KTÓRY TO NAPISAŁ NIE ZAPOMNI O TYM
+README SUBJECT TO FURTHER REVISIONS.
+THE AUTHOR OF THIS FILE WON’T FORGET THAT.
 
-PROJEKT PUBLIC CHAT
-TELEGRAM = [https://t.me/voyager_system]
+Project Name: VOYAGER
+License: AGPLv3
+Public Chat (Telegram): https://t.me/voyager_system
 
-LICENCE = "AGPLv3"
-NAME = "VOYAGER"
+NOTE FOR USING THE VOYAGER SYSTEM:
+The uncompiled agent [the panda] requires the installation of the following Python libraries:
 
-[pamientaj przy pracą systemem voyager][
-nie skompilowany agnet [the panda] 
-wymaga zainstalowania bibliotek asyncio oraz ic-py poprzez pip
+asyncio
 
-]
+ic-py
 
-🧭 Plan działania systemu Voyager
+Install them via pip:
+pip install asyncio ic-py
 
-🔹 Czym jest Voyager?
-Voyager to otwarta struktura do katalogowania usług i informacji, zbudowana na bazie zdecentralizowanej sieci (ICP). To nie jedna aplikacja — to zestaw komponentów, z których każdy może stworzyć własnego „agenta” do komunikacji z danymi lub usługami.
+VOYAGER SYSTEM – OPERATIONAL OVERVIEW
 
-Voyager nie narzuca ci jednej aplikacji. Ty decydujesz, jakie interfejsy chcesz obsługiwać, i jakie dane chcesz udostępniać.
+What is Voyager?
 
-🔹 Jak działa?
-System składa się z dwóch głównych elementów:
+Voyager is an open framework for cataloging services and information, built on the decentralized ICP network.
+It is not a single application — it's a modular system composed of components that anyone can use to build their own “agent” for communicating with data or services.
 
-Voyager-DataBox (canister) – trzyma dane o usługach Voyager-App, innych Voyagerach-DataBox, oraz ich interfejsach (np. API, komendy, dostępność).
+Voyager does not dictate a single app model.
+You choose which interfaces to support, and what kind of data to expose.
 
-Aplikacje Voyager – łączą się z danymi i udostępniają interfejsy (np. ASCII-chat jako glue interface).
+How does it work?
 
-Te komponenty komunikują się przez prosty i otwarty system "standardów", który każdy może współtworzyć.
+The system consists of two core elements:
 
-🧠 AI? Kiedy i jak?
-Obecnie Voyager nie zawiera wbudowanego agenta AI, ale:
+Voyager-DataBox (canister): holds data about Voyager apps, other DataBoxes, and their interfaces (e.g., API specs, commands, availability).
 
-architektura zakłada możliwość dodania lokalnego AI, który korzysta z metadanych (conector[], title, conn) bez potrzeby interfejsów graficznych;
+Voyager Applications: connect to those data structures and expose interfaces (e.g., an ASCII chat using the glue interface).
 
-dane są już uporządkowane i czytelne dla modeli językowych, więc łatwo z tego zbudować narzędzie AI-ready;
+These components interact via an open, simple set of “standards” that anyone can help define.
 
-np. przyszły agent może przeszukiwać sieć Voyagerów po słowach kluczowych w title i conector.
+AI? When and how?
 
-🔓 Otwarte, ludzkie standardy
-W Voyagerze standardy komunikacyjne nie są pisane przez korporacje czy fundacje, ale przez użytkowników. Jak?
+Voyager currently does not include a built-in AI agent.
+However, its architecture is designed for future integration of local AI systems that can work with metadata (like connector[], title, conn) — without requiring a graphical interface.
 
-Każdy Conn zawiera pole conector[], które definiuje, jakie interfejsy są obsługiwane.
+The data is already structured and readable for language models, so building AI-ready tools is straightforward.
 
-Przykład: ["glue", "help"] oznacza, że aplikacja wspiera standard glue, który pozwala np. dodawać posty.
+For example, a future agent could crawl the Voyager network using keywords from "title" and "connector" fields.
 
-Brak centralnego walidatora – jeśli chcesz stworzyć nowy standard ascii-market:0.1, po prostu go zdefiniuj i opublikuj.
+Open, human-driven standards
 
-To oznacza, że:
+In Voyager, communication protocols are not created by corporations or foundations — they are written by users.
 
-Możesz tworzyć usługi, które „gadają” między sobą — bez API gatewaya, bez Google, bez App Store.
+Every Conn object includes a connector[] field that declares which interfaces are supported.
 
-🕸 Sieć zdecentralizowana naprawdę
-Każdy Voyager-DataBox jest niezależnym węzłem, który:
+Example: ["glue", "help"] means the app supports the "glue" standard, which may allow posting messages.
 
-przechowuje dane o innych Voyagerach (frend buffer),
+There is no central validator.
+If you want to create a new standard like ascii-market:0.1 — define it and publish it. That’s it.
 
-trzyma wpisy o usługach (Conn buffer),
+This means:
 
-nie podlega kontroli żadnej firmy – kod działa na ICP, ale właścicielem danych jest użytkownik (Principal).
+You can create services that communicate with each other — without API gateways, without Google, without the App Store.
 
-Nie musisz pytać Google ani Amazon o pozwolenie, by tworzyć własną infrastrukturę.
+Truly decentralized network
 
-🎯 Nasz cel
-Stworzyć żywy system wymiany informacji, w którym:
+Every Voyager-DataBox is an independent node that:
 
-użytkownik sam tworzy katalog usług,
+stores data about other Voyagers (friend buffer),
 
-AI może z tym rozmawiać bez "frontendu",
+holds records about services (Conn buffer),
 
-a dane są zdecentralizowane, otwarte i odporne na cenzurę.
+is not controlled by any company — it runs on ICP, but the data is owned by the user (Principal).
 
-Nie chodzi o to, żebyś tworzył kolejną przeglądarkę.
-Chodzi o to, żebyś stworzył swój własny internet.
+You don’t need Google or Amazon’s permission to build your own infrastructure.
 
+Our Goal
 
-\--- dalsza cześć readme jest niepoważna czytasz na własną odpowiedzialność ---\
+To create a living system of information exchange, where:
 
-Ktoś rzucił, że to "to samo co Ceneo"...
-Szczerze? Męczy mnie już tłumaczenie coraz bardziej technicznych różnic. LEEEEEL
+users build their own service catalogs,
 
-| **Cecha**                  | **CENEO**                                                                    | **VOYAGER (DVX)**                                                                                                                          |
-| -------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Typ bazy**               | Scentralizowana – jedna baza danych zarządzana centralnie                    | Rozproszona – każdy węzeł (DataBox) to niezależna instancja, która może udostępniać i przechowywać dane o usługach lub innych Voyagerach   |
-| **Własność danych**        | W całości należy do jednej firmy (Ceneo)                                     | Każdy użytkownik może hostować dane: swoje **i cudze**                                                                                     |
-| **Dostępność**             | Tylko przez infrastrukturę firmy, narażona na awarie i zamknięcie            | Zawsze online – dane rozproszone między wielu niezależnych hostów, trudne do wyłączenia lub ocenzurowania                                  |
-| **Dodawanie danych**       | Poprzez API kontrolowane przez centralny podmiot                             | Każdy może wystawić dane/usługi bez pytania o zgodę – wystarczy własny Voyager-DataBox lub dodanie wpisu do istniejącego                   |
-| **Integracja z AI**        | Brak lub tylko marketingowe hasła                                            | System tworzony z myślą o integracji z agentami AI którzy mogą automatycznie wyszukiwać i porównywać usługi [[ gants-is-coming ]]          |
-| **Trwałość projektu**      | Jeśli firma padnie – system znika                                            | Projekt przetrwa nawet jeśli twórcy znikną – każdy Voyager działa niezależnie i może być utrzymywany przez społeczność lub jednostki       |
-| **Kontrola**               | Właściciel może blokować, modyfikować lub cenzurować dane                    | Nie ma pojedynczego punktu kontroli – dane są trwale rozproszone, a dostęp do nich jest otwarty i trudny do scentralizowanego ograniczenia |
-| **Zdolność do współpracy** | Ograniczona do tego, co firma udostępni (np. brak dostępu do pełnych danych) | Voyagery mogą znać się nawzajem – DataBox może przechowywać adresy innych Voyagerów, tworząc sieć wzajemnych odniesień i źródeł danych     |
+AI can interact with them directly (no frontend needed),
 
+and the data is decentralized, open, and censorship-resistant.
+
+It’s not about building another browser.
+It’s about building your own internet.
 
