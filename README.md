@@ -1,6 +1,3 @@
-README SUBJECT TO FURTHER REVISIONS.
-THE AUTHOR OF THIS FILE WON’T FORGET THAT.
-
 Project Name: VOYAGER
 License: AGPLv3
 Public Chat (Telegram): https://t.me/voyager_system
@@ -17,70 +14,61 @@ pip install asyncio ic-py
 
 VOYAGER SYSTEM – OPERATIONAL OVERVIEW
 
-What is Voyager?
+VOYAGER MANIFESTO
+Because freedom begins where power does not reach.
+Author: [BAS_IC] Team Leader of the [Voyager OG-DEV-Team]
+Date: 2025-07-16
+Chapter: Introduction
+Albert Einstein:
+"The world is a dangerous place to live; not because of the people who are evil, but because of the people who don't do anything about it."
 
-Voyager is an open framework for cataloging services and information, built on the decentralized ICP network.
-It is not a single application — it's a modular system composed of components that anyone can use to build their own “agent” for communicating with data or services.
+"Imagination is more important than knowledge. For knowledge points to what is, imagination points to what will be."
 
-Voyager does not dictate a single app model.
-You choose which interfaces to support, and what kind of data to expose.
+"Not everything that counts can be counted, and not everything that can be counted counts."
 
-How does it work?
+Chapter: Contrast
+Voyager is a project built on the Internet Computer (ICP) protocol. It is not an ordinary application. It is a technology of many connections that — in an ideal scenario — can become a foundation for freedom. To better understand how it works, it’s useful to compare it with other known technologies.
 
-The system consists of two core elements:
+AI as a Search Tool
+Artificial intelligence can effectively sort content, for example, by automatically recognizing spam. Voyager allows AI to be used in processing data from services and interfaces.
 
-Voyager-DataBox (canister): holds data about Voyager apps, other DataBoxes, and their interfaces (e.g., API specs, commands, availability).
+Hidden Wiki on the Tor Network
+The Tor network hosts decentralized directories like Hidden Wiki. Each one has its own administrator, yet together they form a distributed and censorship-resistant structure. This is similar to how Voyager-DataBoxes interconnect.
 
-Voyager Applications: connect to those data structures and expose interfaces (e.g., an ASCII chat using the glue interface).
+HTML and Universal Standards
+Despite the variety of browsers, systems, and engines, HTML pages remain compatible with each other. This proves that shared standards can work across differences. Voyager uses this model when defining interfaces.
 
-These components interact via an open, simple set of “standards” that anyone can help define.
+Chapter: Time
+More and more people use AI to search for information. But who controls that information? And who shapes the future of AI?
 
-AI? When and how?
+Headlines like "Elon Musk sues OpenAI. They abandoned the mission for profit." show that not every technology should be trusted blindly.
 
-Voyager currently does not include a built-in AI agent.
-However, its architecture is designed for future integration of local AI systems that can work with metadata (like connector[], title, conn) — without requiring a graphical interface.
+Voyager offers an alternative: a system where each person can control their own AI agent — or choose not to use one at all. The freedom of choice here is built on three pillars.
 
-The data is already structured and readable for language models, so building AI-ready tools is straightforward.
+Chapter: Pillars
+Pillar 1: The Voyager Agent
+Its source code is intentionally simple — to allow any user to modify and develop it. The Agent can be a local application, terminal interface, or a service cooperating with AI. It has a low entry threshold, encouraging experimentation and personalization.
 
-For example, a future agent could crawl the Voyager network using keywords from "title" and "connector" fields.
+Pillar 2: Voyager-DataBox & Voyager-App
+The DataBox is a canister on the ICP network that stores data about available services and other DataBoxes. It acts as a decentralized directory, which can also reference Voyager-Apps — independent applications operating as canisters on the ICP network, offering specific functions. Both forms are controlled by users, DAOs, or can be left without active governance. This creates a fully decentralized web of references.
 
-Open, human-driven standards
+Pillar 3: Communication Interfaces
+Every canister operating in the Voyager system declares the supported interfaces — known as “connectors.” These are recorded in a special metadata field (e.g., connector[]). These interfaces define how the agent can communicate with a given canister. Importantly — the interfaces are open; any user can create their own, implement it in their application, and use it in the Voyager agent. Since the Voyager system does not store functions but only their names, near-limitless flexibility and expansion of the system is possible — without central intervention.
 
-In Voyager, communication protocols are not created by corporations or foundations — they are written by users.
+Chapter: The Alliance
+We want to build a new system of communication between clients and services.
 
-Every Conn object includes a connector[] field that declares which interfaces are supported.
+A system that will be:
 
-Example: ["glue", "help"] means the app supports the "glue" standard, which may allow posting messages.
+decentralized,
 
-There is no central validator.
-If you want to create a new standard like ascii-market:0.1 — define it and publish it. That’s it.
+open,
 
-This means:
+freedom-based from the ground up,
 
-You can create services that communicate with each other — without API gateways, without Google, without the App Store.
+independent of its creators.
 
-Truly decentralized network
+To achieve this, the community must understand how Voyager works — so that together we can develop it.
 
-Every Voyager-DataBox is an independent node that:
-
-stores data about other Voyagers (friend buffer),
-
-holds records about services (Conn buffer),
-
-is not controlled by any company — it runs on ICP, but the data is owned by the user (Principal).
-
-You don’t need Google or Amazon’s permission to build your own infrastructure.
-
-Our Goal
-
-To create a living system of information exchange, where:
-
-users build their own service catalogs,
-
-AI can interact with them directly (no frontend needed),
-
-and the data is decentralized, open, and censorship-resistant.
-
-It’s not about building another browser.
-It’s about building your own internet.
-
+Homework:
+Reflect on what features connect the Voyager pillars with the earlier technological examples (AI, Tor, HTML)? This is the first step toward understanding a new internet paradigm.
