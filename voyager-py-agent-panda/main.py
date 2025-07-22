@@ -14,15 +14,15 @@ er_data = False
 
 
 canisterId = 'p2137-cai'
-
 glue_array = []
 
 received_conn = ""
 received_title = ""
 received_conector = []
 
+binfile = []
 
-async def icpcon(metode, item1):
+async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=None, item6=None, item7=None):
     global er_data, received_conn, received_title, received_conector
    
     ic_url = 'https://ic0.app'
@@ -35,8 +35,18 @@ async def icpcon(metode, item1):
     
     
     try:
+
+        if metode == 'file_one':
+            param_file = [{'type': Types.Nat, 'value': item1}]
+            result = await agent.query_raw_async(canisterId, "file_one", encode(param_file))
+
+            
+
+                
+
+
         if metode == 'glue':
-            param_glue = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
+            param_glue = [{'type': Types.Nat, 'value': glue_array}]
             # tu jest powtórka z rozrywki wiec pomine tłumaczenia tego
             result = await agent.query_raw_async(canisterId, "glue_get", encode(param_glue))
 
@@ -135,20 +145,13 @@ async def icpcon(metode, item1):
                             received_title = str(values[1]) if isinstance(values[1], str) else ''
                             received_conector = values[2] if isinstance(values[2], list) else []
                         else:
-                            received_conn = ''
-                            received_title = ''
-                            received_conector = []
-
+                            return False
                         #print(f'Odebrano strukturę Conn:')
                         #print(f'conn: {received_conn}')
                         #print(f'title: {received_title}')
                         #print(f'conector: {received_conector}')
                         
-                        return {
-                            'conn': received_conn,
-                            'title': received_title,
-                            'conector': received_conector
-                        }
+                        return True
 
             return None
 
@@ -192,8 +195,8 @@ async def monitor():
 
     elif(command == "hwoisme"):
         print("")
-        raport = await icpcon("hwoisme", None)
-        if raport:
+        raport = await icpcon("hwoisme")
+        if raport == True:
             print("Dane Conn zostały pomyślnie odebrane:")
             print(f"received_conn: {received_conn}")
             print(f"received_title: {received_title}")  
@@ -207,7 +210,7 @@ async def monitor():
         get = input("podaj index: ")
         print("")
         raport = await icpcon("getapp", get)
-        if raport:
+        if raport == True:
             print("Dane Conn zostały pomyślnie odebrane:")
             print(f"received_conn: {received_conn}")
             print(f"received_title: {received_title}")  
@@ -221,7 +224,7 @@ async def monitor():
         get = input("podaj index: ")
         print("")
         raport = await icpcon("getbox", get)
-        if raport:
+        if raport == True:
             print("Dane Conn zostały pomyślnie odebrane:")
             print(f"received_conn: {received_conn}")
             print(f"received_title: {received_title}")  
@@ -238,12 +241,18 @@ async def monitor():
             print("target: wybierz caniser z którym chcesz rozmawiać")
             print("glue: skorzystaj z interfejsu glue z wybranym targetem")
             print("help: skorzystaj z pomocy")
-            print("skorzystaj z fukcji one przy voyager data-box getapp/getbox")
+            print("getbox: spytaj databox o inne databoxy")
+            print("getapp: spytaj databox o aplikacje")
+            print
         else:
             line = input("podaj strone pomocy tej usługi")
             raport = await icpcon("help", line)
             print(raport)
             print("")
+    elif(command == "fileone"):
+        print("fukcja fileone jest nadal w budowie")
+        print("dzienkujemy za skorzystanie z usług panda_voyager_agnet")
+
     else:
         print("komenda nie obsługiwana")
 

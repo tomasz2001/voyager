@@ -1,3 +1,26 @@
+📦 Voyager – Databox
+Warning: This project has an assigned canister.
+To re-use it:
+
+delete the .dfx folder,
+
+or copy the backend folder into a new project.
+
+This is an example of a Voyager databox, a decentralized data container.
+
+It can reference:
+
+other databoxes,
+
+or external apps.
+
+It also includes dedicated interfaces designed specifically for interacting with this databox.
+
+
+
+
+
+<-- auto generate -->
 # `data_center`
 
 Welcome to your new `data_center` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.

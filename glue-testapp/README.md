@@ -1,3 +1,24 @@
+🧪 Voyager Test App – Glue Interface
+Warning: This project has an assigned canister.
+If you'd like to build your own app based on it:
+
+remove the .dfx directory,
+
+or copy the backend folder into a fresh project.
+
+This is a basic demo app that uses the Glue interface – one of Voyager’s early multiplexer-style interfaces.
+
+It:
+
+accepts multiple inputs,
+
+returns a single output.
+
+The included demo is ascii-chan – a simple text-board inspired by 4chan, using ascii art for interaction.
+
+
+
+<-- auto generate -->
 # `glue-testapp`
 
 Welcome to your new `glue-testapp` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
