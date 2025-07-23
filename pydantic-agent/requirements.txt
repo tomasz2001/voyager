@@ -1,0 +1,6 @@
+pydantic
+openai
+ollama
+python-dotenv
+requests
+ic-py
