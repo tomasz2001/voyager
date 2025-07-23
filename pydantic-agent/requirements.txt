@@ -4,3 +4,4 @@ ollama
 python-dotenv
 requests
 ic-py
+fastmcp

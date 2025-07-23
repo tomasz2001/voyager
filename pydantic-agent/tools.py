@@ -1,7 +1,6 @@
 from pydantic import BaseModel, Field, HttpUrl
 from typing import List, Dict, Any, Callable, Optional, Literal, Type
 import json
-import httpx
 
 from ic.client import Client
 from ic.identity import Identity
@@ -9,6 +8,8 @@ from ic.agent import Agent
 from ic.candid import encode, Types
 
 from config import Settings
+from mcp_client import MCPClientWrapper
+from fastmcp import ToolError
 
 # --- Pydantic Schemas for Tool Inputs ---
 
@@ -46,25 +47,6 @@ class ModeratorInput(BaseModel):
     target: int = Field(description="Indeks celu do usunięcia.")
 
 # --- Wrapper Functions for Tools ---
-
-async def _call_mcp_server(tool_name: str, args: Dict[str, Any], mcp_server_url: HttpUrl) -> Any:
-    """Wywołuje narzędzie poprzez niestandardowy serwer MCP."""
-    headers = {'Content-Type': 'application/json'}
-    payload = {
-        "tool_name": tool_name,
-        "args": args
-    }
-    async with httpx.AsyncClient() as client:
-        try:
-            response = await client.post(str(mcp_server_url), headers=headers, json=payload)
-            response.raise_for_status()  # Podnieś wyjątek dla kodów statusu 4xx/5xx
-            return response.json()
-        except httpx.RequestError as e:
-            print(f"Błąd komunikacji z serwerem MCP: {e}")
-            return {"error": f"Błąd połączenia z serwerem MCP: {e.request.url}"}
-        except httpx.HTTPStatusError as e:
-            print(f"Błąd serwera MCP: status {e.response.status_code} dla {e.request.url}")
-            return {"error": f"Błąd serwera MCP: status {e.response.status_code}", "details": e.response.text}
 
 async def _call_icp_canister(canister_id: str, method_name: str, args: List[Any], is_query: bool = True) -> Any:
     """Wywołuje metodę na kanistrze ICP."""
@@ -104,7 +86,8 @@ async def glue_get_tool(input: GlueGetInput, settings: Settings, canister_id: st
         canister_id: ID kanistra ICP do wywołania.
     """
     if settings.mcp_server_url:
-        return await _call_mcp_server("glue_get", input.model_dump(), settings.mcp_server_url)
+        mcp_client = MCPClientWrapper(str(settings.mcp_server_url))
+        return await mcp_client.call_tool("glue_get", input.model_dump())
     else:
         # Przykład mapowania Pydantic na Candid Types
         candid_args = [{'type': Types.Vec(Types.Text), 'value': input.get}]  # type: ignore
@@ -118,7 +101,8 @@ async def glue_push_tool(input: GluePushInput, settings: Settings, canister_id: 
         canister_id: ID kanistra ICP do wywołania.
     """
     if settings.mcp_server_url:
-        return await _call_mcp_server("glue_push", input.model_dump(), settings.mcp_server_url)
+        mcp_client = MCPClientWrapper(str(settings.mcp_server_url))
+        return await mcp_client.call_tool("glue_push", input.model_dump())
     else:
         candid_args = [{'type': Types.Vec(Types.Text), 'value': input.push}]  # type: ignore
         return await _call_icp_canister(canister_id, "glue_push", candid_args, is_query=False)
@@ -131,7 +115,8 @@ async def help_tool(input: HelpInput, settings: Settings, canister_id: str) -> A
         canister_id: ID kanistra ICP do wywołania.
     """
     if settings.mcp_server_url:
-        return await _call_mcp_server("help", input.model_dump(), settings.mcp_server_url)
+        mcp_client = MCPClientWrapper(str(settings.mcp_server_url))
+        return await mcp_client.call_tool("help", input.model_dump())
     else:
         candid_args = [{'type': Types.Nat, 'value': input.line}]
         return await _call_icp_canister(canister_id, "help", candid_args, is_query=True)
@@ -144,7 +129,8 @@ async def hwoisme_tool(input: HwoismeInput, settings: Settings, canister_id: str
         canister_id: ID kanistra ICP do wywołania.
     """
     if settings.mcp_server_url:
-        return await _call_mcp_server("hwoisme", input.model_dump(), settings.mcp_server_url)
+        mcp_client = MCPClientWrapper(str(settings.mcp_server_url))
+        return await mcp_client.call_tool("hwoisme", input.model_dump())
     else:
         return await _call_icp_canister(canister_id, "hwoisme", [], is_query=True)
 
@@ -156,7 +142,8 @@ async def conn_one_tool(input: ConnOneInput, settings: Settings, canister_id: st
         canister_id: ID kanistra ICP do wywołania.
     """
     if settings.mcp_server_url:
-        return await _call_mcp_server("conn_one", input.model_dump(), settings.mcp_server_url)
+        mcp_client = MCPClientWrapper(str(settings.mcp_server_url))
+        return await mcp_client.call_tool("conn_one", input.model_dump())
     else:
         candid_args = [{'type': Types.Nat, 'value': input.target}]
         return await _call_icp_canister(canister_id, "conn_one", candid_args, is_query=True)
@@ -169,7 +156,8 @@ async def frend_one_tool(input: FrendOneInput, settings: Settings, canister_id: 
         canister_id: ID kanistra ICP do wywołania.
     """
     if settings.mcp_server_url:
-        return await _call_mcp_server("frend_one", input.model_dump(), settings.mcp_server_url)
+        mcp_client = MCPClientWrapper(str(settings.mcp_server_url))
+        return await mcp_client.call_tool("frend_one", input.model_dump())
     else:
         candid_args = [{'type': Types.Nat, 'value': input.target}]
         return await _call_icp_canister(canister_id, "frend_one", candid_args, is_query=True)
@@ -182,7 +170,8 @@ async def conn_add_tool(input: ConnAddInput, settings: Settings, canister_id: st
         canister_id: ID kanistra ICP do wywołania.
     """
     if settings.mcp_server_url:
-        return await _call_mcp_server("conn_add", input.model_dump(), settings.mcp_server_url)
+        mcp_client = MCPClientWrapper(str(settings.mcp_server_url))
+        return await mcp_client.call_tool("conn_add", input.model_dump())
     else:
         candid_args = [
             {'type': Types.Text, 'value': input.connn},
@@ -199,7 +188,8 @@ async def frend_add_tool(input: FrendAddInput, settings: Settings, canister_id: 
         canister_id: ID kanistra ICP do wywołania.
     """
     if settings.mcp_server_url:
-        return await _call_mcp_server("frend_add", input.model_dump(), settings.mcp_server_url)
+        mcp_client = MCPClientWrapper(str(settings.mcp_server_url))
+        return await mcp_client.call_tool("frend_add", input.model_dump())
     else:
         candid_args = [
             {'type': Types.Text, 'value': input.connn},
@@ -216,7 +206,8 @@ async def moderator_tool(input: ModeratorInput, settings: Settings, canister_id:
         canister_id: ID kanistra ICP do wywołania.
     """
     if settings.mcp_server_url:
-        return await _call_mcp_server("moderator", input.model_dump(), settings.mcp_server_url)
+        mcp_client = MCPClientWrapper(str(settings.mcp_server_url))
+        return await mcp_client.call_tool("moderator", input.model_dump())
     else:
         candid_args = [
             {'type': Types.Text, 'value': input.line},
@@ -289,9 +280,12 @@ if __name__ == "__main__":
         # Test 2: Zmiana ustawień, aby użyć serwera MCP
         print(f"\n3. Test wywołania 'help_tool' przez serwer MCP")
         settings.mcp_server_url = HttpUrl("http://localhost:9999/invalid_mcp")
-        print(f"   (Oczekiwany błąd połączenia z serwerem MCP pod adresem: {settings.mcp_server_url})")
-        result = await help_tool(HelpInput(line=1), settings, canister_id)
-        print(f"   Wynik: {result}")
+        print(f"   (Oczekiwany błąd ToolError lub podobny z biblioteki fastmcp przy próbie połączenia z: {settings.mcp_server_url})")
+        try:
+            result = await help_tool(HelpInput(line=1), settings, canister_id)
+            print(f"   Wynik: {result}")
+        except Exception as e:
+            print(f"   Złapano oczekiwany wyjątek: {type(e).__name__}: {e}")
 
     import asyncio
     # Uruchomienie testów. Spodziewaj się błędów, jeśli serwery/kanistry nie są dostępne.
