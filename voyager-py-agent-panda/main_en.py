@@ -132,6 +132,7 @@ async def monitor():
     command = input("Command ready: ")
     if(command == "glue"):
         glue_array.clear()
+        print("Enter data into the array, confirming each line with Enter. When you're done, type 'push' to send the array")
         print("")
         while True:
             user_input = input("> ")

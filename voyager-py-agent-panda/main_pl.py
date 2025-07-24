@@ -168,6 +168,7 @@ async def monitor():
     if(command == "glue"):
         # glue test 
         glue_array.clear()
+        print("Wpisz dane do tablicy, zatwierdź Enterem każdą linię. Gdy skończysz, wpisz 'push', aby wysłać tablicę")
         print("")
         while True:
             user_input = input("> ")
