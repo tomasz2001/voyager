@@ -34,7 +34,7 @@ actor {
     key: Text;
 
   }; 
-  type Cyber_paper ={  // pojedynczy zapis danej aplikacji [hashmap-Pripical voyager-app]
+  type Cyber_paper = {  // pojedynczy zapis danej aplikacji [hashmap-Pripical voyager-app]
     trust_add: Nat32;
     trust_rem: Nat32;
 
@@ -46,7 +46,7 @@ actor {
   };
 
   // Główny administrator systemu / Root admin of the system
-  let root : Principal = Principal.fromText("2001-1820");
+  let root : ?Principal = null;
  
   // Bufor przechowujący inne Voyagery / Buffer for other Voyager data boxes
   var frend = Buffer.Buffer<Voyager>(15);
@@ -139,7 +139,7 @@ actor {
   // Funkcja administracyjna do zarządzania danymi / Admin function for managing data
   public shared (msg) func moderator(line: Text, target: Nat): async Text {
 
-    if(root == Principal.fromText("2001-1820")){
+    if(root == null){
       return("this element is anarhic - not have root principal")
     };
 
