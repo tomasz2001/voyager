@@ -37,16 +37,14 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
     try:
 
         if metode == 'file_one':
-            param_file = [{'type': Types.Nat, 'value': item1}]
+            param_file = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
             result = await agent.query_raw_async(canisterId, "file_one", encode(param_file))
 
-            
 
-                
 
 
         if metode == 'glue':
-            param_glue = [{'type': Types.Nat, 'value': glue_array}]
+            param_glue = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
             # tu jest powtórka z rozrywki wiec pomine tłumaczenia tego
             result = await agent.query_raw_async(canisterId, "glue_get", encode(param_glue))
 
