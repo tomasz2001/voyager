@@ -45,7 +45,6 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
 
         if metode == 'glue':
             param_glue = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
-            # tu jest powtórka z rozrywki wiec pomine tłumaczenia tego
             result = await agent.query_raw_async(canisterId, "glue_get", encode(param_glue))
 
 
@@ -166,18 +165,25 @@ async def monitor():
     if(command == "glue"):
         # glue test 
         glue_array.clear()
-        print("Wpisz dane do tablicy, zatwierdź Enterem każdą linię. Gdy skończysz, wpisz 'push', aby wysłać tablicę")
+        print("Wpisz dane do tablicy, zatwierdzając każdą linię klawiszem Enter.")
+        print("Gdy skończysz, wpisz '@push', aby wysłać tablicę.")
+        print("Jeśli nie chcesz wysyłać, wpisz '@break'.")
         print("")
         while True:
             user_input = input("> ")
-            if user_input.strip().lower() == "push":
+            if user_input.strip().lower() == "@push":
                 break
-            if user_input.strip():
-                glue_array.append(user_input)
-    
-        
-        raport = await icpcon("glue", glue_array)
-        print("");
+            if user_input.strip().lower() == "@break":
+                glue_array.clear()
+                break
+            glue_array.append(user_input)
+            
+                
+        if user_input == "@break":
+            raport = "Glue został złamany i nie został przesłany."
+        else:
+            raport = await icpcon("glue", glue_array)
+            print("");
         
         if(raport == "PUSH"):
             raport = await icpcon("gluePUSH", glue_array)

@@ -134,23 +134,33 @@ async def monitor():
     global canisterId, received_conn, received_title, received_conector
     command = input("Command ready: ")
     if(command == "glue"):
+        # glue test 
         glue_array.clear()
-        print("Enter data into the array, confirming each line with Enter. When you're done, type 'push' to send the array")
+        print("Enter data into the array, confirming each line with the Enter key.")
+        print("When you're done, type 'push' to send the array.")
+        print("If you don't want to send it, type '@break'.")
         print("")
         while True:
             user_input = input("> ")
-            if user_input.strip().lower() == "push":
+            if user_input.strip().lower() == "@push":
                 break
-            if user_input.strip():
-                glue_array.append(user_input)
-
-        raport = await icpcon("glue", glue_array)
-        print("")
+            if user_input.strip().lower() == "@break":
+                glue_array.clear()
+                break
+            glue_array.append(user_input)
+            
+                
+        if user_input == "@break":
+            raport = "Glue został złamany i nie został przesłany."
+        else:
+            raport = await icpcon("glue", glue_array)
+            print("");
         
         if(raport == "PUSH"):
             raport = await icpcon("gluePUSH", glue_array)
             print(raport)
             print("")
+            
         else:
             print(raport)
             print("")
