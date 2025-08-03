@@ -1,25 +1,28 @@
 const int LED_PIN = 12;
 unsigned long lastQuery = 0;
-const unsigned long QUERY_INTERVAL = 1000; // ms
+const unsigned long QUERY_INTERVAL = 1000;
+float TempC;
 
 void setup() {
-  pinMode(13, OUTPUT);    // wskaźnik aktywności
+  pinMode(13, OUTPUT);    
   pinMode(LED_PIN, OUTPUT);
   Serial.begin(9600);
 }
 
 void loop() {
-  // 1) migajemy diodą 13, żeby było widać, że kod działa
-  digitalWrite(13, millis() % 200 < 100 ? HIGH : LOW);
+  digitalWrite(13, millis() % 700 < 500 ? HIGH : LOW);
 
   unsigned long now = millis();
-  // 2) co sekundę wysyłamy zapytanie do Pythona
   if (now - lastQuery >= QUERY_INTERVAL) {
     lastQuery = now;
     Serial.println("?led");
+    delay(1000);
+    TempC = Read_NTC10k();
+    Serial.print("^");
+    Serial.println(TempC, 2);
   }
 
-  // 3) jeśli przyszła jakaś linia z Pythona – czytamy i reagujemy
+
   if (Serial.available() > 0) {
     String resp = Serial.readStringUntil('\n');
     resp.trim();
@@ -28,6 +31,15 @@ void loop() {
     } else if (resp == "off") {
       digitalWrite(LED_PIN, LOW);
     }
-    // jeśli dostaniesz coś innego – możesz np. printować do debugu
   }
+}
+
+float Read_NTC10k()
+{
+  float a = 639.5, b = -0.1332, c = -162.5;
+  float Rntc, Vntc, Temp;
+  Vntc = (analogRead(A0)*5.0)/1023.0;
+  Rntc = 10000.0 * ((5.0/Vntc) - 1);
+  Temp = a * pow(Rntc, b) + c;
+  return Temp;
 }

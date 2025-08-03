@@ -12,7 +12,7 @@ BAUDRATE = 9600
 TIMEOUT = 1
 
 # === Zmienne on-chain ===
-canisterId = "mozdu-gyaaa-aaaae-aakoq-cai"
+canisterId = "mh2ii-qqaaa-aaaae-aakpa-cai"
 
 # === Inicjalizacja połączenia ===
 arduino = serial.Serial(port=PORT, baudrate=BAUDRATE, timeout=TIMEOUT)
