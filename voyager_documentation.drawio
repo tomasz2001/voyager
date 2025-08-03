@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.1.1 Chrome/132.0.6834.210 Electron/34.3.3 Safari/537.36" version="26.1.1">
   <diagram name="Strona-1" id="OEVlBU5JiqOXGSREfoKp">
-    <mxGraphModel dx="2929" dy="1119" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2751" dy="1398" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -21,7 +21,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="kO42d1QU_VV1tafERWCC-3" target="14FhPwLRojMgyb_TP8DX-6">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="kO42d1QU_VV1tafERWCC-3" target="14FhPwLRojMgyb_TP8DX-6" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="-370" y="810" />
@@ -60,7 +60,7 @@
         <mxCell id="kO42d1QU_VV1tafERWCC-5" value="standardy komunikacji" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#6a00ff;fontColor=#ffffff;strokeColor=#3700CC;" parent="1" vertex="1">
           <mxGeometry x="-150" y="690" width="80" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="kO42d1QU_VV1tafERWCC-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="kO42d1QU_VV1tafERWCC-8" target="kO42d1QU_VV1tafERWCC-13" edge="1">
+        <mxCell id="kO42d1QU_VV1tafERWCC-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fillColor=#fa6800;strokeColor=#C73500;" parent="1" source="kO42d1QU_VV1tafERWCC-8" target="kO42d1QU_VV1tafERWCC-13" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="40" y="700" />
@@ -68,7 +68,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="kO42d1QU_VV1tafERWCC-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="kO42d1QU_VV1tafERWCC-8" target="kO42d1QU_VV1tafERWCC-14" edge="1">
+        <mxCell id="kO42d1QU_VV1tafERWCC-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fillColor=#fa6800;strokeColor=#C73500;" parent="1" source="kO42d1QU_VV1tafERWCC-8" target="kO42d1QU_VV1tafERWCC-14" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="30" y="710" />
@@ -76,7 +76,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="kO42d1QU_VV1tafERWCC-178" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="kO42d1QU_VV1tafERWCC-8" target="kO42d1QU_VV1tafERWCC-154" edge="1">
+        <mxCell id="kO42d1QU_VV1tafERWCC-178" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#fa6800;strokeColor=#C73500;" parent="1" source="kO42d1QU_VV1tafERWCC-8" target="kO42d1QU_VV1tafERWCC-154" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="35" y="330" />
@@ -84,18 +84,18 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="74xmjOYzpO48ucQ2ZOvZ-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="kO42d1QU_VV1tafERWCC-8" target="kO42d1QU_VV1tafERWCC-96" edge="1">
+        <mxCell id="74xmjOYzpO48ucQ2ZOvZ-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;fillColor=#fa6800;strokeColor=#C73500;" parent="1" source="kO42d1QU_VV1tafERWCC-8" target="kO42d1QU_VV1tafERWCC-96" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="120" y="640" />
-              <mxPoint x="120" y="1189" />
+              <mxPoint x="120" y="660" />
+              <mxPoint x="120" y="1090" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="74xmjOYzpO48ucQ2ZOvZ-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="kO42d1QU_VV1tafERWCC-8" target="kO42d1QU_VV1tafERWCC-17" edge="1">
+        <mxCell id="74xmjOYzpO48ucQ2ZOvZ-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fillColor=#fa6800;strokeColor=#C73500;" parent="1" source="kO42d1QU_VV1tafERWCC-8" target="kO42d1QU_VV1tafERWCC-17" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="190" y="670" />
+              <mxPoint x="190" y="640" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -118,13 +118,20 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="kO42d1QU_VV1tafERWCC-94" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="kO42d1QU_VV1tafERWCC-96" edge="1">
+        <mxCell id="kO42d1QU_VV1tafERWCC-94" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#60a917;strokeColor=#2D7600;" parent="1" target="kO42d1QU_VV1tafERWCC-96" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="180.00000000000023" y="1209.997037037037" as="targetPoint" />
             <mxPoint x="80.00000000000023" y="779.957037037037" as="sourcePoint" />
             <Array as="points">
               <mxPoint x="100" y="780" />
-              <mxPoint x="100" y="1210" />
+              <mxPoint x="100" y="1130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#60a917;strokeColor=#2D7600;" edge="1" parent="1" source="kO42d1QU_VV1tafERWCC-9" target="z-zVPOH5ZUtmBe-mKYZ_-1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40" y="1260" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -149,13 +156,13 @@
         <mxCell id="kO42d1QU_VV1tafERWCC-14" value="frend" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
           <mxGeometry x="240" y="540" width="80" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="kO42d1QU_VV1tafERWCC-17" target="kO42d1QU_VV1tafERWCC-62">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="kO42d1QU_VV1tafERWCC-17" target="kO42d1QU_VV1tafERWCC-62" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-17" value="HELP" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
           <mxGeometry x="130" y="750" width="80" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="kO42d1QU_VV1tafERWCC-18" target="kO42d1QU_VV1tafERWCC-35">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="kO42d1QU_VV1tafERWCC-18" target="kO42d1QU_VV1tafERWCC-35" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-18" value="GLUE" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
@@ -198,7 +205,7 @@
             <mxRectangle width="117" height="60" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="kO42d1QU_VV1tafERWCC-37" value="type=get" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" parent="kO42d1QU_VV1tafERWCC-35" vertex="1">
+        <mxCell id="kO42d1QU_VV1tafERWCC-37" value="type=query" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" parent="kO42d1QU_VV1tafERWCC-35" vertex="1">
           <mxGeometry x="117" width="113" height="60" as="geometry">
             <mxRectangle width="113" height="60" as="alternateBounds" />
           </mxGeometry>
@@ -237,7 +244,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-57" value="HELP-FUNK" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;strokeColor=default;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="360" y="900" width="400" height="130" as="geometry" />
+          <mxGeometry x="360" y="890" width="400" height="130" as="geometry" />
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-58" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=16;" parent="kO42d1QU_VV1tafERWCC-57" vertex="1">
           <mxGeometry y="30" width="400" height="50" as="geometry" />
@@ -292,10 +299,10 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-96" value="&lt;pre data-pm-slice=&quot;1 1 []&quot; class=&quot;language-motoko&quot; data-indent-length=&quot;1&quot; data-indent-type=&quot;space&quot;&gt;&lt;code&gt;hwoisme&lt;/code&gt;&lt;/pre&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
-          <mxGeometry x="170" y="1169" width="80" height="80" as="geometry" />
+          <mxGeometry x="170" y="1070" width="80" height="80" as="geometry" />
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-97" value="HWOISME-FUNK" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;strokeColor=default;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="360" y="1080" width="400" height="130" as="geometry" />
+          <mxGeometry x="360" y="1050" width="400" height="130" as="geometry" />
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-98" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=16;" parent="kO42d1QU_VV1tafERWCC-97" vertex="1">
           <mxGeometry y="30" width="400" height="50" as="geometry" />
@@ -415,7 +422,7 @@
             <mxRectangle width="100" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="kO42d1QU_VV1tafERWCC-154" target="kO42d1QU_VV1tafERWCC-199">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="kO42d1QU_VV1tafERWCC-154" target="kO42d1QU_VV1tafERWCC-199" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="kO42d1QU_VV1tafERWCC-154" value="moderator" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
@@ -542,33 +549,111 @@
             <mxRectangle width="100" height="50" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-4" value="&lt;font style=&quot;font-size: 50px;&quot;&gt;PL&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-4" value="&lt;font style=&quot;font-size: 50px;&quot;&gt;PL&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="-630" y="840" width="90" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-5" value="&lt;span style=&quot;font-size: 50px;&quot;&gt;EN&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-5" value="&lt;span style=&quot;font-size: 50px;&quot;&gt;EN&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="-1300" y="840" width="90" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-6" value="🧭 Voyager System Action Plan&#xa;&#xa;🔹 What is Voyager?&#xa;&#xa;Voyager is an open framework for cataloging services and information, built on a decentralized network (ICP). It’s not a single app — it’s a set of components, allowing anyone to create their own &quot;agent&quot; to interact with data or services.&#xa;&#xa;Voyager doesn’t force you into a single application. You decide which interfaces you want to support and what data you want to share.&#xa;&#xa;🔹 How does it work?&#xa;&#xa;The system consists of two main elements:&#xa;&#xa;&#xa;&#xa;&#xa;Voyager-DataBox (canister) – stores data about Voyager-App services, other Voyager-DataBoxes, and their interfaces (e.g., APIs, commands, availability).&#xa;&#xa;&#xa;&#xa;Voyager Applications – connect to the data and provide interfaces (e.g., an ASCII-chat as a glue interface).&#xa;&#xa;&#xa;&#xa;These components communicate through a simple and open system of &quot;standards&quot; that anyone can help define.&#xa;&#xa;🧠 AI? When and how?&#xa;&#xa;Currently, Voyager does not include a built-in AI agent, but:&#xa;&#xa;&#xa;&#xa;&#xa;The architecture is designed to allow adding a local AI that can use metadata (conector[], title, conn) without the need for graphical interfaces.&#xa;&#xa;&#xa;&#xa;The data is already structured and readable for language models, making it easy to build an AI-ready tool.&#xa;&#xa;&#xa;&#xa;For example, a future agent could search the Voyager network using keywords in title and conector.&#xa;&#xa;&#xa;&#xa;🔓 Open, Human Standards&#xa;&#xa;In Voyager, communication standards aren’t written by corporations or foundations, but by users. How?&#xa;&#xa;&#xa;&#xa;&#xa;Each Conn contains a conector[] field that defines which interfaces are supported.&#xa;&#xa;&#xa;&#xa;Example: [&quot;glue&quot;, &quot;help&quot;] means the application supports the glue standard, allowing actions like posting messages.&#xa;&#xa;&#xa;&#xa;No central validator — if you want to create a new standard like ascii-market:0.1, just define it and publish it.&#xa;&#xa;&#xa;&#xa;This means:&#xa;&#xa;&#xa;&#xa;&#xa;You can build services that talk to each other — without an API gateway, without Google, without the App Store.&#xa;&#xa;&#xa;&#xa;🕸 Truly Decentralized Network&#xa;&#xa;Each Voyager-DataBox is an independent node that:&#xa;&#xa;&#xa;&#xa;&#xa;Stores data about other Voyagers (friend buffer),&#xa;&#xa;&#xa;&#xa;Holds entries about services (Conn buffer),&#xa;&#xa;&#xa;&#xa;Is not controlled by any company — the code runs on ICP, but the data owner is the user (Principal).&#xa;&#xa;&#xa;&#xa;You don’t need permission from Google or Amazon to create your own infrastructure.&#xa;&#xa;🎯 Our Goal&#xa;&#xa;To create a living system of information exchange where:&#xa;&#xa;&#xa;&#xa;&#xa;The user builds their own service catalog,&#xa;&#xa;&#xa;&#xa;AI can interact with it without a frontend,&#xa;&#xa;&#xa;&#xa;And data is decentralized, open, and resistant to censorship.&#xa;&#xa;&#xa;&#xa;It’s not about building yet another browser.&#xa;&#xa;It’s about building your own internet." style="text;whiteSpace=wrap;textOpacity=70;fontSize=11;fillColor=light-dark(#420505, #000247);strokeColor=#36393d;" vertex="1" parent="1">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-6" value="🧭 Voyager System Action Plan&#xa;&#xa;🔹 What is Voyager?&#xa;&#xa;Voyager is an open framework for cataloging services and information, built on a decentralized network (ICP). It’s not a single app — it’s a set of components, allowing anyone to create their own &quot;agent&quot; to interact with data or services.&#xa;&#xa;Voyager doesn’t force you into a single application. You decide which interfaces you want to support and what data you want to share.&#xa;&#xa;🔹 How does it work?&#xa;&#xa;The system consists of two main elements:&#xa;&#xa;&#xa;&#xa;&#xa;Voyager-DataBox (canister) – stores data about Voyager-App services, other Voyager-DataBoxes, and their interfaces (e.g., APIs, commands, availability).&#xa;&#xa;&#xa;&#xa;Voyager Applications – connect to the data and provide interfaces (e.g., an ASCII-chat as a glue interface).&#xa;&#xa;&#xa;&#xa;These components communicate through a simple and open system of &quot;standards&quot; that anyone can help define.&#xa;&#xa;🧠 AI? When and how?&#xa;&#xa;Currently, Voyager does not include a built-in AI agent, but:&#xa;&#xa;&#xa;&#xa;&#xa;The architecture is designed to allow adding a local AI that can use metadata (conector[], title, conn) without the need for graphical interfaces.&#xa;&#xa;&#xa;&#xa;The data is already structured and readable for language models, making it easy to build an AI-ready tool.&#xa;&#xa;&#xa;&#xa;For example, a future agent could search the Voyager network using keywords in title and conector.&#xa;&#xa;&#xa;&#xa;🔓 Open, Human Standards&#xa;&#xa;In Voyager, communication standards aren’t written by corporations or foundations, but by users. How?&#xa;&#xa;&#xa;&#xa;&#xa;Each Conn contains a conector[] field that defines which interfaces are supported.&#xa;&#xa;&#xa;&#xa;Example: [&quot;glue&quot;, &quot;help&quot;] means the application supports the glue standard, allowing actions like posting messages.&#xa;&#xa;&#xa;&#xa;No central validator — if you want to create a new standard like ascii-market:0.1, just define it and publish it.&#xa;&#xa;&#xa;&#xa;This means:&#xa;&#xa;&#xa;&#xa;&#xa;You can build services that talk to each other — without an API gateway, without Google, without the App Store.&#xa;&#xa;&#xa;&#xa;🕸 Truly Decentralized Network&#xa;&#xa;Each Voyager-DataBox is an independent node that:&#xa;&#xa;&#xa;&#xa;&#xa;Stores data about other Voyagers (friend buffer),&#xa;&#xa;&#xa;&#xa;Holds entries about services (Conn buffer),&#xa;&#xa;&#xa;&#xa;Is not controlled by any company — the code runs on ICP, but the data owner is the user (Principal).&#xa;&#xa;&#xa;&#xa;You don’t need permission from Google or Amazon to create your own infrastructure.&#xa;&#xa;🎯 Our Goal&#xa;&#xa;To create a living system of information exchange where:&#xa;&#xa;&#xa;&#xa;&#xa;The user builds their own service catalog,&#xa;&#xa;&#xa;&#xa;AI can interact with it without a frontend,&#xa;&#xa;&#xa;&#xa;And data is decentralized, open, and resistant to censorship.&#xa;&#xa;&#xa;&#xa;It’s not about building yet another browser.&#xa;&#xa;It’s about building your own internet." style="text;whiteSpace=wrap;textOpacity=70;fontSize=11;fillColor=light-dark(#420505, #000247);strokeColor=#36393d;" parent="1" vertex="1">
           <mxGeometry x="-1300" y="890" width="640" height="1590" as="geometry" />
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-8" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;p data-end=&quot;217&quot; data-start=&quot;60&quot;&gt;📡&lt;strong data-end=&quot;90&quot; data-start=&quot;63&quot;&gt;COMMUNICATION STANDARDS&lt;/strong&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-weight: normal;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/font&gt;&lt;/p&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-8" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;p data-end=&quot;217&quot; data-start=&quot;60&quot;&gt;📡&lt;strong data-end=&quot;90&quot; data-start=&quot;63&quot;&gt;COMMUNICATION STANDARDS&lt;/strong&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;&lt;font style=&quot;font-weight: normal;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/font&gt;&lt;/p&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="-510" y="270" width="240" height="260" as="geometry" />
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-9" value="&lt;font style=&quot;font-size: 50px;&quot;&gt;PL&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-9" value="&lt;font style=&quot;font-size: 50px;&quot;&gt;PL&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="-230" y="80" width="90" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-10" value="&lt;span style=&quot;font-size: 50px;&quot;&gt;EN&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-10" value="&lt;span style=&quot;font-size: 50px;&quot;&gt;EN&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="-510" y="230" width="90" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.004;entryY=0.581;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#6a00ff;strokeColor=#3700CC;" edge="1" parent="1" source="kO42d1QU_VV1tafERWCC-5" target="14FhPwLRojMgyb_TP8DX-8">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.004;entryY=0.581;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#6a00ff;strokeColor=#3700CC;" parent="1" source="kO42d1QU_VV1tafERWCC-5" target="14FhPwLRojMgyb_TP8DX-8" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="-140" y="421" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="14FhPwLRojMgyb_TP8DX-12" value="&lt;p data-end=&quot;217&quot; data-start=&quot;60&quot;&gt;Communication standards are sets of standardized functions used to exchange data and commands between (user–agent–app/node).&lt;/p&gt;&lt;p data-end=&quot;281&quot; data-start=&quot;219&quot;&gt;Any user can create a standard, without central authorization.&lt;/p&gt;&lt;p style=&quot;color: rgb(255, 255, 255); background-color: rgb(27, 29, 30);&quot; data-pm-slice=&quot;1 1 []&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;However, it’s important for the standard’s name to be &lt;/span&gt;&lt;strong style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot; data-end=&quot;347&quot; data-start=&quot;337&quot;&gt;unique&lt;/strong&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;, in order to avoid confusion or conflicts with other standards that might use the same name.&lt;/span&gt;&lt;/p&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="14FhPwLRojMgyb_TP8DX-12" value="&lt;p data-end=&quot;217&quot; data-start=&quot;60&quot;&gt;Communication standards are sets of standardized functions used to exchange data and commands between (user–agent–app/node).&lt;/p&gt;&lt;p data-end=&quot;281&quot; data-start=&quot;219&quot;&gt;Any user can create a standard, without central authorization.&lt;/p&gt;&lt;p style=&quot;color: rgb(255, 255, 255); background-color: rgb(27, 29, 30);&quot; data-pm-slice=&quot;1 1 []&quot;&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;However, it’s important for the standard’s name to be &lt;/span&gt;&lt;strong style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot; data-end=&quot;347&quot; data-start=&quot;337&quot;&gt;unique&lt;/strong&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;, in order to avoid confusion or conflicts with other standards that might use the same name.&lt;/span&gt;&lt;/p&gt;" style="text;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="-510" y="360" width="240" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="z-zVPOH5ZUtmBe-mKYZ_-1" target="z-zVPOH5ZUtmBe-mKYZ_-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-1" value="&lt;pre data-pm-slice=&quot;1 1 []&quot; class=&quot;language-motoko&quot; data-indent-length=&quot;1&quot; data-indent-type=&quot;space&quot;&gt;chip&lt;/pre&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" vertex="1" parent="1">
+          <mxGeometry x="170" y="1220" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-3" value="CHIP-FUNK" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;strokeColor=default;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="360" y="1210" width="400" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-4" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-3">
+          <mxGeometry y="30" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-5" value="FUNK NAME" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-4">
+          <mxGeometry width="90" height="50" as="geometry">
+            <mxRectangle width="90" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-6" value="TYPE FUNK" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-4">
+          <mxGeometry x="90" width="110" height="50" as="geometry">
+            <mxRectangle width="110" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-7" value="INPUT" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-4">
+          <mxGeometry x="200" width="100" height="50" as="geometry">
+            <mxRectangle width="100" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-8" value="OUTPUT" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-4">
+          <mxGeometry x="300" width="100" height="50" as="geometry">
+            <mxRectangle width="100" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-9" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-3">
+          <mxGeometry y="80" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-10" value="chip" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-9">
+          <mxGeometry width="90" height="50" as="geometry">
+            <mxRectangle width="90" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-11" value="type=query" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-9">
+          <mxGeometry x="90" width="110" height="50" as="geometry">
+            <mxRectangle width="110" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-12" value="Text" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-9">
+          <mxGeometry x="200" width="100" height="50" as="geometry">
+            <mxRectangle width="100" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-13" value="Text" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-9">
+          <mxGeometry x="300" width="100" height="50" as="geometry">
+            <mxRectangle width="100" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-14" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-3">
+          <mxGeometry y="130" width="400" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-15" value="chip_up" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-14">
+          <mxGeometry width="90" height="50" as="geometry">
+            <mxRectangle width="90" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-16" value="type=update" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-14">
+          <mxGeometry x="90" width="110" height="50" as="geometry">
+            <mxRectangle width="110" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-17" value="Text" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-14">
+          <mxGeometry x="200" width="100" height="50" as="geometry">
+            <mxRectangle width="100" height="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z-zVPOH5ZUtmBe-mKYZ_-18" value="Text" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=16;" vertex="1" parent="z-zVPOH5ZUtmBe-mKYZ_-14">
+          <mxGeometry x="300" width="100" height="50" as="geometry">
+            <mxRectangle width="100" height="50" as="alternateBounds" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
