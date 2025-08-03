@@ -42,11 +42,10 @@ actor {
   type Cyber_book = {  // pojedynczy zapis danej aplikacji [hashmap-Pripical voyager-databox]
     trust: Bool;
     
-
   };
 
   // Główny administrator systemu / Root admin of the system
-  let root : ?Principal = null;
+  let root : Principal = Principal.fromText("0000-0000");
  
   // Bufor przechowujący inne Voyagery / Buffer for other Voyager data boxes
   var frend = Buffer.Buffer<Voyager>(15);
@@ -139,7 +138,7 @@ actor {
   // Funkcja administracyjna do zarządzania danymi / Admin function for managing data
   public shared (msg) func moderator(line: Text, target: Nat): async Text {
 
-    if(root == null){
+    if(root == Principal.fromText("0000-0000")){
       return("this element is anarhic - not have root principal")
     };
 
