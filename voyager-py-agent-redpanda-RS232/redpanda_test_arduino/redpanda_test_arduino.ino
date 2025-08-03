@@ -1,6 +1,5 @@
 const int LED_PIN = 12;
 unsigned long lastQuery = 0;
-const unsigned long QUERY_INTERVAL = 1000;
 float TempC;
 
 void setup() {
@@ -10,8 +9,9 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(13, millis() % 700 < 500 ? HIGH : LOW);
-
+  digitalWrite(13, LOW);
+  delay(500);
+  digitalWrite(13, HIGH);
   unsigned long now = millis();
   if (now - lastQuery >= QUERY_INTERVAL) {
     lastQuery = now;
