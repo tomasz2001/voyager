@@ -26,7 +26,7 @@ actor {
        ;
   };
 
-  // glue interface func 
+  // chip interface func 
   public query func chip(get : Text) : async Text{
     if(get == "led"){
       return led;
@@ -61,4 +61,4 @@ actor {
     
   };
 
-};
+}; 
