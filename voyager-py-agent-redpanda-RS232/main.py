@@ -6,17 +6,17 @@ from ic.identity import Identity
 from ic.agent import Agent
 from ic.candid import encode, Types
 
-# === Konfiguracja ===
-PORT = '/dev/ttyACM0'
-BAUDRATE = 9600
-TIMEOUT = 1
+# port config
+#PORT = '/dev/ttyACM0'
+#BAUDRATE = 9600
+#TIMEOUT = 1
 
-# === Zmienne on-chain ===
+# canister conn
 canisterId = "mh2ii-qqaaa-aaaae-aakpa-cai"
 
-# === Inicjalizacja połączenia ===
-arduino = serial.Serial(port=PORT, baudrate=BAUDRATE, timeout=TIMEOUT)
-time.sleep(2)  # Czekamy na reset Arduino
+
+module_1 = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=1)
+time.sleep(2)
 
 async def icpcon(metode, item1=None):
     global er_data, received_conn, received_title, received_conector
@@ -71,58 +71,58 @@ async def icpcon(metode, item1=None):
         er_data = True
         return "dupa"
 
-# === Inicjalizacja połączenia ===
+# === conn ===
 async def send_response(response: str):
-    if arduino.isOpen():
-        arduino.write((response.strip() + '\n').encode())
+    if module_1.isOpen():
+        module_1.write((response.strip() + '\n').encode())
 
-# === Funkcje robocze ===
-async def chip_function(command: str) -> str:
-    return await icpcon("chip", command)
+# === fukcjion work ===
+#async def chip_function(command: str) -> str:
+#    return ("chip", command)
 
 
-async def chip_up_function(command: str) -> str:
-    return await icpcon("chip_up", command)
+#async def chip_up_function(command: str) -> str:
+#    return await icpcon("chip_up", command)
 
-# === Router ===
-async def route_command(command: str):
+# === fukcjion work ===
+async def router_command(command: str):
     if not command:
         return
     first_char, rest = command[0], command[1:].strip()
     if first_char == '?':
-        result = await chip_function(rest)
+        result = await icpcon("chip", rest)
     elif first_char == '^':
-        result = await chip_up_function(rest)
+        result = await icpcon("chip_up", rest)
     else:
-        result = await chip_function(command.strip())
+        result = await icpcon("chip", command.strip())
     await send_response(result)
 
-# === Główna pętla ===
+
 async def main_loop():
     try:
         while True:
-            if arduino.in_waiting:
-                line = arduino.readline().decode(errors='ignore').strip()
+            if module_1.in_waiting:
+                line = module_1.readline().decode(errors='ignore').strip()
                 if line:
-                    print(f"[Arduino] Otrzymano: {line}")
-                    await route_command(line)
+                    print(f"[module_1] Otrzymano: {line}")
+                    await router_command(line)
             await asyncio.sleep(0.05)
     except asyncio.CancelledError:
         pass
     finally:
-        if arduino.isOpen():
-            arduino.close()
+        if module_1.isOpen():
+            module_1.close()
         print("[Python] Połączenie zamknięte.")
 
-# === Start programu ===
+
 if __name__ == '__main__':
     try:
-        # asyncio.run() stworzy pętlę, wykona main_loop() i ją zamknie
+
         print("starting")
         asyncio.run(main_loop())
     except KeyboardInterrupt:
         print("\nPrzerwano przez użytkownika.")
     finally:
-        if arduino.isOpen():
-            arduino.close()
+        if module_1.isOpen():
+            module_1.close()
         print("[Python] Połączenie zamknięte.")
