@@ -137,7 +137,7 @@ async def monitor():
         # glue test 
         glue_array.clear()
         print("Enter data into the array, confirming each line with the Enter key.")
-        print("When you're done, type 'push' to send the array.")
+        print("When you're done, type '@push' to send the array.")
         print("If you don't want to send it, type '@break'.")
         print("")
         while True:
