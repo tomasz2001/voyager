@@ -138,8 +138,8 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
                         values = list(conn_data.values())
 
                         if len(values) >= 3:
-                            received_conn = str(values[0]) if isinstance(values[0], str) else ''
-                            received_title = str(values[1]) if isinstance(values[1], str) else ''
+                            received_title = str(values[0]) if isinstance(values[0], str) else ''
+                            received_conn = str(values[1]) if isinstance(values[1], str) else ''
                             received_conector = values[2] if isinstance(values[2], list) else []
                         else:
                             return False
@@ -151,7 +151,7 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
                         return True
 
             return None
-
+s
         return None
     except Exception as e:
         print(f'Error: {e} ')
