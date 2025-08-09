@@ -1,0 +1,228 @@
+Cześć Dzisiaj pokażę wam w jaki
+sposób uruchomić w pythonie nasz kod z
+kanistrów na motoko Okej ja napisałem
+sobie tutaj taki prosty kod dwóch
+funkcji qu update na motoko playground
+No i ze względu na to że w motoko
+playground będziemy mogli to uruchomić
+na sieci produkcyjnej co prawda Tylko na
+20 minut ale to nam wystarczy żeby
+pokazać tą funkcjonalność odpytywania z
+poziomu Pythona
+kodu motoko więc tak link do tego
+umieszczę w opisie ja sobie zdej ten
+kanister zainstaluję go
+sobie tutaj wiadomo otworzy nam się ID
+kanistra będziemy musieli także wywołać
+funkcj więc jak utworzy nam się ID my
+sobie to
+ID Skopiuj albo
+stud korzystać z tej biblioteczki musim
+sobie najpierw podłączyć pod Visual
+stwórzmy sobie nowy projekt ja korzystam
+z Jupiter Netbook teraz tak tutaj na
+dole macie okno terminala Jeżeli go nie
+macie to kliknijcie sobie tutaj weźcie
+następnie w nowym oknie
+terminala skorzystamy
+[Muzyka]
+Tak nazywa się ta biblioteka ona nam
+pozwoli na to że będziemy mogli
+podłączyć sobie agenta podłączyć sobie
+klienta i połączyć właśnie z siecią więc
+takż już mamy zainstalowane tut nasz
+pakiet to musimy zaimportować
+odpowiednie biblioteki do naszego
+projektu
+Czyli teraz tak Instalujemy klienta
+zaczy
+zaciągamy biblioteka klienta import
+klient to możemy sobie skopiować takich
+importów będziemy musieli wykonać
+c tylko tutaj tak zamiast Client
+wpiszemy
+identity co pozwoli na
+podłączenie identity pod nasz projekt
+czyli tożsamość internetową będziemy
+korzystali ale warto podp tak żeby móc z
+tego korzystać agent będziemy musieli
+również wywołać
+agenta i
+Candid tutaj Candid Candid ze względu na
+to my tu importujemy sobie szczególnie
+dwa moduli które się encode nazywa i
+types
+ponieważ No Python nie jest silnie
+typowany ale w pythonie zmienne muszą
+być tłumaczone na język który rozumie
+Candid Okej czyli dlatego potrzebujemy
+sobie tą bibliotekę zaimportować to
+jedno ale potrzebujemy też en kodować
+nasze zmienne i używać typów które są
+właściwe dla motoko Okej dobrze co teraz
+No zaczniemy od utworzenia sobie takich
+zmiennych które pomogą nam w połączeniu
+więc IC URL to będzie nasz adres do
+sieci
+produkcyjnej icp tak czyli
+[Muzyka]
+ic0 to jest nasz adres do sieci
+produkcyjnej
+do sieci nie teraz stworzymy sobie
+klienta czyli
+klient i klient to
+będzie klient czyli to jest klasa którą
+sobie tutaj importujemy musimy tutaj
+przypisać URL do tego klienta przekazać
+ten argument i teraz używamy naszego IC
+URL tutaj Pamiętajcie że w pythonie
+wszystko musi się zgadzać każda spacja
+No tak ma ten język dobra
+identity tworzymy sobie identity nowe i
+przypisujemy mu wartość kl nowa klasa
+identity Zostawiamy to defaultowe ze
+względu na to że my będziemy tutaj
+korzystali z defaultowo identity który
+się po prostu tworzy żeby połączyć się z
+siecią będziemy tutaj internet ident
+swojego używać dobra następnie ostatnią
+z takich rzeczy tutaj musimy stworzyć
+agenta
+tak I agentowi tu wywołujemy konstruktor
+klasy agent i przekazujemy mu parametry
+które utworzyliśmy wcześnie czyli
+identity i
+klient okej Tak i tu tworzymy
+konstruktor i przekazujemy argumenty kt
+już podaliśmy wcześniej teraz tak musimy
+określić z jakiego idst
+jakiej
+metody jaką metodę chcemy wywołać OKE
+ale żeby określić jaką metodę chcemy
+wywołać my właściwie musimy tutaj
+wiedzieć
+też czy chcemy korzystać z metody update
+czy chcemy korzystać z
+metody query tak bo możemy skorzystać z
+metody query
+tak zale od tego wybi jakby inną metodę
+którą będziemy wywoływać tak my tutaj
+posłużymy się na początku metodą query
+ona jest prostsza więc Napiszmy coś
+[Muzyka]
+takiego
+A OKE czyli do tej zmiennej wywołujemy i
+teraz tak Pamiętajcie że w motoko
+wywołujemy funkcje które są
+asynchroniczne więc musimy użyć a agent
+i
+teraz
+okej ta metoda pozwoli nam wywołać
+funkcję teraz weźmy sobie z kodu naszego
+tą funkcję query tą data Show i weźmy
+sobie ID naszego kanistra Pamiętajcie że
+kanister nie może wygasnąć musicie się
+zmieścić w 20 minutach od czasu
+odpalenia kanistra OKE data Ja to sobie
+skopiuję czyli wpisujemy w kanister ID
+nasze ID i data
+Show dobra i teraz tak lecimy po kolei
+przekazujemy argumenty kanister
+ID metod
+name i ostatnim parametrem będą
+Zobaczcie będą argumenty bo my tutaj
+przekazujemy argumenty w jednym i drugim
+przypadku
+okej tutaj jest rzeczywiście zaznaczone
+że przekazujemy nad jako licz tak I
+musimy wywoła Musimy tą funkcję wywołać
+z argumentem jak to robimy No robimy to
+tak że tu przekazujemy parametr znaczy
+argument do tej funkcji Ale on musi być
+odpowiednio przygotowany z
+kodowany Candid odbiera
+która zawiera kluc wartość dlatego
+musimy utworzyć
+argument to jest lista która zawiera w
+sobie słownik teraz tak specyficzna
+konstrukcja tego to tak musimy podać
+jaki typ zmiennej przekazujemy dlatego
+ściągnęliśmy sobie właśnie t bibliotekę
+która pozwala nam na używanie
+[Muzyka]
+types naturalną następnie przekazujemy
+też wartość czyli
+Value i tu wpisujemy naszą wartość
+Załóżmy że przekażemy wartość 100 Tak i
+teraz tak w tym miejscu musimy przekazać
+ten argument Ten parametr tak żeby
+Candid to złapał i wczytał to do motoko
+Robimy to w ten sposób że en Kodujemy to
+i przekazujemy
+param nie jedna literka okej
+dobra właściwie podstawy już są ale
+jeszcze żeby wam pokazać w jaki sposób
+Candid zwraca te dane to ja zrobię coś
+takiego użyję tutaj prostego
+[Muzyka]
+printa i tu
+przek Dobra te dane bo my używamy
+metody pon
+tak coś mi nie
+pasuje Client import
+Client jednej literki mi zabrakło Dobra
+teraz okej Zobaczcie przekazana wartość
+zwiększona tymczasowo to jest okej ale
+ono zwraca nam widzicie zwraca nam to w
+takiej
+postaci tak w postaci
+słownikowej spb tego odwołać żeby mieć
+to tak widoczne jak mamy to w cand bo
+jeżeli ja to zrobię z poziomu
+candu gdzie mam tu jest qu o to
+wyświetli mi się coś takiego
+dokładnie Więc wystarczy tylko odwołać
+się bezpośrednio do tych wartości Zrób
+tak nice i przypisy temu
+wartość czyli to będzie pierwszy element
+musimy
+pobrać
+OK pamiętajcie żeby nie było spacji
+dobra i teraz
+Print i tu dajmy
+nice
+OK dobra bardziej elegan
+zwiększona 110 w tym
+przypadku jeżeli pozbędziemy się
+tego to powinno nam się to wyświetlić w
+ten
+sposób w momencie jeżeli chcielibyśmy
+wywołać funkcję update to robimy
+dosłownie to samo czyli skup sobie t
+[Muzyka]
+linę zamiast
+[Muzyka]
+result
+update i będzie inna metoda tak Czyli
+będzie trzeba pod zmienić nazwę metody
+nie data Show tylko Skopiuj sobie
+to metod
+update też metod
+update jaką my tu mamy metodę która jest
+jako update
+data
+Change data ch nam zmienia ten
+licznik data ch Wklej sobie w nazwę
+update
+okej No i podobnie jak tutaj wywołaj
+sobie tą
+metodę 2 załóżmy pod
+[Muzyka]
+to też sobie skujmy Wklej sobie
+niżej Tak dobra teraz się nie
+pomyliłem update tak
+query tak znaczy funkcj query i funkcj
+update z kodu naszego w języku motoko z
+poziomu Pythona Okej to by było tyle
+Bardzo dziękuję za uwagę i zapraszam do
+kolejnych zajawek cześć

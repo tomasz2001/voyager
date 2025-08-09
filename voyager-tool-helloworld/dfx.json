@@ -1,0 +1,25 @@
+{
+  "canisters": {
+    "voyager-tool-helloworld-backend": {
+      "main": "src/voyager-tool-helloworld-backend/main.mo",
+      "type": "motoko"
+    },
+    "voyager-tool-helloworld-frontend": {
+      "dependencies": [
+        "voyager-tool-helloworld-backend"
+      ],
+      "source": [
+        "src/voyager-tool-helloworld-frontend/assets"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}

@@ -1,0 +1,87 @@
+# Voyager Documentation
+
+## Standardy Komunikacji (Communication Standards)
+Standardy komunikacji to zbiory ustandaryzowanych funkcji, służących do wymiany danych i komend pomiędzy (user-agent-app/node). Standard może utworzyć każdy użytkownik, bez centralnej autoryzacji. Ważne jednak, aby nazwa standardu była unikalna, aby uniknąć nieporozumień i kolizji z innymi standardami, które mogłyby zostać nazwane tak samo.
+
+Communication standards are sets of standardized functions used to exchange data and commands between (user–agent–app/node). Any user can create a standard, without central authorization. However, it’s important for the standard’s name to be unique, in order to avoid confusion or conflicts with other standards that might use the same name.
+
+## Voyager System Action Plan
+Voyager to otwarta struktura do katalogowania usług i informacji, zbudowana na bazie zdecentralizowanej sieci (ICP). To nie jedna aplikacja — to zestaw komponentów, z których każdy może stworzyć własnego „agenta” do komunikacji z danymi lub usługami. Voyager nie narzuca ci jednej aplikacji. Ty decydujesz, jakie interfejsy chcesz obsługiwać, i jakie dane chcesz udostępniać.
+
+System składa się z dwóch głównych elementów:
+- Voyager-DataBox (canister) – trzyma dane o usługach Voyager-App, innych Voyagerach-DataBox, oraz ich interfejsach (np. API, komendy, dostępność).
+- Aplikacje Voyager – łączą się z danymi i udostępniają interfejsy (np. ASCII-chat jako glue interface).
+Te komponenty komunikują się przez prosty i otwarty system "standardów", który każdy może współtworzyć.
+
+AI? Kiedy i jak? Obecnie Voyager nie zawiera wbudowanego agenta AI, ale:
+- architektura zakłada możliwość dodania lokalnego AI, który korzysta z metadanych (conector[], title, conn) bez potrzeby interfejsów graficznych;
+- dane są już uporządkowane i czytelne dla modeli językowych, więc łatwo z tego zbudować narzędzie AI-ready;
+- np. przyszły agent może przeszukiwać sieć Voyagerów po słowach kluczowych w title i conector.
+
+Otwarte, ludzkie standardy: W Voyagerze standardy komunikacyjne nie są pisane przez korporacje czy fundacje, ale przez użytkowników. Jak? Każdy Conn zawiera pole conector[], które definiuje, jakie interfejsy są obsługiwane. Przykład: ["glue", "help"] oznacza, że aplikacja wspiera standard glue, który pozwala np. dodawać posty. Brak centralnego walidatora – jeśli chcesz stworzyć nowy standard ascii-market:0.1, po prostu go zdefiniuj.
+
+## Funkcje GLUE (GLUE-FUNK)
+| FUNK NAME   | TYPE FUNK | INPUT                     | OUTPUT |
+|-------------|-----------|---------------------------|--------|
+| glue_get    | query     | [Text-table] [value1 = comand] | TEXT   |
+| glue_push   | update    | [Text-table] [value1 = comand] | TEXT   |
+
+### Motoko Code for GLUE functions:
+- public query func glue_get(get : [Text]) : async Text{ switch(get[0]){ case("watch"){ if (get[1] == "on"){ ...
+- public func glue_push(push : [Text]) : async Text { switch (push[0]) { case ("post") { var aart_lines : Text ...
+
+## Funkcje HELP (HELP-FUNK)
+| FUNK NAME   | TYPE FUNK | INPUT     | OUTPUT |
+|-------------|-----------|-----------|--------|
+| help        | query     | Nat(line) | TEXT   |
+
+### Motoko Code for HELP functions:
+- public query func help(line : Nat) : async Text{ switch(line){ case(0){return "this is a test core voyager/app"; ...
+
+## Funkcje HWOISME (HWOISME-FUNK)
+| FUNK NAME   | TYPE FUNK | INPUT | OUTPUT                |
+|-------------|-----------|-------|-----------------------|
+| whoisme     | query     | EMPTY | Text,Text,[Text-table]|
+
+### Motoko Code for HWOISME functions:
+- public query func hwoisme() : async Conn{ return { conn = "iruwa-4iaaa-aaaam-aemaq-cai"; title = "test voyager core app"; ...
+
+## Funkcje CONN (CONN-FUNK)
+| FUNK NAME   | TYPE FUNK | INPUT                 | OUTPUT                |
+|-------------|-----------|-----------------------|-----------------------|
+| conn_one    | query     | Nat                   | Text,Text,[Text-table]|
+| conn_add    | update    | Text,Text,[Text-table]| Text                  |
+
+### Motoko Code for CONN functions:
+- public query func conn_one(target: Nat): async Conn { if ( app.size() > target ) { return app.get(target); ...
+- public func conn_add(connn: Text, titlee: Text, conectorr: [Text]): async Text { let make: Conn = { conn = connn; title = ...
+
+## Funkcje MODERATOR (MODERATOR-FUNK)
+| FUNK NAME   | TYPE FUNK | INPUT   | OUTPUT |
+|-------------|-----------|---------|--------|
+| MODERATOR   | update    | Text,Nat| Text   |
+
+### Motoko Code for MODERATOR functions:
+- public shared (msg) func moderator(line: Text, target: Nat): async Text { if(root == Principal.fromText("0000-0000")){ ...
+
+## Funkcje FRIEND (FRIEND-FUNK)
+| FUNK NAME   | TYPE FUNK | INPUT                 | OUTPUT                |
+|-------------|-----------|-----------------------|-----------------------|
+| conn_one    | query     | Nat                   | Text,Text,[Text-table]|
+| conn_add    | update    | Text,Text,[Text-table]| Text                  |
+
+### Motoko Code for FRIEND functions:
+- public query func frend_one(target: Nat): async Voyager { if ( frend.size() > target ) { return frend.get(target); ...
+- public func frend_add(connn: Text, titlee: Text, conectorr: [Text]): async Text { let make: Voyager = { conn = connn; title = ...
+
+## CODE MOTOKO CANNISTER
+- public query func chip(get : Text) : async Text{ if(get == "led"){ return led; };
+- public func chip_up(get : Text) : async Text{ if(get == "led"){ if(led == "on"){ ...
+
+## VOYAGER RUTER SCHEMAT
+- ICP canister
+- chip client 1
+- chip client 2
+- chip client 3
+- np, arduino, avr
+- Voyager ruter

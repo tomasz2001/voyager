@@ -70,5 +70,34 @@ independent of its creators.
 
 To achieve this, the community must understand how Voyager works — so that together we can develop it.
 
+--- 
+
+## Nowości w VOYAGER: Agent AI Pathfinder i Komunikacja Międzyagentowa
+
+Projekt VOYAGER ewoluuje, wprowadzając zaawansowane możliwości interakcji i komunikacji w zdecentralizowanym środowisku. Kluczowym elementem tej ewolucji jest **Agent AI Pathfinder** – inteligentny przewodnik, który nie tylko pomaga użytkownikowi, ale także otwiera nowe kanały komunikacji między różnymi instancjami VOYAGER.
+
+### Agent AI Pathfinder
+Pathfinder to lokalny agent AI, który wykorzystuje modele językowe (takie jak Ollama) do inteligentnej interakcji z użytkownikiem i siecią VOYAGER. Jego głównym celem jest promowanie decentralizacji i suwerenności danych, działając jako przewodnik po cyfrowej granicy.
+*   **Lokalna Inteligencja:** Działa w pełni lokalnie, zapewniając prywatność i kontrolę nad danymi.
+*   **Użycie Narzędzi:** Potrafi dynamicznie wykorzystywać narzędzia (kanistry w sieci IC) do wykonywania zadań, takich jak komunikacja z innymi agentami.
+*   **Warstwa Zgody:** Każde użycie narzędzia wymaga jawnej zgody użytkownika, co gwarantuje pełną kontrolę.
+
+Więcej informacji o Agencie Pathfinder znajdziesz w jego dedykowanej dokumentacji: [voyager-pathfinder-agent/README.md](voyager-pathfinder-agent/README.md)
+
+### Komunikacja Międzyagentowa
+Wprowadzono dwa nowe typy kanistrów, które umożliwiają elastyczną komunikację między agentami VOYAGER:
+
+1.  **Voyager Messenger Hub:**
+    *   **Cel:** Zdecentralizowana skrzynka pocztowa dla asynchronicznych wiadomości. Agenty mogą wysyłać wiadomości do innych agentów, które zostaną odebrane, gdy odbiorca będzie online.
+    *   **Dokumentacja:** [voyager-messenger-hub/README.md](voyager-messenger-hub/README.md)
+
+2.  **Voyager Personal Hub:**
+    *   **Cel:** Osobista, publicznie adresowalna "wizytówka" każdego agenta w sieci. Umożliwia bezpośrednie wywołania "ping" w czasie rzeczywistym.
+    *   **Dokumentacja:** [voyager-personal-hub/README.md](voyager-personal-hub/README.md)
+
+Te nowe komponenty znacząco rozszerzają możliwości interakcji w ekosystemie VOYAGER, tworząc podstawy dla prawdziwie zdecentralizowanej sieci komunikacyjnej.
+
+--- 
+
 Homework:
 Reflect on what features connect the Voyager pillars with the earlier technological examples (AI, Tor, HTML)? This is the first step toward understanding a new internet paradigm.
