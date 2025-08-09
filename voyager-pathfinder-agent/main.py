@@ -12,18 +12,19 @@ MY_PERSONAL_HUB_CANISTER_ID = "placeholder-personal-hub-id"
 
 # Definicje interfejsów DID dla kanistrów
 DID_HELLOWORLD = "service: { \"hello\": () -> (text) query; }"
-DID_MESSENGER_HUB = ""
+DID_MESSENGER_HUB = """
 service: {
   "send_message": (principal, text) -> ();
   "check_messages": () -> (vec text);
 }
-""
-DID_PERSONAL_HUB = ""
+"""
+DID_PERSONAL_HUB = """
 service: {
   "ping": (text) -> (text);
   "get_last_ping": () -> (opt record { from: principal; message: text; timestamp: nat64 });
 }
-""
+"""
+
 
 # --- Definicje Dostępnych Narzędzi ---
 

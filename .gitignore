@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.egg
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# IDEs
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+.Trashes
+Thumbs.db
+ehthumbs.db
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+.directory
+
+# DFX / Internet Computer specific
+.dfx/
+canister_ids.json
+.env
