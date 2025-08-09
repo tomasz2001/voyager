@@ -30,86 +30,65 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
     identity = Identity()
     agent = Agent(identity, client)
 
-    
-    
-    
-    
     try:
 
         if metode == 'file_one':
-            param_file = [{'type': Types.Nat, 'value': item1}]
+            param_file = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
             result = await agent.query_raw_async(canisterId, "file_one", encode(param_file))
 
+
             
-
-                
-
 
         if metode == 'glue':
-            param_glue = [{'type': Types.Nat, 'value': glue_array}]
-            # tu jest powtórka z rozrywki wiec pomine tłumaczenia tego
+            param_glue = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
             result = await agent.query_raw_async(canisterId, "glue_get", encode(param_glue))
 
-
-
             if isinstance(result, list) and len(result) > 0:
                 first_element = result[0]
 
                 if isinstance(first_element, dict) and 'value' in first_element:
                     result_nice = first_element['value']
-                    #print(f'raport: {result_nice}')
                     return result_nice
                 else:
-                    print("data error")
+                    print("Data error")
                     return None
             else:
-                print("data error")
+                print("Data error")
                 return None
 
-        
         if metode == 'gluePUSH':
             param_glue = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
-            
             result = await agent.update_raw_async(canisterId, "glue_push", encode(param_glue))
-
-
 
             if isinstance(result, list) and len(result) > 0:
                 first_element = result[0]
 
                 if isinstance(first_element, dict) and 'value' in first_element:
                     result_nice = first_element['value']
-                    #print(f'raport: {result_nice}')
                     return result_nice
                 else:
-                    print("data error")
+                    print("Data error")
                     return None
             else:
-                print("data error")
+                print("Data error")
                 return None
-
 
         if metode == 'help':
             param_query = [{'type': Types.Nat, 'value': int(item1)}]
-            
             result = await agent.query_raw_async(canisterId, "help", encode(param_query))
-
-
 
             if isinstance(result, list) and len(result) > 0:
                 first_element = result[0]
 
                 if isinstance(first_element, dict) and 'value' in first_element:
                     result_nice = first_element['value']
-                    #print(f'raport: {result_nice}')
                     return result_nice
                 else:
-                    print("data error")
+                    print("Data error")
                     return None
             else:
-                print("data error")
+                print("Data error")
                 return None
-        
 
         if metode == 'hwoisme' or metode == 'getapp' or metode == 'getbox':
             if metode == 'getapp':
@@ -122,34 +101,23 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
                 param_query = []
                 result = await agent.query_raw_async(canisterId, "hwoisme", encode(param_query))
 
-            
-            
             if isinstance(result, list) and len(result) > 0:
                 first_element = result[0]
-                #print(f"First element: {first_element}")
                 
                 if isinstance(first_element, dict) and 'value' in first_element:
                     conn_data = first_element['value']
-                    #print(f"Conn data: {conn_data}")
-                    #print(f"Conn data type: {type(conn_data)}")
-                    #print(f"Conn data keys: {conn_data.keys() if isinstance(conn_data, dict) else 'Not dict'}")
                     
                     if isinstance(conn_data, dict):
                         global received_conn, received_title, received_conector
                         
-                        
                         values = list(conn_data.values())
 
                         if len(values) >= 3:
-                            received_conn = str(values[0]) if isinstance(values[0], str) else ''
-                            received_title = str(values[1]) if isinstance(values[1], str) else ''
+                            received_title = str(values[0]) if isinstance(values[0], str) else ''
+                            received_conn = str(values[1]) if isinstance(values[1], str) else ''
                             received_conector = values[2] if isinstance(values[2], list) else []
                         else:
                             return False
-                        #print(f'Odebrano strukturę Conn:')
-                        #print(f'conn: {received_conn}')
-                        #print(f'title: {received_title}')
-                        #print(f'conector: {received_conector}')
                         
                         return True
 
@@ -160,25 +128,33 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
         print(f'Error: {e} ')
         er_data = True
         return None
-            
+
 
 async def monitor():
     global canisterId, received_conn, received_title, received_conector
-    command = input("comand ready: ")
+    command = input("Command ready: ")
     if(command == "glue"):
         # glue test 
         glue_array.clear()
+        print("Enter data into the array, confirming each line with the Enter key.")
+        print("When you're done, type '@push' to send the array.")
+        print("If you don't want to send it, type '@break'.")
         print("")
         while True:
             user_input = input("> ")
-            if user_input.strip().lower() == "push":
+            if user_input.strip().lower() == "@push":
                 break
-            if user_input.strip():
-                glue_array.append(user_input)
-    
-        
-        raport = await icpcon("glue", glue_array)
-        print("");
+            if user_input.strip().lower() == "@break":
+                glue_array.clear()
+                break
+            glue_array.append(user_input)
+            
+                
+        if user_input == "@break":
+            raport = "Glue został złamany i nie został przesłany."
+        else:
+            raport = await icpcon("glue", glue_array)
+            print("");
         
         if(raport == "PUSH"):
             raport = await icpcon("gluePUSH", glue_array)
@@ -191,80 +167,78 @@ async def monitor():
 
     elif(command == "target"):
         print("")
-        canisterId = input("wpisz canister usługi z n/ którą chcesz rozmawiać: ")
+        canisterId = input("Enter the canister ID you want to interact with: ")
 
     elif(command == "hwoisme"):
         print("")
         raport = await icpcon("hwoisme")
         if raport == True:
-            print("Dane Conn zostały pomyślnie odebrane:")
+            print("Conn data successfully received:")
             print(f"received_conn: {received_conn}")
             print(f"received_title: {received_title}")  
             print(f"received_conector: {received_conector}")
         else:
-            print("Nie udało się odebrać danych Conn")
+            print("Failed to receive Conn data.")
             print("")
 
     elif(command == "getapp"):
         print("")
-        get = input("podaj index: ")
+        get = input("Enter index: ")
         print("")
         raport = await icpcon("getapp", get)
         if raport == True:
-            print("Dane Conn zostały pomyślnie odebrane:")
+            print("Conn data successfully received:")
             print(f"received_conn: {received_conn}")
             print(f"received_title: {received_title}")  
             print(f"received_conector: {received_conector}")
         else:
-            print("Nie udało się odebrać danych Conn")
+            print("Failed to receive Conn data.")
             print("")
 
     elif(command == "getbox"):
         print("")
-        get = input("podaj index: ")
+        get = input("Enter index: ")
         print("")
         raport = await icpcon("getbox", get)
         if raport == True:
-            print("Dane Conn zostały pomyślnie odebrane:")
+            print("Conn data successfully received:")
             print(f"received_conn: {received_conn}")
             print(f"received_title: {received_title}")  
             print(f"received_conector: {received_conector}")
         else:
-            print("Nie udało się odebrać danych Conn")
+            print("Failed to receive Conn data.")
             print("")
-        
+
     elif(command == "help"):
-        print("");
+        print("")
         if(canisterId == "p2137-cai" or canisterId == ""):
             print("")
-            print("hwosime: sprawdzi z kim rozmawiasz i jakie ma interfejsy")
-            print("target: wybierz caniser z którym chcesz rozmawiać")
-            print("glue: skorzystaj z interfejsu glue z wybranym targetem")
-            print("help: skorzystaj z pomocy")
-            print("getbox: spytaj databox o inne databoxy")
-            print("getapp: spytaj databox o aplikacje")
-            print
+            print("hwoisme: check who you're talking to and what interfaces they expose")
+            print("target: choose the canister you want to interact with")
+            print("glue: use the glue interface with the selected target")
+            print("help: show help")
+            print("getbox: ask the databox about other databoxes")
+            print("getapp: ask the databox about apps")
         else:
-            line = input("podaj strone pomocy tej usługi")
+            line = input("Enter help page number for this service: ")
             raport = await icpcon("help", line)
             print(raport)
             print("")
+
     elif(command == "fileone"):
-        print("fukcja fileone jest nadal w budowie")
-        print("dzienkujemy za skorzystanie z usług panda_voyager_agnet")
+        print("The 'fileone' function is still under construction.")
+        print("Thank you for using panda_voyager_agent.")
 
     else:
-        print("komenda nie obsługiwana")
-
-    
+        print("Unsupported command.")
 
 
 if __name__ == '__main__':
     print("")
     print("")
-    print("[the panda] naiprosztrzy agnet do voyagera")
-    print("zyczymy miłej zabawy jak [nie wiesz] co robić")
-    print("wpisz [help]")
+    print("[the panda] the simplest agent for Voyager")
+    print("Have fun. If [you don't know] what to do,")
+    print("type [help]")
     print("")
     print("")
     while True:
