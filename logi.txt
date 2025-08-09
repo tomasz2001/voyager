@@ -1,0 +1,399 @@
+
+G:\Dokumenty\Projekty\GEMINICLI\Internet Computer\voyager>git add .
+warning: in the working copy of '.$voyager_documentation.drawio.bkp', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Changelog.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Motoko Python.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/constructor.did', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/constructor.old.did', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/glue-testapp-backend.did', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/glue-testapp-backend.most', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/glue-testapp-backend.old.most', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/index.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/service.did', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/service.did.d.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/service.did.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/ic/lsp/iruwa-4iaaa-aaaam-aemaq-cai.did', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/canister_ids.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/constructor.did', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/constructor.old.did', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/glue-testapp-backend.did', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/glue-testapp-backend.most', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/glue-testapp-backend.old.most', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/index.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/service.did', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/service.did.d.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/service.did.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/lsp/uxrrr-q7777-77774-qaaaq-cai.did', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.dfx/local/network-id', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/.env', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/canister_ids.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/dfx.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'glue-testapp/src/glue-testapp-backend/main.mo', LF will be replaced by CRLF the next time Git touches it
+warning: adding embedded git repository: ic-py-repo
+hint: You've added another git repository inside your current repository.
+hint: Clones of the outer repository will not contain the contents of
+hint: the embedded repository and will not know how to obtain it.
+hint: If you meant to add a submodule, use:
+hint:
+hint:   git submodule add <url> ic-py-repo
+hint:
+hint: If you added this path by mistake, you can remove it from the
+hint: index with:
+hint:
+hint:   git rm --cached ic-py-repo
+hint:
+hint: See "git help submodule" for more information.
+hint: Disable this message with "git config set advice.addEmbeddedRepo false"
+error: 'voyager-messenger-hub/' does not have a commit checked out
+fatal: adding files failed
+
+G:\Dokumenty\Projekty\GEMINICLI\Internet Computer\voyager>git commit -m "Zapis stanu początkowego projektu z nowym agentem AI"
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .$voyager_documentation.drawio.bkp
+        Changelog.md
+        Motoko Python.txt
+        README.md
+        glue-testapp/
+        historia.txt
+        ic-py-repo/
+        logi.txt
+        news-app_use-MPb1/
+        voyager-messenger-hub/
+        voyager-pathfinder-agent/
+        voyager-personal-hub/
+        voyager-py-agent-panda/
+        voyager-py-agent-redpanda-RS232/
+        voyager-tool-helloworld/
+        voyager_databox_motoko/
+        voyager_documentation.drawio
+        voyager_documentation.drawio.png
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+G:\Dokumenty\Projekty\GEMINICLI\Internet Computer\voyager>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

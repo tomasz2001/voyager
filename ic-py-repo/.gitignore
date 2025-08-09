@@ -1,0 +1,14 @@
+__pycache__
+*.swp
+.vscode
+.lh
+test.py
+
+build/
+*.egg-info
+
+.tox/
+.DS_Store
+
+.antlr
+dist/
