@@ -1,399 +1,82 @@
-
-G:\Dokumenty\Projekty\GEMINICLI\Internet Computer\voyager>git add .
-warning: in the working copy of '.$voyager_documentation.drawio.bkp', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'Changelog.md', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'Motoko Python.txt', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/constructor.did', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/constructor.old.did', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/glue-testapp-backend.did', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/glue-testapp-backend.most', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/glue-testapp-backend.old.most', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/index.js', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/service.did', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/service.did.d.ts', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/ic/canisters/glue-testapp-backend/service.did.js', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/ic/lsp/iruwa-4iaaa-aaaam-aemaq-cai.did', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/canister_ids.json', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/constructor.did', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/constructor.old.did', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/glue-testapp-backend.did', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/glue-testapp-backend.most', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/glue-testapp-backend.old.most', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/index.js', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/service.did', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/service.did.d.ts', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/canisters/glue-testapp-backend/service.did.js', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/lsp/uxrrr-q7777-77774-qaaaq-cai.did', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.dfx/local/network-id', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/.env', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/README.md', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/canister_ids.json', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/dfx.json', LF will be replaced by CRLF the next time Git touches it
-warning: in the working copy of 'glue-testapp/src/glue-testapp-backend/main.mo', LF will be replaced by CRLF the next time Git touches it
-warning: adding embedded git repository: ic-py-repo
-hint: You've added another git repository inside your current repository.
-hint: Clones of the outer repository will not contain the contents of
-hint: the embedded repository and will not know how to obtain it.
-hint: If you meant to add a submodule, use:
-hint:
-hint:   git submodule add <url> ic-py-repo
-hint:
-hint: If you added this path by mistake, you can remove it from the
-hint: index with:
-hint:
-hint:   git rm --cached ic-py-repo
-hint:
-hint: See "git help submodule" for more information.
-hint: Disable this message with "git config set advice.addEmbeddedRepo false"
-error: 'voyager-messenger-hub/' does not have a commit checked out
-fatal: adding files failed
-
-G:\Dokumenty\Projekty\GEMINICLI\Internet Computer\voyager>git commit -m "Zapis stanu początkowego projektu z nowym agentem AI"
-On branch master
-
-Initial commit
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-        .$voyager_documentation.drawio.bkp
-        Changelog.md
-        Motoko Python.txt
-        README.md
-        glue-testapp/
-        historia.txt
-        ic-py-repo/
-        logi.txt
-        news-app_use-MPb1/
-        voyager-messenger-hub/
-        voyager-pathfinder-agent/
-        voyager-personal-hub/
-        voyager-py-agent-panda/
-        voyager-py-agent-redpanda-RS232/
-        voyager-tool-helloworld/
-        voyager_databox_motoko/
-        voyager_documentation.drawio
-        voyager_documentation.drawio.png
-
-nothing added to commit but untracked files present (use "git add" to track)
-
-G:\Dokumenty\Projekty\GEMINICLI\Internet Computer\voyager>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Skip to content
+Navigation Menu
+tomasz2001
+voyager
+
+Type / to search
+Code
+Issues
+Pull requests
+1
+Actions
+Projects
+Security
+Insights
+Funkcja/agent pathfinder #5
+ Open
+detonato300 wants to merge 2 commits into tomasz2001:main from detonato300:funkcja/agent-pathfinder  
++10,249 −0 
+ Conversation 0
+ Commits 2
+ Checks 0
+ Files changed 105
+Conversation
+detonato300
+detonato300 commented now
+No description provided.
+
+detonato300 added 2 commits 4 minutes ago
+@detonato300
+Zapis stanu początkowego projektu z nowym agentem AI
+56cdd69
+@detonato300
+Merge branch 'main' of https://github.com/tomasz2000/voyager
+94299ec
+Merge info
+No conflicts with base branch
+Changes can be cleanly merged.
+
+@detonato300
+
+
+Add a comment
+Comment
+ 
+Add your comment here...
+ 
+Remember, contributions to this repository should follow our GitHub Community Guidelines.
+ ProTip! Add comments to specific lines under Files changed.
+Reviewers
+No reviews
+Still in progress?
+Assignees
+No one assigned
+Labels
+None yet
+Projects
+None yet
+Milestone
+No milestone
+Development
+Successfully merging this pull request may close these issues.
+
+None yet
+
+
+Notifications
+Customize
+You’re receiving notifications because you authored the thread.
+1 participant
+@detonato300
+Allow edits by maintainers
+Footer
+© 2025 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact
+Manage cookies
+Do not share my personal information
