@@ -1,0 +1,641 @@
+Dokumentacja VOYAGER — wersja 1.0 (AI‑ready)
+
+1. Architektura i zasady
+
+- Rola komponentów:
+  - Voyager-DataBox (node/canister):
+    - kataloguje inne DataBoxy w frend (sąsiedzi),
+    - przechowuje wpisy o aplikacjach (Conn) z ich conector[] (deklaracje standardów),
+    - nie łączy się bezpośrednio z aplikacjami.
+  - Voyager-Agent (klient):
+    - jako jedyny nawiązuje połączenia,
+    - sekwencja: łączy się z DataBox → pobiera conn/frend → łączy się bezpośrednio z wybraną App (canister).
+  - Voyager-App (app canister):
+    - udostępnia własne standardy (np. glue, file, help, chip).
+- frend = inne DataBoxy (nie aplikacje).
+- Standardy komunikacji:
+  - otwarte, każdy może zdefiniować,
+  - nazwy muszą być unikatowe,
+  - lista conector[] (w Conn/Voyager) deklaruje obsługiwane interfejsy.
+
+2. Definicje typów (Motoko, koncept)
+
+- Conn: { conn: Text; title: Text; conector: [Text] }
+- Voyager: { conn: Text; title: Text; conector: [Text] }
+- Post (dla glue): { nick: Text; post: Text; aart: Text }
+- file_box (dla app/file): { fd: ?Blob; ft: ?Text }
+- post (dla app/news): { maker: Principal; title: Text; text: Text; uf: [Nat] }
+
+3. Minimalne API DataBox
+
+- help(line: Nat) -> Text
+- hwoisme() -> Conn (tożsamość węzła DataBox: meta, conector[])
+- frend_one(i: Nat) -> Voyager (zwraca inne DataBoxy)
+- conn_one(i: Nat) -> Conn (zwraca aplikacje)
+- frend_add(connn, titlee, conectorr) -> Text (update)
+- conn_add(connn, titlee, conectorr) -> Text (update)
+- moderator(line: Text, target: Nat) -> Text (shared, root-only: usuń z app/frend)
+
+4. Standardy i semantyka (przykłady)
+
+- HELP
+  - help(line: Nat) -> Text
+  - help(0) → opis; help(_) → "NULL"
+- HWOISME
+  - hwoisme() -> Conn
+- GLUE
+  - glue_get(get: [Text]) -> Text
+    - ["watch", N] → zwraca post wg indeksacji od końca
+  - glue_push(push: [Text]) -> Text
+    - ["post", nick, post, aart_line1, ...] → dodaje wpis
+- CHIP (prosty K/V)
+  - chip(get: Text) -> Text (query)
+    - "led" → led; "temp" → temp; else → "none"
+  - chip_up(get: Text) -> Text (update)
+    - przełącza led lub ustawia temp
+
+5. Pełny przykład — Voyager DataBox (node)
+
+Motoko (z poprawionymi literówkami, spójny z architekturą: agent łączy się z databoxem i app, frend = inne DataBoxy):
+
+```motoko
+import Buffer "mo:base/Buffer";
+import Principal "mo:base/Principal";
+import Text "mo:base/Text";
+import _Option "mo:base/Option";
+import Nat "mo:base/Nat";
+import Hash "mo:base/Hash";
+
+actor {
+
+  // Placeholdery przyszłych rozszerzeń (hash/trust)
+  type Cyber_pen = { vapp: Principal; user: Principal; hash: Nat32; key: Text; };
+  type Cyber_paper = { trust_add: Nat32; trust_rem: Nat32; };
+  type Cyber_book = { trust: Bool; };
+
+  // Root admin; jeśli "0000-0000", element jest anarchiczny
+  let root : Principal = Principal.fromText("0000-0000");
+
+  // Bufory
+  var frend = Buffer.Buffer(15); // inne DataBoxy
+  var app = Buffer.Buffer(50);      // aplikacje (Conn), do których agent połączy się bezpośrednio
+
+  // Struktury
+  type Voyager = { conn: Text; title: Text; conector: [Text]; };
+  type Conn = { conn: Text; title: Text; conector: [Text]; };
+
+  // HELP
+  public query func help(line: Nat) : async Text {
+    switch (line) {
+      case (0) { return "this voyager-databox is building; please wait for the next update"; };
+      case (_) { return "NULL"; };
+    };
+  };
+
+  // HWOISME (meta DataBox)
+  public query func hwoisme() : async Conn {
+    return { conn = "--"; title = "voyager-databox (node)"; conector = ["help", "one"]; };
+  };
+
+  // frend_one — inny DataBox
+  public query func frend_one(target: Nat): async Voyager {
+    if (frend.size() > target) { return frend.get(target); }
+    return { conn = "NULL"; title = "NULL"; conector = ["NULL"]; };
+  };
+
+  // conn_one — aplikacja (Conn)
+  public query func conn_one(target: Nat): async Conn {
+    if (app.size() > target) { return app.get(target); }
+    return { conn = "NULL"; title = "NULL"; conector = ["NULL"]; };
+  };
+
+  // Dodaj DataBox
+  public func frend_add(connn: Text, titlee: Text, conectorr: [Text]) : async Text {
+    let make: Voyager = { conn = connn; title = titlee; conector = conectorr };
+    ignore frend.add(make);
+    return "Dodano VOYAGER DATA BOX / Voyager data box added";
+  };
+
+  // Dodaj App
+  public func conn_add(connn: Text, titlee: Text, conectorr: [Text]) : async Text {
+    let make: Conn = { conn = connn; title = titlee; conector = conectorr };
+    ignore app.add(make);
+    return "Dodano APP / APP added";
+  };
+
+  // Moderator (root-only)
+  public shared (msg) func moderator(line: Text, target: Nat): async Text {
+    if (root == Principal.fromText("0000-0000")) {
+      return "this element is anarchic - does not have a root principal";
+    };
+    let caller = msg.caller;
+    if (caller == root) {
+      if (line == "conn") { ignore app.remove(target); return "Access granted – task completed"; };
+      if (line == "frend") { ignore frend.remove(target); return "Access granted – task completed"; };
+      return "Access granted – command not supported";
+    };
+    return "Access denied";
+  };
+};
+```
+
+6. Pełny przykład — news-app_use-MPb1-Backend (App Canister: glue + file)
+
+Motoko (z korektami):
+
+```motoko
+import Buffer "mo:base/Buffer";
+import Principal "mo:base/Principal";
+import Text "mo:base/Text";
+import Option "mo:base/Option";
+import Nat "mo:base/Nat";
+import Hash "mo:base/Hash";
+
+actor {
+  var file = Buffer.Buffer(25);
+  var news = Buffer.Buffer(25);
+
+  let root : Principal = Principal.fromText("ilqyx-par5p-y6cnk-rufql-xqhgw-tzpw4-bsbih-knin6-ui74t-aji5h-oqe");
+
+  type Conn = { conn: Text; title: Text; conector: [Text]; };
+  type file_box = { fd: ?Blob; ft: ?Text; };
+  type post = { maker: Principal; title: Text; text: Text; uf: [Nat]; };
+
+  // glue_get
+  public query func glue_get(get: [Text]) : async Text {
+    switch (get[0]) {
+      case ("watch") {
+        if (get.size() = file.size()) { return "size error"; }
+      let empty : file_box = { fd = null; ft = null };
+      file.put(target, empty);
+      return "remove file done";
+    } else { return "Access denied"; }
+  };
+
+  // file_add
+  public func file_add(add: file_box): async Nat { file.add(add); return file.size(); };
+
+  // file_one
+  public query func file_one(target: Nat): async file_box {
+    if (file.size() > target) { return file.get(target); }
+    return { ft = null; fd = null };
+  };
+
+  // help
+  public query func help(line: Nat) : async Text {
+    switch (line) {
+      case (0) { return "this is a sample news media app using [BP] format"; };
+      case (_) { return "NULL"; };
+    };
+  };
+
+  // hwoisme
+  public query func hwoisme() : async Conn {
+    return { conn = "--"; title = "sample news media app [blue-lotos] using [BP] format"; conector = ["NP", "help", "file", "glue"] };
+  };
+};
+```
+
+7. Manifesty standardów — specyfikacja JSON (AI‑parsable)
+
+- Przykładowy manifest węzła (DataBox):
+
+```json
+{
+  "node": "voyager-databox",
+  "standards": [
+    {
+      "name": "help",
+      "functions": [
+        { "fname": "help", "type": "query", "input": ["Nat"], "output": "Text" }
+      ]
+    },
+    {
+      "name": "hwoisme",
+      "functions": [
+        { "fname": "hwoisme", "type": "query", "input": [], "output": "Conn" }
+      ]
+    },
+    {
+      "name": "one",
+      "functions": [
+        { "fname": "frend_one", "type": "query", "input": ["Nat"], "output": "Voyager" },
+        { "fname": "conn_one", "type": "query", "input": ["Nat"], "output": "Conn" }
+      ]
+    },
+    {
+      "name": "admin",
+      "functions": [
+        { "fname": "frend_add", "type": "update", "input": ["Text","Text","[Text]"], "output": "Text" },
+        { "fname": "conn_add", "type": "update", "input": ["Text","Text","[Text]"], "output": "Text" },
+        { "fname": "moderator", "type": "shared", "input": ["Text","Nat"], "output": "Text" }
+      ]
+    }
+  ],
+  "types": {
+    "Conn": { "conn": "Text", "title": "Text", "conector": "[Text]" },
+    "Voyager": { "conn": "Text", "title": "Text", "conector": "[Text]" }
+  }
+}
+```
+
+- Przykładowy manifest aplikacji (news-app):
+
+```json
+{
+  "app": "news-app_use-MPb1-Backend",
+  "standards": [
+    {
+      "name": "help",
+      "functions": [
+        { "fname": "help", "type": "query", "input": ["Nat"], "output": "Text" }
+      ]
+    },
+    {
+      "name": "hwoisme",
+      "functions": [
+        { "fname": "hwoisme", "type": "query", "input": [], "output": "Conn" }
+      ]
+    },
+    {
+      "name": "glue",
+      "functions": [
+        { "fname": "glue_get", "type": "query", "input": ["[Text]"], "output": "Text" }
+      ]
+    },
+    {
+      "name": "file",
+      "functions": [
+        { "fname": "file_add", "type": "update", "input": ["file_box"], "output": "Nat" },
+        { "fname": "file_one", "type": "query", "input": ["Nat"], "output": "file_box" },
+        { "fname": "file_moderator", "type": "shared", "input": ["Nat"], "output": "Text" },
+        { "fname": "tracker_file", "type": "query", "input": ["Text","Nat"], "output": "[Nat]" }
+      ]
+    }
+  ],
+  "types": {
+    "Conn": { "conn": "Text", "title": "Text", "conector": "[Text]" },
+    "file_box": { "fd": "?Blob", "ft": "?Text" },
+    "post": { "maker": "Principal", "title": "Text", "text": "Text", "uf": "[Nat]" }
+  }
+}
+```
+
+8. Scenariusz działania (agent)
+
+- Krok 1: Agent → DataBox:
+  - hwoisme() → meta węzła (conector[])
+  - frend_one(i) → inni DataBoxy
+  - conn_one(i) → aplikacje (Conn.conn, conector[])
+- Krok 2: Agent → App (Conn.conn):
+  - wywołuje standardy z conector[] (np. glue_get, file_one, help),
+  - działa bez GUI, używając JSON manifestów lub statycznych specyfikacji standardów.
+
+9. Uwagi implementacyjne i literówki (zostały poprawione)
+
+- Komunikaty:
+  - "plese ad nuber post value" → "please add number post value"
+  - "this realy freedom media" → "this is a sample news media app ..."
+  - spójne: hwoisme, conector, watch/post, itd.
+- Zasady bezpieczeństwa:
+  - moderator (DataBox) — tylko dla root principal (jeśli root != "0000-0000")
+  - bounds-check dla indeksów (conn_one, frend_one, file_one, glue_get).
+
+10. TL;DR (dla AI)
+
+- DataBox to katalog (frend/conn/help/hwoisme), bezpośrednich połączeń do App nie wykonuje.
+- Agent:
+  - pyta DataBox → poznaje App → łączy się z App → wywołuje standardy.
+- Standardy (glue/file/help/chip) są otwarte; negocjacja po nazwie w conector[].
+- Manifesty JSON opisują funkcje (type, input, output) i typy.
+
+
+Rozumiem. Poniżej dwa osobne dokumenty MD w formie ramek kodowych: 1) Dokumentacja VOYAGER 1.0 (DataBox + model standardów) i 2) Dokumentacja Aplikacji: news-app_use-MPb1-Backend 1.0. Każdy zawiera opis, API, pełny kod Motoko oraz manifest JSON (AI-parsable).
+
+```markdown
+# Dokumentacja VOYAGER 1.0 (AI‑ready)
+
+## 1. Architektura i zasady
+
+- Komponenty:
+  - Voyager-DataBox (node/canister):
+    - kataloguje inne DataBoxy w frend (sąsiedzi),
+    - przechowuje wpisy o aplikacjach (Conn) z ich conector[] (deklaracje standardów),
+    - nie łączy się bezpośrednio z aplikacjami.
+  - Voyager-Agent (klient):
+    - jako jedyny nawiązuje połączenia,
+    - sekwencja: Agent → DataBox → (pobiera Conn/frend) → Agent → App (bezpośrednio).
+  - Voyager-App (app canister):
+    - udostępnia własne standardy (np. glue, file, help, chip).
+
+- frend = inne DataBoxy (nie aplikacje).
+
+- Standardy:
+  - otwarte, każdy może zdefiniować,
+  - nazwy muszą być unikatowe,
+  - conector[] w Conn/Voyager deklaruje obsługiwane interfejsy.
+
+## 2. Typy (Motoko, koncept)
+
+- Conn: { conn: Text; title: Text; conector: [Text] }
+- Voyager: { conn: Text; title: Text; conector: [Text] }
+
+## 3. API DataBox (public)
+
+- help(line: Nat) -> Text
+- hwoisme() -> Conn
+- frend_one(i: Nat) -> Voyager
+- conn_one(i: Nat) -> Conn
+- frend_add(connn: Text, titlee: Text, conectorr: [Text]) -> Text
+- conn_add(connn: Text, titlee: Text, conectorr: [Text]) -> Text
+- moderator(line: Text, target: Nat) -> Text  // shared, root-only (remove)
+
+Uwagi:
+- frend przechowuje tylko inne DataBoxy.
+- conn przechowuje aplikacje (App canistery), do których Agent łączy się bezpośrednio.
+
+## 4. Przykładowe standardy (nazwy + I/O)
+
+- HELP: help(line: Nat) -> Text  | help(0) → opis; help(_) → "NULL"
+- HWOISME: hwoisme() -> Conn
+- ONE: frend_one(i: Nat) -> Voyager; conn_one(i: Nat) -> Conn
+
+## 5. Pełny przykład: Voyager DataBox (Motoko)
+
+```
+import Buffer "mo:base/Buffer";
+import Principal "mo:base/Principal";
+import Text "mo:base/Text";
+import _Option "mo:base/Option";
+import Nat "mo:base/Nat";
+import Hash "mo:base/Hash";
+
+actor {
+
+  // Placeholdery przyszłych rozszerzeń (hash/trust)
+  type Cyber_pen = { vapp: Principal; user: Principal; hash: Nat32; key: Text; };
+  type Cyber_paper = { trust_add: Nat32; trust_rem: Nat32; };
+  type Cyber_book = { trust: Bool; };
+
+  // Root admin; jeśli "0000-0000", element jest anarchiczny
+  let root : Principal = Principal.fromText("0000-0000");
+
+  // Bufory
+  var frend = Buffer.Buffer(15); // inne DataBoxy
+  var app = Buffer.Buffer(50);      // aplikacje (Conn), do których agent połączy się bezpośrednio
+
+  // Struktury
+  type Voyager = { conn: Text; title: Text; conector: [Text]; };
+  type Conn = { conn: Text; title: Text; conector: [Text]; };
+
+  // HELP
+  public query func help(line: Nat) : async Text {
+    switch (line) {
+      case (0) { return "this voyager-databox is building; please wait for the next update"; };
+      case (_) { return "NULL"; };
+    };
+  };
+
+  // HWOISME (meta DataBox)
+  public query func hwoisme() : async Conn {
+    return { conn = "--"; title = "voyager-databox (node)"; conector = ["help", "one"]; };
+  };
+
+  // frend_one — inny DataBox
+  public query func frend_one(target: Nat): async Voyager {
+    if (frend.size() > target) { return frend.get(target); }
+    return { conn = "NULL"; title = "NULL"; conector = ["NULL"]; };
+  };
+
+  // conn_one — aplikacja (Conn)
+  public query func conn_one(target: Nat): async Conn {
+    if (app.size() > target) { return app.get(target); }
+    return { conn = "NULL"; title = "NULL"; conector = ["NULL"]; };
+  };
+
+  // Dodaj DataBox
+  public func frend_add(connn: Text, titlee: Text, conectorr: [Text]) : async Text {
+    let make: Voyager = { conn = connn; title = titlee; conector = conectorr };
+    ignore frend.add(make);
+    return "Dodano VOYAGER DATA BOX / Voyager data box added";
+  };
+
+  // Dodaj App
+  public func conn_add(connn: Text, titlee: Text, conectorr: [Text]) : async Text {
+    let make: Conn = { conn = connn; title = titlee; conector = conectorr };
+    ignore app.add(make);
+    return "Dodano APP / APP added";
+  };
+
+  // Moderator (root-only)
+  public shared (msg) func moderator(line: Text, target: Nat): async Text {
+    if (root == Principal.fromText("0000-0000")) {
+      return "this element is anarchic - does not have a root principal";
+    };
+    let caller = msg.caller;
+    if (caller == root) {
+      if (line == "conn") { ignore app.remove(target); return "Access granted – task completed"; };
+      if (line == "frend") { ignore frend.remove(target); return "Access granted – task completed"; };
+      return "Access granted – command not supported";
+    };
+    return "Access denied";
+  };
+};
+```
+
+## 6. Manifest standardów węzła (JSON, AI‑parsable)
+
+```
+{
+  "node": "voyager-databox",
+  "standards": [
+    {
+      "name": "help",
+      "functions": [
+        { "fname": "help", "type": "query", "input": ["Nat"], "output": "Text" }
+      ]
+    },
+    {
+      "name": "hwoisme",
+      "functions": [
+        { "fname": "hwoisme", "type": "query", "input": [], "output": "Conn" }
+      ]
+    },
+    {
+      "name": "one",
+      "functions": [
+        { "fname": "frend_one", "type": "query", "input": ["Nat"], "output": "Voyager" },
+        { "fname": "conn_one", "type": "query", "input": ["Nat"], "output": "Conn" }
+      ]
+    },
+    {
+      "name": "admin",
+      "functions": [
+        { "fname": "frend_add", "type": "update", "input": ["Text","Text","[Text]"], "output": "Text" },
+        { "fname": "conn_add", "type": "update", "input": ["Text","Text","[Text]"], "output": "Text" },
+        { "fname": "moderator", "type": "shared", "input": ["Text","Nat"], "output": "Text" }
+      ]
+    }
+  ],
+  "types": {
+    "Conn": { "conn": "Text", "title": "Text", "conector": "[Text]" },
+    "Voyager": { "conn": "Text", "title": "Text", "conector": "[Text]" }
+  }
+}
+```
+
+## 7. Scenariusz (Agent)
+
+- Agent → DataBox:
+  - hwoisme(), help(0)
+  - frend_one(i) → sąsiednie DataBoxy
+  - conn_one(i) → aplikacje (Conn)
+- Agent → App (Conn.conn):
+  - wywołania standardów zadeklarowanych w conector[].
+
+## 8. Zasady
+
+- Unikatowość nazw standardów.
+- DataBox nie łączy się z App; łączy się tylko Agent.
+- Kontrola indeksów i dostęp root-only w moderator.
+```
+
+```markdown
+# Dokumentacja Aplikacji: news-app_use-MPb1-Backend 1.0 (AI‑ready)
+
+## 1. Opis
+
+- App canister z elementami:
+  - Standard glue (readonly w przykładzie): glue_get(["watch", N]) -> Text
+  - Standard file: file_add, file_one, file_moderator, tracker_file
+  - help, hwoisme
+- Przeznaczenie: publikacja i odczyt treści (news), powiązania z plikami.
+
+## 2. Typy (Motoko)
+
+- Conn: { conn: Text; title: Text; conector: [Text] }
+- file_box: { fd: ?Blob; ft: ?Text }
+- post: { maker: Principal; title: Text; text: Text; uf: [Nat] }
+
+## 3. API (public)
+
+- glue_get(get: [Text]) -> Text
+- tracker_file(command: Text, get: Nat) -> [Nat]
+- file_add(add: file_box) -> Nat
+- file_one(target: Nat) -> file_box
+- file_moderator(target: Nat) -> Text  // shared, root-only
+- help(line: Nat) -> Text
+- hwoisme() -> Conn
+
+## 4. Pełny kod: news-app (Motoko)
+
+```
+import Buffer "mo:base/Buffer";
+import Principal "mo:base/Principal";
+import Text "mo:base/Text";
+import Option "mo:base/Option";
+import Nat "mo:base/Nat";
+import Hash "mo:base/Hash";
+
+actor {
+  var file = Buffer.Buffer(25);
+  var news = Buffer.Buffer(25);
+
+  let root : Principal = Principal.fromText("ilqyx-par5p-y6cnk-rufql-xqhgw-tzpw4-bsbih-knin6-ui74t-aji5h-oqe");
+
+  type Conn = { conn: Text; title: Text; conector: [Text]; };
+  type file_box = { fd: ?Blob; ft: ?Text; };
+  type post = { maker: Principal; title: Text; text: Text; uf: [Nat]; };
+
+  // glue_get
+  public query func glue_get(get: [Text]) : async Text {
+    switch (get) {
+      case ("watch") {
+        if (get.size() = file.size()) { return "size error"; }
+      let empty : file_box = { fd = null; ft = null };
+      file.put(target, empty);
+      return "remove file done";
+    } else { return "Access denied"; }
+  };
+
+  // file_add
+  public func file_add(add: file_box): async Nat {
+    file.add(add);
+    return file.size();
+  };
+
+  // file_one
+  public query func file_one(target: Nat): async file_box {
+    if (file.size() > target) { return file.get(target); }
+    return { ft = null; fd = null };
+  };
+
+  // help
+  public query func help(line: Nat) : async Text {
+    switch (line) {
+      case (0) { return "this is a sample news media app using [BP] format"; };
+      case (_) { return "NULL"; };
+    };
+  };
+
+  // hwoisme
+  public query func hwoisme() : async Conn {
+    return {
+      conn = "--";
+      title = "sample news media app [blue-lotos] using [BP] format";
+      conector = ["NP", "help", "file", "glue"]
+    };
+  };
+};
+```
+
+## 5. Manifest standardów aplikacji (JSON, AI‑parsable)
+
+```
+{
+  "app": "news-app_use-MPb1-Backend",
+  "standards": [
+    {
+      "name": "help",
+      "functions": [
+        { "fname": "help", "type": "query", "input": ["Nat"], "output": "Text" }
+      ]
+    },
+    {
+      "name": "hwoisme",
+      "functions": [
+        { "fname": "hwoisme", "type": "query", "input": [], "output": "Conn" }
+      ]
+    },
+    {
+      "name": "glue",
+      "functions": [
+        { "fname": "glue_get", "type": "query", "input": ["[Text]"], "output": "Text" }
+      ]
+    },
+    {
+      "name": "file",
+      "functions": [
+        { "fname": "file_add", "type": "update", "input": ["file_box"], "output": "Nat" },
+        { "fname": "file_one", "type": "query", "input": ["Nat"], "output": "file_box" },
+        { "fname": "file_moderator", "type": "shared", "input": ["Nat"], "output": "Text" },
+        { "fname": "tracker_file", "type": "query", "input": ["Text","Nat"], "output": "[Nat]" }
+      ]
+    }
+  ],
+  "types": {
+    "Conn": { "conn": "Text", "title": "Text", "conector": "[Text]" },
+    "file_box": { "fd": "?Blob", "ft": "?Text" },
+    "post": { "maker": "Principal", "title": "Text", "text": "Text", "uf": "[Nat]" }
+  }
+}
+```
+
+## 6. Integracja (Agent)
+
+- Odczyt meta i indeksów:
+  - DataBox: hwoisme(), help(0), frend_one(i), conn_one(i)
+- Połączenie do aplikacji:
+  - na podstawie Conn.conn oraz conector[]
+  - wywołania: glue_get(["watch","0"]), file_one(0), help(0), …
+```
