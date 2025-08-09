@@ -4,10 +4,58 @@ from ic.client import Client
 from ic.identity import Identity
 from ic.agent import Agent
 from ic.candid import encode, Types
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import ed25519
+from cryptography.hazmat.backends import default_backend
+
 # import serial
 import subprocess
 import os
 import signal
+import sys
+
+identity_file = "identity.pem"
+
+if os.path.exists(identity_file):
+    with open(identity_file, "r") as f:
+        private_key_pem = f.read().strip()
+else:
+    private_key_pem = ""
+
+# Funkcja do generowania nowej tożsamości
+def generate_new_identity():
+    try:
+        private_key = ed25519.Ed25519PrivateKey.generate()
+        pem_pkcs8 = private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption()
+        ).decode('utf-8')
+        with open(identity_file, "w") as f:
+            f.write(pem_pkcs8)
+        print(f"Nowa tożsamość zapisana do {identity_file}", flush=True)
+        return pem_pkcs8
+    except Exception as e:
+        print(f"Błąd generowania tożsamości: {e}", flush=True)
+        return None
+
+# Funkcja do ładowania tożsamości
+def load_identity_from_pem(pem_data):
+    global private_key_pem
+    try:
+        if not pem_data or not pem_data.startswith("-----BEGIN PRIVATE KEY-----"):
+            print("Brak klucza, generowanie nowej tożsamości...", flush=True)
+            pem_data = generate_new_identity()
+            if pem_data is None:
+                return None
+            private_key_pem = pem_data.strip()
+
+        identity = Identity.from_pem(pem_data)
+        print("Tożsamość załadowana", flush=True)
+        return identity
+    except Exception as e:
+        print(f"Błąd ładowania tożsamości: {e}", flush=True)
+        return None
 
 
 er_data = False
@@ -27,20 +75,17 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
    
     ic_url = 'https://ic0.app'
     client = Client(url=ic_url)
-    identity = Identity()
-    agent = Agent(identity, client)
-
-    
-    
-    
+    identity = load_identity_from_pem(private_key_pem)
+    agent = Agent(identity, client)    
     
     try:
+
+
 
         if metode == 'file_one':
             param_file = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
             result = await agent.query_raw_async(canisterId, "file_one", encode(param_file))
-
-
+            
 
 
         if metode == 'glue':
@@ -151,13 +196,29 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
                         return True
 
             return None
-s
+
         return None
     except Exception as e:
         print(f'Error: {e} ')
         er_data = True
         return None
             
+def load_identity_from_pem(pem_data):
+    global private_key_pem
+    try:
+        if not pem_data or not pem_data.startswith("-----BEGIN PRIVATE KEY-----"):
+            print("Brak klucza, generowanie nowej tożsamości...", flush=True)
+            pem_data = generate_new_identity()
+            if pem_data is None:
+                return None
+            private_key_pem = pem_data.strip()
+
+        identity = Identity.from_pem(pem_data)
+        print("Tożsamość załadowana", flush=True)
+        return identity
+    except Exception as e:
+        print(f"Błąd ładowania tożsamości: {e}", flush=True)
+        return None
 
 async def monitor():
     global canisterId, received_conn, received_title, received_conector
