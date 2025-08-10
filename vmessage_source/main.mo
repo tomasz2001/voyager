@@ -91,7 +91,7 @@ actor {
     
     
   };
-
+   // chip interface func 
   public shared query (msg) func chip(get : Text) : async Text{
     let caller = msg.caller;
     if(get == "query"){
