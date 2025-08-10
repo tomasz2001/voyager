@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.1.1 Chrome/132.0.6834.210 Electron/34.3.3 Safari/537.36" version="26.1.1">
   <diagram name="Strona-1" id="OEVlBU5JiqOXGSREfoKp">
-    <mxGraphModel dx="6814" dy="3356" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2827" dy="763" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -795,7 +795,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="Eo7MyHKKSlYa_X4jWUQI-47" value="ICP&lt;div&gt;canister&lt;br&gt;&lt;/div&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" parent="Eo7MyHKKSlYa_X4jWUQI-45" vertex="1">
-          <mxGeometry x="230" y="210" width="80" height="70" as="geometry" />
+          <mxGeometry x="268" y="210" width="80" height="70" as="geometry" />
         </mxCell>
         <mxCell id="Eo7MyHKKSlYa_X4jWUQI-49" value="chip client 1" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="Eo7MyHKKSlYa_X4jWUQI-45" vertex="1">
           <mxGeometry x="30" y="60" width="96" height="45" as="geometry" />
