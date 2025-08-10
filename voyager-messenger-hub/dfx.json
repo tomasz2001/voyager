@@ -1,0 +1,25 @@
+{
+  "canisters": {
+    "voyager-messenger-hub-backend": {
+      "main": "src/voyager-messenger-hub-backend/main.mo",
+      "type": "motoko"
+    },
+    "voyager-messenger-hub-frontend": {
+      "dependencies": [
+        "voyager-messenger-hub-backend"
+      ],
+      "source": [
+        "src/voyager-messenger-hub-frontend/assets"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}

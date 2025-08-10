@@ -1,0 +1,20 @@
+type file_box = 
+ record {
+   fd: opt blob;
+   ft: opt text;
+ };
+type Conn = 
+ record {
+   conector: vec text;
+   conn: text;
+   title: text;
+ };
+service : {
+  file_add: (add: file_box) -> (nat);
+  file_moderator: (target: nat) -> (text);
+  file_one: (target: nat) -> (file_box) query;
+  glue_get: (get: vec text) -> (text) query;
+  help: (line: nat) -> (text) query;
+  hwoisme: () -> (Conn) query;
+  tracker_file: (command: text, get: nat) -> (vec nat) query;
+}
