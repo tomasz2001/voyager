@@ -6,7 +6,7 @@ import Time "mo:base/Time";
 import Ledger "Ledger";
 import Principal "mo:base/Principal";
 import Blob "mo:base/Blob";
-// import File "file";
+import File "file";
 
 actor {
 
@@ -149,8 +149,9 @@ actor {
     if (adbox.tim >= time) {
       return "Adbox jest aktualnie zajęty, proszę spróbować później.";
     } else {
-      adbox := { text = textt; url = urll; pay = 5_000_000 + wallethis; tim = time + 200_000_000_000 };
-      return "Wartości Adbox zostały zaktualizowane. Proszę o wpłatę 0.05 ICP i dokonanie publikacji reklamy. icp pay-here 'gpkok-fho47-6eaqa-62sms-fijoq-43rca-7pkil-gmpie-tm6ev-skx5h-cae'";
+      adbox := { text = textt; url = urll; pay = 5_000_000 + wallethis; tim = time + 450_000_000_000 };
+      return "Wartości Adbox zostały zaktualizowane. Proszę o wpłatę 0.05 ICP i dokonanie publikacji reklamy. 
+      icp pay-here 'gpkok-fho47-6eaqa-62sms-fijoq-43rca-7pkil-gmpie-tm6ev-skx5h-cae'";
     };
   };
 
@@ -160,7 +161,7 @@ actor {
     if (adnow.tim >= time) {
       return adnow;
     };
-    return { text = "add ad only 0.05 ICP"; url = "https://skontaktuj_sie_na_openchat_raboot24.isnoturl"; pay = 0; tim = 0 };
+    return { text = "add ad only 0.05 ICP"; url = "voyager-app xkuzt-4yaaa-aaaal-qr73q-cai"; pay = 0; tim = 0 };
   };
 
   public query func getFile(phrase : Text) : async Blob {
@@ -199,6 +200,12 @@ actor {
         };
         return "takiej ofety nie ma";
       };
+      case("adbox"){
+        return "PUSH";
+      };
+      case("adpush"){
+        return "PUSH";
+      };
       case(_) {
         return "NULL";
       };
@@ -208,6 +215,33 @@ actor {
   // glue interface func 
   public func glue_push(push : [Text]) : async Text {
     switch (push[0]) {
+      case("adpush"){
+        time := Time.now();
+        wallethis := await checkBalance();
+        if (adbox.pay <= wallethis) {
+          adnow := { text = adbox.text; url = adbox.url; pay = 0; tim = time + 86_400_000_000_000 };
+          return "Reklama dodana poprawnie na 1 dzień.";
+        } else {
+          return "Opłata nie została jeszcze przesłana.";
+        };
+      };
+      case("adbox"){
+        wallethis := await checkBalance();
+        time := Time.now();
+
+        if (adnow.tim >= time) {
+          return "Miejsce na reklamę jest zajęte.";
+        };
+
+        if (adbox.tim >= time) {
+          return "Adbox jest aktualnie zajęty, proszę spróbować później.";
+        } else {
+          adbox := { text = push[1]; url = push[2]; pay = 5_000_000 + wallethis; tim = time + 450_000_000_000 };
+          return "Wartości Adbox zostały zaktualizowane. Proszę o wpłatę 0.05 ICP i dokonanie publikacji reklamy po przez glue-[adpush] \n
+          icp pay-here 'gpkok-fho47-6eaqa-62sms-fijoq-43rca-7pkil-gmpie-tm6ev-skx5h-cae'";
+        };
+
+      };
       case("add") {
         if(push.size() <= 6) { return "nie podałeś wszytkich elementów"; };
 
@@ -238,7 +272,7 @@ actor {
 
   public query func hwoisme() : async Conn {
     return {
-      conn = "----";
+      conn = "xkuzt-4yaaa-aaaal-qr73q-cai";
       title = "ALLEBIT on voyager";
       conector = ["glue", "help"];
     };
@@ -246,11 +280,14 @@ actor {
 
   public query func help(line : Nat) : async Text{
     switch (line) {
-      case(0) { return "witamy na ALLEBIT w systemie voyager \n help-1  sprawdzanie ofert w glue \n help-2 dodawanie ofert w glue \n zaządzanie reklamami w krutce"; };
+      case(0) { return "witamy na ALLEBIT w systemie voyager \n help-1  sprawdzanie ofert w glue \n help-2 dodawanie ofert w glue 
+      \n 3 zaządzanie reklamami w glue "; };
       case(1) { return "  sprawdzanie oferty \n  /watch] [adres-numer indexu]"; };
       case(2) { return "  dodawanie oferty \n  /add] [co za co] [opis oferty] [kapitał do obrotu] [cena wymiany] [kontakt]"; };
+      case(3) { return "  wgrywanie makiety reklamy  /adbox] [treść reklamy] [url reklamy] \n
+        po poprawnym wgraniu makiety należy opłacić ją i wykonać \n /adpush] \n adpush przyjmuje tylko jedną wartość w glue \n dasz poradzisz sobie";};
       case(_) { return "witamy na ALLEBIT w systemie voyager \n help-1  sprawdzanie ofert w glue \n help-2 dodawanie ofert w glue \n zaządzanie reklamami w krutce"; };
-    }
+    };
   };
 
 };
