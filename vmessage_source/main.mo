@@ -114,7 +114,7 @@ actor {
         switch (info) {
           case (?info) {
             vmesage.delete(caller);
-            return "from: " # Principal.toText(info.input) # "mesage: " # info.mesage;
+            return "from:" # Principal.toText(info.input) # "mesage:" # info.mesage;
           };
           case null {
             return "mail_empty";

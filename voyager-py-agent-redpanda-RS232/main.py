@@ -86,6 +86,7 @@ async def send_response(response: str):
 
 # === fukcjion work ===
 async def router_command(command: str):
+    global canisterId
     if not command:
         return
     first_char, rest = command[0], command[1:].strip()
@@ -93,8 +94,12 @@ async def router_command(command: str):
         result = await icpcon("chip", rest)
     elif first_char == '^':
         result = await icpcon("chip_up", rest)
+    elif first_char == '#':
+        canisterId = rest
+        result = "targetnow"
     else:
-        result = await icpcon("chip", command.strip())
+        if result != "targetnow":
+            result = await icpcon("chip", command.strip())
     await send_response(result)
 
 
