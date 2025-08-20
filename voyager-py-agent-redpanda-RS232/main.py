@@ -77,14 +77,6 @@ async def send_response(response: str):
         module_1.write((response.strip() + '\n').encode())
 
 # === fukcjion work ===
-#async def chip_function(command: str) -> str:
-#    return ("chip", command)
-
-
-#async def chip_up_function(command: str) -> str:
-#    return await icpcon("chip_up", command)
-
-# === fukcjion work ===
 async def router_command(command: str):
     global canisterId
     if not command:

@@ -1,27 +1,36 @@
 const int LED_PIN = 12;
 unsigned long lastQuery = 0;
 float TempC;
+bool target = false;
+bool mesage = false;
 
 void setup() {
+
   pinMode(13, OUTPUT);    
   pinMode(LED_PIN, OUTPUT);
   Serial.begin(9600);
+  delay(1500);
+  
+
 }
 
 void loop() {
   digitalWrite(13, LOW);
   delay(500);
   digitalWrite(13, HIGH);
-  unsigned long now = millis();
-  if (now - lastQuery >= QUERY_INTERVAL) {
-    lastQuery = now;
-    Serial.println("?led");
-    delay(1000);
-    TempC = Read_NTC10k();
-    Serial.print("^");
-    Serial.println(TempC, 2);
-  }
 
+  if (target == true) {
+    lastQuery = now;
+    Serial.println("?query");
+    if (mesage == true){
+      Serial.println("^mail");
+      mesage = false;
+    }
+    
+  }else{
+    Serial.println("#mh2ii-qqaaa-aaaae-aakpa-cai")
+  }
+  delay(1000);
 
   if (Serial.available() > 0) {
     String resp = Serial.readStringUntil('\n');
@@ -31,15 +40,12 @@ void loop() {
     } else if (resp == "off") {
       digitalWrite(LED_PIN, LOW);
     }
+    if(resp == "targetnow"){
+      target = true;
+    }
+    if(resp == "mail_get"){
+      mesage = true;
+    }
   }
-}
-
-float Read_NTC10k()
-{
-  float a = 639.5, b = -0.1332, c = -162.5;
-  float Rntc, Vntc, Temp;
-  Vntc = (analogRead(A0)*5.0)/1023.0;
-  Rntc = 10000.0 * ((5.0/Vntc) - 1);
-  Temp = a * pow(Rntc, b) + c;
-  return Temp;
+  delay(1000);
 }
