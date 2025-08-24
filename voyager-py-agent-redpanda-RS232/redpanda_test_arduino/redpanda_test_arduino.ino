@@ -1,3 +1,7 @@
+#include <Servo.h>
+
+Servo myservo;
+
 const int LED_PIN = 12;
 unsigned long lastQuery = 0;
 float TempC;
@@ -6,39 +10,53 @@ bool mesage = false;
 
 void setup() {
 
-  pinMode(13, OUTPUT);    
-  pinMode(LED_PIN, OUTPUT);
-  Serial.begin(9600);
-  delay(1500);
+  myservo.attach(9);
   
-
+  pinMode(13, OUTPUT);    
+  pinMode(12, OUTPUT);
+  Serial.begin(9600);
+  delay(750);
+  myservo.write(110); // move to close
 }
 
 void loop() {
   digitalWrite(13, LOW);
-  delay(500);
-  digitalWrite(13, HIGH);
 
-  if (target == true) {
-    lastQuery = now;
+int state = (mesage << 1) | target;
+
+switch (state) {
+  case 0: // mesage = 0, target = 0
+    Serial.println("#bkxiq-haaaa-aaaad-abo5q-cai");
+    delay(250);
+    break;
+
+  case 1: // mesage = 0, target = 1
     Serial.println("?query");
-    if (mesage == true){
-      Serial.println("^mail");
-      mesage = false;
-    }
-    
-  }else{
-    Serial.println("#mh2ii-qqaaa-aaaae-aakpa-cai")
-  }
-  delay(1000);
+    break;
+
+  case 2: // mesage = 1, target = 0
+    Serial.println("^mail");
+    mesage = false;
+    break;
+
+  case 3: // mesage = 1, target = 1
+    Serial.println("^mail");
+    mesage = false;
+    break;
+}
+
+  delay(500);
 
   if (Serial.available() > 0) {
     String resp = Serial.readStringUntil('\n');
     resp.trim();
-    if (resp == "on") {
-      digitalWrite(LED_PIN, HIGH);
-    } else if (resp == "off") {
-      digitalWrite(LED_PIN, LOW);
+
+    if (resp == "from:q6kob-gms3g-pmwe2-dwxlt-lctcw-eghzq-xeaag-kvuq2-uezor-64up3-sae:message:open") {
+      digitalWrite(12, HIGH);
+      myservo.write(0); 
+    } else if (resp == "from:q6kob-gms3g-pmwe2-dwxlt-lctcw-eghzq-xeaag-kvuq2-uezor-64up3-sae:message:close") {
+      digitalWrite(12, LOW);
+      myservo.write(110);
     }
     if(resp == "targetnow"){
       target = true;
@@ -47,5 +65,6 @@ void loop() {
       mesage = true;
     }
   }
-  delay(1000);
+  digitalWrite(13, HIGH);
+  delay(5000);
 }

@@ -6,13 +6,63 @@ from ic.identity import Identity
 from ic.agent import Agent
 from ic.candid import encode, Types
 
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import ed25519
+from cryptography.hazmat.backends import default_backend
+
+import subprocess
+import os
+import signal
+import sys
 # port config
 #PORT = '/dev/ttyACM0'
 #BAUDRATE = 9600
 #TIMEOUT = 1
+identity_file = "identity.pem"
 
+if os.path.exists(identity_file):
+    with open(identity_file, "r") as f:
+        private_key_pem = f.read().strip()
+else:
+    private_key_pem = ""
+
+
+# Function to generate a new identity
+def generate_new_identity():
+    try:
+        private_key = ed25519.Ed25519PrivateKey.generate()
+        pem_pkcs8 = private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption()
+        ).decode('utf-8')
+        with open(identity_file, "w") as f:
+            f.write(pem_pkcs8)
+        print(f"New identity saved to {identity_file}", flush=True)
+        return pem_pkcs8
+    except Exception as e:
+        print(f"Identity generation error: {e}", flush=True)
+        return None
+
+
+# Function to load identity from PEM data
+def load_identity_from_pem(pem_data):
+    global private_key_pem
+    try:
+        if not pem_data or not pem_data.startswith("-----BEGIN PRIVATE KEY-----"):
+            print("No key found, generating new identity...", flush=True)
+            pem_data = generate_new_identity()
+            if pem_data is None:
+                return None
+            private_key_pem = pem_data.strip()
+
+        identity = Identity.from_pem(pem_data)
+        return identity
+    except Exception as e:
+        print(f"Error loading identity: {e}", flush=True)
+        return None
 # canister conn
-canisterId = "mh2ii-qqaaa-aaaae-aakpa-cai"
+canisterId = ""
 
 
 module_1 = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=1)
@@ -21,9 +71,10 @@ time.sleep(2)
 async def icpcon(metode, item1=None):
     global er_data, received_conn, received_title, received_conector
     param_chip = [{'type': Types.Text, 'value': item1}]
+
     ic_url = 'https://ic0.app'
     client = Client(url=ic_url)
-    identity = Identity()
+    identity = load_identity_from_pem(private_key_pem)
     agent = Agent(identity, client)
 
     try:
@@ -88,7 +139,9 @@ async def router_command(command: str):
         result = await icpcon("chip_up", rest)
     elif first_char == '#':
         canisterId = rest
+        print(rest)
         result = "targetnow"
+
     else:
         if result != "targetnow":
             result = await icpcon("chip", command.strip())
