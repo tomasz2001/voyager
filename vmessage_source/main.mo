@@ -1,3 +1,4 @@
+// import Buffer "mo:base/Buffer";
 import Region "mo:base/Region";
 import Text "mo:base/Text";
 import Option "mo:base/Option";
@@ -46,6 +47,7 @@ actor {
       if(get.size() <= 2){return "plesse add all input";};
       return "PUSH";
     };
+    case("me"){return Principal.toText(caller)};
     case(_){
      return "NULL";
 
@@ -91,7 +93,7 @@ actor {
     
     
   };
-   // chip interface func 
+
   public shared query (msg) func chip(get : Text) : async Text{
     let caller = msg.caller;
     if(get == "query"){
@@ -105,6 +107,9 @@ actor {
           };
         };
     };
+    if(get == "me"){
+      return Principal.toText(msg.caller);
+    };
     return "NULL";
   };
   public shared (msg) func chip_up(get : Text) : async Text{
@@ -114,7 +119,7 @@ actor {
         switch (info) {
           case (?info) {
             vmesage.delete(caller);
-            return "from:" # Principal.toText(info.input) # "mesage:" # info.mesage;
+            return "from:" # Principal.toText(info.input) # ":message:" # info.mesage;
           };
           case null {
             return "mail_empty";
@@ -129,8 +134,8 @@ actor {
     
     switch(line){
      case(0){return "this is Vmesage \n help:1 help for glue interface \n help:2 help for chip interface";};
-     case(1){return "  glue help \n [watch] check and clear your mail box \n [say] [pripical target] [text mesage] sey masage ";};
-     case(2){return "  chip help \n [?query] [^mail] chceck and clear-watch your mail box perfect to make virtual mail-box for arduino or pi-zero";};
+     case(1){return "  glue help \n [watch] check and clear your mail box \n [say] [pripical target] [text mesage] sey masage \n [me] chceck your Principal";};
+     case(2){return "  chip help \n [?query] \n [?me] chceck your Principal \n [^mail] chceck and clear-watch your mail box perfect to make virtual mail-box for arduino or pi-zero";};
     
 
      case(_){return "NULL";};
@@ -138,5 +143,3 @@ actor {
     };
     
   };
-
-};
