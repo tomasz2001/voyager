@@ -35,3 +35,7 @@ ehthumbs.db
 canister_ids.json
 .env
 voyager-pathfinder-agent/__pycache__
+voyager-pathfinder-agent/identity.pem
+voyager-pathfinder-agent/error.txt
+voyager-pathfinder-agent/persona.md
+voyager-pathfinder-agent/tools/__pycache__
