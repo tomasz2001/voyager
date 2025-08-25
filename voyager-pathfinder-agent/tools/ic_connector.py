@@ -106,14 +106,15 @@ class ICConnector:
     async def get_help_all(self) -> str:
         """Retrieves all available help pages until an error is encountered."""
         all_help_content = []
-        page = 0
-        while True:
+        # Use a large range for the for loop, as the number of help pages is unknown
+        # The loop will break when get_help returns an error or empty content
+        for page in range(100): # Assuming a maximum of 100 help pages
             try:
                 help_page_content = await self.get_help(page)
-                if help_page_content.startswith("Error:"):
+                # Check for specific "NULL" or empty content indicating end of help pages
+                if help_page_content.startswith("Error:") or help_page_content.strip() == "NULL" or not help_page_content.strip():
                     break
                 all_help_content.append(f"--- Help Page {page} ---\n{help_page_content}")
-                page += 1
             except Exception as e:
                 # Catch any other potential exceptions during the call
                 all_help_content.append(f"--- Stopped at page {page} due to error: {e} ---")
