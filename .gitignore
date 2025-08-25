@@ -34,3 +34,4 @@ ehthumbs.db
 .dfx/
 canister_ids.json
 .env
+voyager-pathfinder-agent/__pycache__

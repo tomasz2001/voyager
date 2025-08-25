@@ -29,7 +29,8 @@ Oprócz ogólnych narzędzi do zarządzania połączeniami (np. `set_canister_id
 *   `get_box(index: int)`: Pobiera informacje o databoxie po jego indeksie z bieżącego databoxa.
 *   `use_glue_get(data: list[str])`: Używa interfejsu 'glue_get' z wybranym celem. Służy do odczytu danych.
 *   `use_glue_push(data: list[str])`: Używa interfejsu 'glue_push' z wybranym celem. Służy do wysyłania danych.
-*   `get_help(page: int)`: Pobiera stronę pomocy z usługi.
+        *   `get_help(page: int)`: Pobiera stronę pomocy z usługi.
+*   `get_help_all()`: Pobiera wszystkie dostępne strony pomocy z usługi, aż do napotkania błędu.
 
 ### Narzędzia Specyficzne dla Aplikacji (Dynamicznie Odkrywane):
 

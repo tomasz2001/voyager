@@ -44,7 +44,8 @@ ic_agent = create_agent_with_identity(IDENTITY_PEM_PATH)
 voyager_conn = VoyagerConnector(ic_agent)
 
 # --- Dynamiczne Tworzenie Narzędzi ---
-AVAILABLE_TOOLS = {} # Zaczynamy z pustą mapą narzędzi
+AVAILABLE_TOOLS: dict = {} # Zaczynamy z pustą mapą narzędzi
+DISCOVERED_APPS = [] # Lista do przechowywania odkrytych aplikacji
 
 def create_dynamic_tool(tool_name: str, canister_id: str, app_title: str, standard_name: str, function_name: str, *args_template):
     """Tworzy generyczną funkcję narzędzia dla danej aplikacji i standardu."""
@@ -176,6 +177,13 @@ def register_panda_tools(ic_connector_instance: ICConnector):
             'parameters': {'page': {'type': 'integer', 'description': 'The page number of the help text to retrieve.'}},
             'required': ['page'],
         },
+        {
+            'name': 'get_help_all',
+            'func': ic_connector_instance.get_help_all,
+            'description': 'Retrieves all available help pages from the service canister until an error is encountered.',
+            'parameters': {},
+            'required': [],
+        },
     ]
 
     for tool_spec in tools_to_register:
@@ -200,8 +208,8 @@ def parse_think_tags(content: str) -> str:
 # --- Główna Logika Agenta ---
 async def run_agent():
     """Główna pętla operacyjna agenta Pathfinder."""
-    init(autoreset=True) # Inicjalizacja Colorama
     global AVAILABLE_TOOLS # Modyfikujemy globalną listę
+    init(autoreset=True) # Inicjalizacja Colorama
 
     try:
         Path('persona.md').read_text(encoding='utf-8')
@@ -221,6 +229,7 @@ async def run_agent():
                 break
             # Dla każdej odkrytej aplikacji, zarejestruj jej narzędzia
             register_tools_for_app(conn_entry)
+            DISCOVERED_APPS.append(conn_entry)
             i += 1
         
         if not AVAILABLE_TOOLS:
@@ -236,6 +245,10 @@ async def run_agent():
     register_panda_tools(ic_connector_instance)
 
     # Krok 2: Uruchom pętlę konwersacji z dynamicznie załadowanymi narzędziami
+    # Explicitly ensure Pylance knows this is a dict
+    if not isinstance(AVAILABLE_TOOLS, dict):
+        AVAILABLE_TOOLS = {} # Re-initialize if somehow it's not a dict (shouldn't happen)
+
     all_tools_list = list(AVAILABLE_TOOLS.values())
     conversation_history = [{'role': 'system', 'content': ollama_handler.SYSTEM_PROMPT}]
     
@@ -267,17 +280,82 @@ async def run_agent():
             print(f"{Fore.CYAN}-------------------------")
             continue
 
+        elif cleaned_prompt.startswith('/list'):
+            list_parts = cleaned_prompt.split(' ', 2) # Split into max 3 parts: '/list', 'set', '<index>'
+            
+            if len(list_parts) == 3 and list_parts[1] == 'set':
+                try:
+                    idx = int(list_parts[2])
+                    if 0 <= idx < len(DISCOVERED_APPS):
+                        selected_app = DISCOVERED_APPS[idx]
+                        print(f"{Fore.CYAN}Pathfinder: Ustawiam komunikację na kanister: {selected_app.title} ({selected_app.conn}){Style.RESET_ALL}")
+                        
+                        # Set the canister ID
+                        result = await ic_connector_instance.set_canister_id(canister_id=selected_app.conn)
+                        print(f"{Fore.MAGENTA}Pathfinder: {result}{Style.RESET_ALL}")
+
+                        # Re-register tools based on the selected app's connectors
+                        # Clear existing dynamic tools
+                        AVAILABLE_TOOLS = {}
+                        
+                        # Register tools for the selected app
+                        register_tools_for_app(selected_app)
+                        
+                        # Re-register panda tools (general tools)
+                        register_panda_tools(ic_connector_instance)
+
+                        print(f"{Fore.CYAN}Pathfinder: Dostępne narzędzia zostały zaktualizowane dla kanistra {selected_app.title}.{Style.RESET_ALL}")
+                        print(f"{Fore.CYAN}Nowe dostępne narzędzia:{Style.RESET_ALL} {list(AVAILABLE_TOOLS.keys())}")
+
+                    else:
+                        print(f"{Fore.RED}Pathfinder: Nieprawidłowy indeks aplikacji. Użyj /list, aby zobaczyć dostępne indeksy.{Style.RESET_ALL}")
+                except ValueError:
+                    print(f"{Fore.RED}Pathfinder: Nieprawidłowy format indeksu. Użyj /list set <numer_indeksu>.{Style.RESET_ALL}")
+            elif len(list_parts) == 1: # Just '/list'
+                print(f"\n{Fore.CYAN}--- Dostępne Aplikacje Voyager (Databox) ---{Style.RESET_ALL}")
+                if DISCOVERED_APPS:
+                    for idx, app in enumerate(DISCOVERED_APPS):
+                        print(f"- {idx}. Tytuł: {app.title}, ID: {app.conn}, Konektory: {', '.join(app.conector)}")
+                else:
+                    print(f"{Fore.YELLOW}Brak odkrytych aplikacji w DataBoxie.{Style.RESET_ALL}")
+                print(f"{Fore.CYAN}-------------------------------------------{Style.RESET_ALL}")
+            else:
+                print(f"{Fore.RED}Pathfinder: Nieznana komenda /list. Użyj /list lub /list set <numer_indeksu>.{Style.RESET_ALL}")
+            continue
+
         if cleaned_prompt == '/help':
             print(
                 f"""{Fore.CYAN}--- Pomoc Agenta Pathfinder ---
 Możesz ze mną rozmawiać w języku naturalnym lub używać poniższych komend:
 
 {Style.BRIGHT}Komendy:{Style.RESET_ALL}
-  /help      - Wyświetla tę wiadomość pomocy.
-  /clear     - Resetuje historię konwersacji.
-  /tools     - Wyświetla listę dynamicznie załadowanych narzędzi.
-  wyjdź      - Kończy pracę z agentem.
+  /help        - Wyświetla tę wiadomość pomocy.
+  /clear       - Resetuje historię konwersacji.
+  /tools       - Wyświetla listę dynamicznie załadowanych narzędzi.
+  /list        - Wyświetla wszystkie odkryte aplikacje Voyager w DataBoxie.
+  /setcontainer - Ręcznie ustawia ID kanistra do komunikacji.
+  wyjdź        - Kończy pracę z agentem.
 {Fore.CYAN}-----------------------------------""")
+            continue
+
+        elif cleaned_prompt.startswith('/setcanister'):
+            parts = cleaned_prompt.split(' ', 1)
+            canister_id_input = None
+            if len(parts) > 1:
+                canister_id_input = parts[1].strip()
+
+            if not canister_id_input:
+                canister_id_input = input(f"{Fore.YELLOW}Podaj ID kanistra do ustawienia: {Style.RESET_ALL}")
+
+            if canister_id_input:
+                print(f"{Fore.CYAN}Pathfinder: Ustawiam ID kanistra na: {canister_id_input}{Style.RESET_ALL}")
+                try:
+                    result = await ic_connector_instance.set_canister_id(canister_id=canister_id_input)
+                    print(f"{Fore.MAGENTA}Pathfinder: {result}{Style.RESET_ALL}")
+                except Exception as e:
+                    print(f"{Fore.RED}Pathfinder: Błąd podczas ustawiania ID kanistra: {e}{Style.RESET_ALL}")
+            else:
+                print(f"{Fore.YELLOW}Pathfinder: Anulowano ustawianie ID kanistra. Nie podano ID.{Style.RESET_ALL}")
             continue
 
         if cleaned_prompt in GREETINGS:
@@ -321,6 +399,24 @@ Możesz ze mną rozmawiać w języku naturalnym lub używać poniższych komend:
             for tool_call in tool_calls:
                 tool_name = tool_call['function']['name']
                 tool_args = tool_call['function']['arguments']
+                if isinstance(tool_args, dict) and len(tool_args) == 1 and 'kwargs' in tool_args and isinstance(tool_args['kwargs'], str):
+                    malformed_str = tool_args['kwargs']
+                    try:
+                        # Attempt to parse the malformed string "key: value" into a dictionary
+                        # This is a fragile parsing, assuming a simple "key: value" format
+                        parts = malformed_str.split(':', 1)
+                        if len(parts) == 2:
+                            key = parts[0].strip()
+                            value = parts[1].strip()
+                            tool_args = {key: value}
+                            print(f"{Fore.YELLOW}WARNING: Corrected malformed tool arguments from string: {malformed_str} to {tool_args}{Style.RESET_ALL}")
+                        else:
+                            print(f"{Fore.RED}ERROR: Could not parse malformed tool argument string: {malformed_str}{Style.RESET_ALL}")
+                            # If parsing fails, keep original tool_args, it will likely lead to error
+                    except Exception as e:
+                        print(f"{Fore.RED}ERROR: Exception during malformed tool argument parsing: {e}{Style.RESET_ALL}")
+                        # If any exception during parsing, keep original tool_args
+
                 confirm = input(f"{Fore.YELLOW}Pathfinder: Model chce użyć narzędzia '{tool_name}' z argumentami {tool_args}. Zgadzasz się? [T/N]: {Style.RESET_ALL}")
 
                 if confirm.lower() == 't':

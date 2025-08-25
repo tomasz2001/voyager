@@ -23,8 +23,11 @@ class ICConnector:
 
     async def set_canister_id(self, canister_id: str):
         """Sets the target canister ID for communication."""
-        self.canister_id = canister_id
-        return f"Canister ID set to: {self.canister_id}"
+        try:
+            self.canister_id = canister_id
+            return f"Canister ID set to: {self.canister_id}"
+        except Exception as e:
+            return f"Error in set_canister_id: {e}"
 
 
     async def _execute_ic_call(self, method_name, params):
@@ -48,35 +51,73 @@ class ICConnector:
 
     async def hwoisme(self) -> dict | str:
         """Checks who the agent is talking to and what interfaces it has."""
-        return await self._execute_ic_call("hwoisme", [])
+        try:
+            return await self._execute_ic_call("hwoisme", [])
+        except Exception as e:
+            return f"Error in hwoisme: {e}"
 
 
     async def get_app(self, index: int) -> dict | str:
         """Fetches information about a specific application by its index."""
-        params = [{'type': Types.Nat, 'value': index}]
-        return await self._execute_ic_call("conn_one", params)
-
+        try:
+            params = [{'type': Types.Nat, 'value': index}]
+            return await self._execute_ic_call("conn_one", params)
+        except Exception as e:
+            return f"Error in get_app: {e}"
 
     async def get_box(self, index: int) -> dict | str:
         """Fetches information about a specific databox by its index."""
-        params = [{'type': Types.Nat, 'value': index}]
-        return await self._execute_ic_call("frend_one", params)
+        try:
+            params = [{'type': Types.Nat, 'value': index}]
+            return await self._execute_ic_call("frend_one", params)
+        except Exception as e:
+            return f"Error in get_box: {e}"
 
 
     async def use_glue_get(self, data: list[str]) -> str:
         """Uses the 'glue_get' interface with the selected target."""
         # Rozwiązanie 1: Używanie Types.text zamiast Types.Text
-        params = [{'type': Types.Vec(Types.text), 'value': data}]
-        return await self._execute_ic_call("glue_get", params)
+        try:
+            params = [{'type': Types.Vec(Types.Text), 'value': data}]
+            return await self._execute_ic_call("glue_get", params)
+        except Exception as e:
+            return f"Error in use_glue_get: {e}"
     
     async def use_glue_push(self, data: list[str]) -> str:
         """Uses the 'glue_push' interface with the selected target to push data."""
         # Rozwiązanie 1: Używanie Types.text zamiast Types.Text
-        params = [{'type': Types.Vec(Types.text), 'value': data}]
-        return await self._execute_ic_call("glue_push", params)
-
+        try:
+            params = [{'type': Types.Vec(Types.Text), 'value': data}]
+            return await self._execute_ic_call("glue_push", params)
+        except Exception as e:
+            return f"Error in use_glue_push: {e}"
 
     async def get_help(self, page: int) -> str:
         """Gets the help page from the service."""
-        params = [{'type': Types.Nat, 'value': page}]
-        return await self._execute_ic_call("help", params)
+        # Convert page to int, as it might be received as a string from the tool call
+        try:
+            page_int = int(page)
+            params = [{'type': Types.Nat, 'value': page_int}]
+            return await self._execute_ic_call("help", params)
+        except Exception as e:
+            return f"Error in get_help: {e}"
+
+
+    async def get_help_all(self) -> str:
+        """Retrieves all available help pages until an error is encountered."""
+        all_help_content = []
+        page = 0
+        while True:
+            try:
+                help_page_content = await self.get_help(page)
+                if help_page_content.startswith("Error:"):
+                    break
+                all_help_content.append(f"--- Help Page {page} ---\n{help_page_content}")
+                page += 1
+            except Exception as e:
+                # Catch any other potential exceptions during the call
+                all_help_content.append(f"--- Stopped at page {page} due to error: {e} ---")
+                break
+        if not all_help_content:
+            return "No help content found or an immediate error occurred."
+        return "\n".join(all_help_content)
