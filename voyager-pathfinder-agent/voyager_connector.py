@@ -1,9 +1,9 @@
-from voyager_py_agent_panda.ic_connector import ICConnector
-from voyager_py_agent_panda.voyager_agent import VoyagerAgent
+from ic.agent import Agent
+from ic.candid import encode, decode, Types
 from dataclasses import dataclass
-from typing import List
-import asyncio
+from typing import List, Any
 
+# Definicje struktur danych, które są zwracane przez kanistry
 @dataclass
 class Conn:
     conn: str
@@ -17,54 +17,90 @@ class Voyager:
     conector: List[str]
 
 class VoyagerConnector:
-    def __init__(self, ic_connector: ICConnector):
-        self.ic_connector = ic_connector
-        self.agent = VoyagerAgent(ic_connector)
+    def __init__(self, agent: Agent):
+        """Inicjalizuje konektor bezpośrednio z agentem ic-py."""
+        self.agent = agent
         self.databox_canister_id = None
-        print("VoyagerConnector initialized with ICConnector and VoyagerAgent.")
+        print("VoyagerConnector initialized with a direct ic-py Agent.")
 
     def connect_to_databox(self, databox_principal_id: str):
+        """Ustawia ID kanistra DataBox, z którym będziemy się komunikować."""
         self.databox_canister_id = databox_principal_id
-        print(f"Connected to DataBox: {self.databox_canister_id}")
+        print(f"VoyagerConnector is now connected to DataBox: {self.databox_canister_id}")
 
-    async def call_databox_method(self, method_name: str, *args):
+    async def _call_canister(self, canister_id: str, method_name: str, args: list, out_types: list) -> Any:
+        """Prywatna, generyczna metoda do wywoływania funkcji na dowolnym kanistrze."""
+        encoded_args = encode(args)
+        
+        is_update_call = "add" in method_name or "push" in method_name or "moderator" in method_name
+        
+        try:
+            if is_update_call:
+                print(f"Executing UPDATE call: {canister_id}.{method_name}")
+                response = await self.agent.update_raw_async(canister_id, method_name, encoded_args)
+            else:
+                print(f"Executing QUERY call: {canister_id}.{method_name}")
+                response = await self.agent.query_raw_async(canister_id, method_name, encoded_args)
+        except Exception as e:
+            print(f"Exception during IC call to {canister_id}.{method_name}: {e}")
+            raise e
+
+        # Prawidłowa obsługa odpowiedzi z ic-py
+        if isinstance(response, list) and len(response) > 0 and isinstance(response[0], dict) and 'value' in response[0]:
+            decoded_response = decode(response, out_types)
+            return decoded_response[0] if decoded_response else None
+        else:
+            # Jeśli odpowiedź jest w innym formacie, rzuć błąd, aby to zbadać
+            raise TypeError(f"Unexpected response format from canister: {response}")
+
+    # --- Metody specyficzne dla DataBoxa ---
+
+    async def call_databox_method(self, method_name: str, args: list, out_types: list) -> Any:
+        """Wywołuje metodę na podłączonym kanistrze DataBox."""
         if not self.databox_canister_id:
             raise Exception("Not connected to a DataBox. Call connect_to_databox first.")
-        # Assuming the VoyagerAgent's call_canister_method can handle the arguments directly
-        return await self.agent.call_canister_method(self.databox_canister_id, method_name, *args)
+        return await self._call_canister(self.databox_canister_id, method_name, args, out_types)
 
     async def get_databox_help(self, line: int) -> str:
-        response = await self.call_databox_method("help", line)
-        # Assuming the response from Motoko's Text type is directly usable as a string
-        return response
+        args = [{'type': Types.Nat, 'value': int(line)}]
+        out_types = [Types.Text]
+        return await self.call_databox_method("help", args, out_types)
 
     async def get_databox_hwoisme(self) -> Conn:
-        response = await self.call_databox_method("hwoisme")
-        # Assuming the response is a dictionary that matches the Conn dataclass structure
-        return Conn(**response)
+        args = []
+        out_types = [Types.Record({'conn': Types.Text, 'title': Types.Text, 'conector': Types.Vec(Types.Text)})]
+        response_dict = await self.call_databox_method("hwoisme", args, out_types)
+        return Conn(**response_dict)
 
     async def get_databox_frend_one(self, index: int) -> Voyager:
-        response = await self.call_databox_method("frend_one", index)
-        # Assuming the response is a dictionary that matches the Voyager dataclass structure
-        return Voyager(**response)
+        args = [{'type': Types.Nat, 'value': int(index)}]
+        out_types = [Types.Record({'conn': Types.Text, 'title': Types.Text, 'conector': Types.Vec(Types.Text)})]
+        response_dict = await self.call_databox_method("frend_one", args, out_types)
+        return Voyager(**response_dict)
 
     async def get_databox_conn_one(self, index: int) -> Conn:
-        response = await self.call_databox_method("conn_one", index)
-        # Assuming the response is a dictionary that matches the Conn dataclass structure
-        return Conn(**response)
+        args = [{'type': Types.Nat, 'value': int(index)}]
+        out_types = [Types.Record({'conn': Types.Text, 'title': Types.Text, 'conector': Types.Vec(Types.Text)})]
+        response_dict = await self.call_databox_method("conn_one", args, out_types)
+        return Conn(**response_dict)
 
-    async def add_databox_frend(self, conn: str, title: str, conector: List[str]) -> str:
-        response = await self.call_databox_method("frend_add", conn, title, conector)
-        return response
+    # --- Metoda generyczna dla Aplikacji ---
 
-    async def add_databox_conn(self, conn: str, title: str, conector: List[str]) -> str:
-        response = await self.call_databox_method("conn_add", conn, title, conector)
-        return response
+    async def call_app_method(self, app_canister_id: str, method_name: str, *args) -> Any:
+        """Wywołuje dowolną metodę na dowolnym kanistrze aplikacji."""
+        print(f"Generic call to {app_canister_id}.{method_name} with args: {args}")
+        
+        def guess_type(value):
+            if isinstance(value, str): return Types.Text
+            if isinstance(value, int): return Types.Nat
+            if isinstance(value, list): return Types.Vec(Types.Text)
+            return Types.Text
 
-    async def databox_moderator(self, line: str, target: int) -> str:
-        response = await self.call_databox_method("moderator", line, target)
-        return response
-
-    async def call_app_method(self, app_canister_id: str, method_name: str, *args):
-        # This method allows calling any method on an app canister
-        return await self.agent.call_canister_method(app_canister_id, method_name, *args)
+        candid_args = [{'type': guess_type(arg), 'value': arg} for arg in args]
+        
+        try:
+            # Zakładamy, że większość zwraca tekst dla prostoty
+            return await self._call_canister(app_canister_id, method_name, candid_args, [Types.Text])
+        except Exception as e:
+            print(f"Error during generic app method call: {e}")
+            raise e # Rzucamy wyjątek dalej, zamiast zwracać string

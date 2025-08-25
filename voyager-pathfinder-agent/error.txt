@@ -1,0 +1,5 @@
+
+// HWOISME (meta DataBox/ voyager app)
+  public query func hwoisme() : async Conn {
+    return { conn = "--"; title = "voyager-databox (node)"; conector = ["help", "one"]; };
+  };
