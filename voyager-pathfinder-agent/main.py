@@ -69,10 +69,14 @@ def register_tools_for_app(app_conn: Conn):
         "hwoisme": [("hwoisme", ())],
         "glue": [("glue_get", (list,)), ("glue_push", (list,))],
         "ping": [("ping", (str,))]
-        # Można dodać więcej standardów, np. 'file', 'conn', 'frend'
     }
 
     for standard in app_conn.conector:
+        # Specjalna obsługa dla problematycznego kanistra iruwa-4iaaa-aaaam-aemaq-cai
+        if app_conn.conn == "iruwa-4iaaa-aaaam-aemaq-cai" and standard == "help":
+            print(f"{Fore.YELLOW}  -> Pomijam rejestrację narzędzia 'help' dla {app_conn.title} ({app_conn.conn}) z powodu błędu kanistra.{Style.RESET_ALL}")
+            continue
+
         if standard in standard_to_functions_map:
             for func_name, args_template in standard_to_functions_map[standard]:
                 # Tworzymy unikalną nazwę dla narzędzia
