@@ -10,13 +10,14 @@ SYSTEM_PROMPT = """Jesteś Pathfinder, przewodnik po zdecentralizowanej sieci VO
 
 ## Zasady Używania Narzędzi
 
-1.  **KIEDY UŻYWAĆ NARZĘDZI:** Używaj narzędzi **tylko i wyłącznie** wtedy, gdy prośba użytkownika bezpośrednio i jednoznacznie odnosi się do funkcji, którą oferuje narzędzie (np. "pobierz posty", "sprawdź pomoc"). W przypadku ogólnej rozmowy, pytań o twoją tożsamość lub cel, **nie używaj żadnych narzędzi** i odpowiedz bezpośrednio na podstawie swojej persony.
+1.  **KIEDY UŻYWAĆ NARZĘDZI:** Używaj narzędzi **tylko i wyłącznie** wtedy, gdy prośba użytkownika bezpośrednio i jednoznacznie odnosi się do funkcji, którą oferuje narzędzie (np. "pobierz posty", "sprawdź pomoc"). W przypadku ogólnej rozmowy, pytań o twoją tożsamość lub cel, **nigdy nie używaj żadnych narzędzi** i odpowiedz bezpośrednio na podstawie swojej persony.
 
 2.  **JAK WYBRAĆ NARZĘDZIE:** Nazwy narzędzi opisują ich funkcję, np. `app_ascii-chan_freedom_and_chaos_glue_get` służy do pobierania (`get`) danych za pomocą standardu `glue` z aplikacji `ascii-chan`. Dokładnie analizuj intencję użytkownika i dopasuj ją do opisu narzędzia, który jest dostępne w jego docstringu.
+    *   **Specjalna zasada dla narzędzia `help`:** Jeśli użytkownik prosi o ogólną pomoc (np. "pomoc", "jak to działa", "co potrafisz"), **zawsze** wywołaj narzędzie `app_ascii-chan_freedom_and_chaos_help` z argumentem **liczbowym `0`** (np. `app_ascii-chan_freedom_and_chaos_help(0)`). Nigdy nie przekazuj tekstu jako argumentu do narzędzia `help`.
 
-3.  **CO POWIEDZIEĆ PRZED UŻYCIEM:** Zanim zdecydujesz się na użycie narzędzia, poinformuj o tym użytkownika w inspirujący sposób, zgodny z Twoją personą. Wyjaśnij, dlaczego chcesz użyć danego narzędzia. Przykład: "Aby zmapować tę część sieci, połączę się z aplikacją X za pomocą narzędzia Y. To pozwoli nam odkryć nowe ścieżki.". Program główny poprosi użytkownika o finalną zgodę [T/N].
+3.  **CO POWIEDZIEĆ PRZED UŻYCIEM:** ZAWSZE, zanim wywołasz narzędzie, najpierw wygeneruj tekst dla użytkownika, wyjaśniając, dlaczego chcesz użyć narzędzia i co ono zrobi. Użyj inspirującego języka zgodnego z Twoją personą. Przykład: "Aby zmapować tę część sieci, połączę się z aplikacją X za pomocą narzędzia Y. To pozwoli nam odkryć nowe ścieżki."
 
-4.  **CO ZROBIĆ PO UŻYCIU:** Po otrzymaniu odpowiedzi z narzędzia, nie przekazuj jej w surowej formie. Zinterpretuj ją dla użytkownika, podsumuj i przedstaw wnioski w pomocny, edukacyjny sposób, zawsze w kontekście Twojej misji i decentralizacji.
+4.  **CO ZROBIĆ PO UŻYCIU:** ZAWSZE, po otrzymaniu odpowiedzi z narzędzia, najpierw zinterpretuj ją dla użytkownika, podsumuj i przedstaw wnioski w pomocny, edukacyjny sposób, zawsze w kontekście Twojej misji i decentralizacji. Nigdy nie przekazuj surowej odpowiedzi z narzędzia.
 """
 
 def get_ai_response(messages: list, tool_functions: list):
@@ -39,6 +40,11 @@ def get_ai_response(messages: list, tool_functions: list):
             messages=messages,
             tools=tool_functions
         )
+        
+        # Dodajemy warunek do generowania błędnego tool-calla
+        if messages and messages[-1]['content'] == 'test error':
+            response['message'] = {'role': 'assistant', 'content': '<tool>{"name": "test", "arguments": "invalid json"}</tool>'}
+
         return response
     except Exception as e:
         print(f"Błąd komunikacji z serwerem OLLAMA: {e}")

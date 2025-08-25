@@ -45,6 +45,9 @@ class VoyagerConnector:
             print(f"Exception during IC call to {canister_id}.{method_name}: {e}")
             raise e
 
+        if isinstance(response, str): # Jeśli odpowiedź jest stringiem, to jest to błąd z kanistra
+            raise Exception(f"Error from canister: {response}") # Rzucamy bardziej ogólny wyjątek
+        
         if isinstance(response, list) and len(response) > 0 and isinstance(response[0], dict) and 'value' in response[0]:
             return response[0]['value']
         else:

@@ -2,7 +2,7 @@ import asyncio
 import ollama_handler
 from voyager_connector import VoyagerConnector, Conn, Voyager
 from pathlib import Path
-import re
+import re, json
 from functools import partial
 from colorama import Fore, Style, init
 
@@ -181,9 +181,29 @@ Możesz ze mną rozmawiać w języku naturalnym lub używać poniższych komend:
         conversation_history.append(response_message)
 
         if not response_message.get('tool_calls'):
-            print(f"{Fore.CYAN}Pathfinder: {Style.RESET_ALL}{parse_think_tags(response_message['content'])}")
+            # Sprawdzamy, czy model nie "wypisał" tool-calla bezpośrednio w treści
+            tool_call_match = re.search(r'<tool>(.*?)</tool>', response_message['content'], re.DOTALL)
+            if tool_call_match:
+                tool_call_json = ""
+                try:
+                    tool_call_json = tool_call_match.group(1)
+                    parsed_tool_call = json.loads(tool_call_json)
+                    # Tworzymy sztuczną strukturę tool_calls
+                    tool_calls = [{'function': parsed_tool_call}]
+                    # Usuwamy tool-call z treści, aby nie był wyświetlany użytkownikowi
+                    response_message['content'] = re.sub(r'<tool>.*?</tool>', '', response_message['content'], flags=re.DOTALL).strip()
+                except json.JSONDecodeError:
+                    print(f"{Fore.RED}BŁĄD: Nie udało się sparsować tool-calla z treści: {tool_call_json}{Style.RESET_ALL}")
+                    tool_calls = [] # Traktujemy jako brak tool-calla
+            else:
+                tool_calls = [] # Brak tool-calla w treści
         else:
             tool_calls = response_message['tool_calls']
+
+        if not tool_calls:
+            print(f"{Fore.CYAN}Pathfinder: {Style.RESET_ALL}{parse_think_tags(response_message['content'])}")
+        else:
+            # Reszta logiki obsługi tool-calli pozostaje bez zmian
             for tool_call in tool_calls:
                 tool_name = tool_call['function']['name']
                 tool_args = tool_call['function']['arguments']
