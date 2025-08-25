@@ -1,3 +1,22 @@
+## 2025-08-25
+
+### Dodano
+- Dynamiczne odkrywanie i rejestrowanie narzędzi na podstawie aplikacji DataBox.
+- Nowe komendy użytkownika: `/help` (pomoc), `/clear` (czyszczenie kontekstu), `/tools` (lista narzędzi).
+- Kolorowanie wyjścia czatu za pomocą biblioteki `colorama` dla lepszej czytelności.
+
+### Zmieniono
+- Gruntowna refaktoryzacja agenta Pathfinder w celu zapewnienia pełnej autonomii i usunięcia zależności od innych agentów (np. `voyager-py-agent-panda`).
+- Ulepszony prompt systemowy w `ollama_handler.py` o szczegółowe zasady używania narzędzi, zgodne z personą agenta.
+- Poprawiono sposób inicjalizacji tożsamości agenta, aby zapewnić stałą tożsamość opartą na pliku PEM.
+
+### Naprawiono
+- Krytyczne błędy komunikacji z siecią Internet Computer (`TypeError`, `SyntaxError`, `Message length smaller than prefix number`, `Conn.__init__() got an unexpected keyword argument`) poprzez:
+    - Użycie prawidłowych asynchronicznych metod `ic-py` (`query_raw_async`, `update_raw_async`).
+    - Poprawną obsługę formatu odpowiedzi z kanistrów.
+    - Zapewnienie, że dynamicznie tworzone narzędzia mają unikalne nazwy (`__name__`) dla poprawnego rozpoznawania przez model AI.
+- Zaktualizowano ID kanistra DataBox na prawidłowy, wdrożony identyfikator.
+
 ## 2025-07-14
 
 ### Dodano
