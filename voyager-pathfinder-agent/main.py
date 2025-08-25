@@ -4,6 +4,7 @@ from voyager_connector import VoyagerConnector, Conn, Voyager
 from pathlib import Path
 import re
 from functools import partial
+from colorama import Fore, Style, init
 
 # --- Nowa, poprawiona sekcja inicjalizacji ---
 # Bezpośrednia obsługa logiki z ic-py, aby poprawnie załadować tożsamość z pliku .pem
@@ -14,7 +15,7 @@ from ic.agent import Agent
 
 # --- Konfiguracja ---
 # Jedyny wymagany na stałe ID to punkt wejścia do sieci - główny DataBox.
-DATABOX_CANISTER_ID = "rrkah-fqaaa-aaaaa-aaaaq-cai" # Używam znanego publicznego ID jako przykładu
+DATABOX_CANISTER_ID = "wewn4-aqaaa-aaaam-qdxoa-cai" # Używam znanego publicznego ID jako przykładu
 
 # Ścieżka do pliku tożsamości. Jeśli nie istnieje, zostanie utworzona nowa.
 IDENTITY_PEM_PATH = Path(__file__).parent / "identity.pem"
@@ -22,10 +23,10 @@ IDENTITY_PEM_PATH = Path(__file__).parent / "identity.pem"
 def create_agent_with_identity(pem_path: Path) -> Agent:
     """Tworzy i zwraca agenta IC z tożsamością załadowaną z pliku PEM."""
     if pem_path.exists():
-        print(f"Znaleziono istniejącą tożsamość w: {pem_path}")
+        print(f"{Fore.YELLOW}Znaleziono istniejącą tożsamość w: {pem_path}{Style.RESET_ALL}")
         identity = Identity.from_pem(pem_path.read_bytes().decode('utf-8'))
     else:
-        print(f"Nie znaleziono tożsamości, tworzę nową w: {pem_path}")
+        print(f"{Fore.YELLOW}Nie znaleziono tożsamości, tworzę nową w: {pem_path}{Style.RESET_ALL}")
         identity = Identity()
         pem_path.parent.mkdir(parents=True, exist_ok=True)
         pem_path.write_bytes(identity.to_pem())
@@ -42,21 +43,24 @@ voyager_conn = VoyagerConnector(ic_agent)
 # --- Dynamiczne Tworzenie Narzędzi ---
 AVAILABLE_TOOLS = {} # Zaczynamy z pustą mapą narzędzi
 
-def create_dynamic_tool(canister_id: str, app_title: str, standard_name: str, function_name: str, *args_template):
+def create_dynamic_tool(tool_name: str, canister_id: str, app_title: str, standard_name: str, function_name: str, *args_template):
     """Tworzy generyczną funkcję narzędzia dla danej aplikacji i standardu."""
     # Używamy partial, aby "zamrozić" argumenty, które znamy w momencie tworzenia narzędzia
     async def tool_func(*func_args):
-        print(f"Wywołuję dynamiczne narzędzie: canister='{canister_id}', metoda='{function_name}', argumenty='{func_args}'")
+        print(f"{Fore.MAGENTA}Wywołuję dynamiczne narzędzie: canister='{canister_id}', metoda='{function_name}', argumenty='{func_args}'{Style.RESET_ALL}")
         # Zakładamy, że voyager_conn ma metodę do wywoływania generycznych funkcji
         return await voyager_conn.call_app_method(canister_id, function_name, *func_args)
     
+    # KLUCZOWA POPRAWKA: Nadajemy funkcji unikalną nazwę, którą zobaczy model AI
+    tool_func.__name__ = tool_name
+
     # Tworzymy opis (docstring) dla modelu AI
     tool_func.__doc__ = f"Wywołuje funkcję '{function_name}' standardu '{standard_name}' w aplikacji '{app_title}' ({canister_id})."
     return tool_func
 
 def register_tools_for_app(app_conn: Conn):
     """Rejestruje wszystkie narzędzia dla danej aplikacji na podstawie jej konektorów."""
-    print(f"Rejestrowanie narzędzi dla aplikacji: '{app_conn.title}' ({app_conn.conn}) z konektorami: {app_conn.conector}")
+    print(f"{Fore.YELLOW}Rejestrowanie narzędzi dla aplikacji: '{app_conn.title}' ({app_conn.conn}) z konektorami: {app_conn.conector}{Style.RESET_ALL}")
     
     # Prosta mapa standardów na funkcje - można ją rozbudować
     # Klucz: nazwa standardu w `conector`. Wartość: lista tupli (nazwa funkcji, argumenty)
@@ -73,9 +77,10 @@ def register_tools_for_app(app_conn: Conn):
             for func_name, args_template in standard_to_functions_map[standard]:
                 # Tworzymy unikalną nazwę dla narzędzia
                 tool_name = f"app_{app_conn.title.replace(' ', '_').lower()}_{func_name}"
-                tool_function = create_dynamic_tool(app_conn.conn, app_conn.title, standard, func_name, args_template)
+                # Przekazujemy unikalną nazwę do funkcji tworzącej
+                tool_function = create_dynamic_tool(tool_name, app_conn.conn, app_conn.title, standard, func_name, args_template)
                 AVAILABLE_TOOLS[tool_name] = tool_function
-                print(f"  -> Zarejestrowano narzędzie: {tool_name}")
+                print(f"{Fore.GREEN}  -> Zarejestrowano narzędzie: {tool_name}{Style.RESET_ALL}")
 
 # --- Funkcje Pomocnicze ---
 def parse_think_tags(content: str) -> str:
@@ -85,18 +90,19 @@ def parse_think_tags(content: str) -> str:
 # --- Główna Logika Agenta ---
 async def run_agent():
     """Główna pętla operacyjna agenta Pathfinder."""
+    init(autoreset=True) # Inicjalizacja Colorama
     global AVAILABLE_TOOLS # Modyfikujemy globalną listę
 
     try:
         Path('persona.md').read_text(encoding='utf-8')
     except FileNotFoundError:
-        print("OSTRZEŻENIE: Nie znaleziono pliku persona.md.")
+        print(f"{Fore.RED}OSTRZEŻENIE: Nie znaleziono pliku persona.md.{Style.RESET_ALL}")
 
     # Krok 1: Połącz z DataBoxem i odkryj dostępne aplikacje
-    print(f"Łączenie z głównym DataBoxem: {DATABOX_CANISTER_ID}")
+    print(f"{Fore.YELLOW}Łączenie z głównym DataBoxem: {DATABOX_CANISTER_ID}{Style.RESET_ALL}")
     try:
         voyager_conn.connect_to_databox(DATABOX_CANISTER_ID)
-        print("Połączono z DataBoxem. Odkrywanie aplikacji (conn)...")
+        print(f"{Fore.GREEN}Połączono z DataBoxem. Odkrywanie aplikacji (conn)...{Style.RESET_ALL}")
         
         i = 0
         while True:
@@ -108,30 +114,60 @@ async def run_agent():
             i += 1
         
         if not AVAILABLE_TOOLS:
-            print("OSTRZEŻENIE: Nie odkryto żadnych aplikacji z obsługiwanymi standardami w DataBoxie.")
+            print(f"{Fore.YELLOW}OSTRZEŻENIE: Nie odkryto żadnych aplikacji z obsługiwanymi standardami w DataBoxie.{Style.RESET_ALL}")
 
     except Exception as e:
-        print(f"BŁĄD KRYTYCZNY podczas łączenia z DataBoxem lub odkrywania narzędzi: {e}")
-        print("Agent nie może kontynuować pracy bez połączenia z DataBoxem. Zamykanie.")
+        print(f"{Fore.RED}BŁĄD KRYTYCZNY podczas łączenia z DataBoxem lub odkrywania narzędzi: {e}{Style.RESET_ALL}")
+        print(f"{Fore.RED}Agent nie może kontynuować pracy bez połączenia z DataBoxem. Zamykanie.{Style.RESET_ALL}")
         return
 
     # Krok 2: Uruchom pętlę konwersacji z dynamicznie załadowanymi narzędziami
     all_tools_list = list(AVAILABLE_TOOLS.values())
     conversation_history = [{'role': 'system', 'content': ollama_handler.SYSTEM_PROMPT}]
     
-    print("\nPathfinder: Agent komunikacyjny VOYAGER gotowy. Wszystkie narzędzia załadowane dynamicznie.")
-    print(f"Dostępne narzędzia: {list(AVAILABLE_TOOLS.keys())}")
+    print(f"\n{Fore.CYAN}Pathfinder:{Style.RESET_ALL} Agent komunikacyjny VOYAGER gotowy. Wszystkie narzędzia załadowane dynamicznie.")
+    print(f"{Fore.CYAN}Dostępne narzędzia:{Style.RESET_ALL} {list(AVAILABLE_TOOLS.keys())}")
     print("Wpisz 'wyjdź', aby zakończyć.")
     
     GREETINGS = ["siemka", "cześć", "witaj", "hej", "siema"]
 
     while True:
-        user_prompt = input("Ty: ")
-        if user_prompt.lower() == 'wyjdź':
+        user_prompt = input(f"{Fore.GREEN}Ty: {Style.RESET_ALL}")
+        cleaned_prompt = user_prompt.lower().strip()
+
+        if cleaned_prompt == 'wyjdź':
             break
 
-        if user_prompt.lower().strip() in GREETINGS:
-            print("Pathfinder: Witaj na pokładzie. Jaką podróż dziś zaczynamy?")
+        if cleaned_prompt == '/clear':
+            conversation_history = [{'role': 'system', 'content': ollama_handler.SYSTEM_PROMPT}]
+            print(f"\n{Fore.YELLOW}--- Kontekst rozmowy wyczyszczony ---{Style.RESET_ALL}\n")
+            continue
+        
+        if cleaned_prompt == '/tools':
+            print(f"\n{Fore.CYAN}--- Dostępne narzędzia ---{Style.RESET_ALL}")
+            if AVAILABLE_TOOLS:
+                for tool_name in AVAILABLE_TOOLS.keys():
+                    print(f"- {tool_name}")
+            else:
+                print(f"{Fore.YELLOW}Brak dynamicznie załadowanych narzędzi.{Style.RESET_ALL}")
+            print(f"{Fore.CYAN}-------------------------{Style.RESET_ALL}\n")
+            continue
+
+        if cleaned_prompt == '/help':
+            print(f"""\n{Fore.CYAN}--- Pomoc Agenta Pathfinder ---
+{Style.RESET_ALL}Jestem inteligentnym przewodnikiem po zdecentralizowanej sieci VOYAGER.
+Możesz ze mną rozmawiać w języku naturalnym lub używać poniższych komend:
+
+{Style.BRIGHT}Komendy:{Style.RESET_ALL}
+  /help      - Wyświetla tę wiadomość pomocy.
+  /clear     - Resetuje historię konwersacji.
+  /tools     - Wyświetla listę dynamicznie załadowanych narzędzi.
+  wyjdź      - Kończy pracę z agentem.
+{Fore.CYAN}-----------------------------------{Style.RESET_ALL}\n""")
+            continue
+
+        if cleaned_prompt in GREETINGS:
+            print(f"{Fore.CYAN}Pathfinder:{Style.RESET_ALL} Witaj na pokładzie. Jaką podróż dziś zaczynamy?")
             continue
 
         conversation_history.append({'role': 'user', 'content': user_prompt})
@@ -145,13 +181,13 @@ async def run_agent():
         conversation_history.append(response_message)
 
         if not response_message.get('tool_calls'):
-            print(f"Pathfinder: {parse_think_tags(response_message['content'])}")
+            print(f"{Fore.CYAN}Pathfinder: {Style.RESET_ALL}{parse_think_tags(response_message['content'])}")
         else:
             tool_calls = response_message['tool_calls']
             for tool_call in tool_calls:
                 tool_name = tool_call['function']['name']
                 tool_args = tool_call['function']['arguments']
-                confirm = input(f"Pathfinder: Model chce użyć narzędzia '{tool_name}' z argumentami {tool_args}. Zgadzasz się? [T/N]: ")
+                confirm = input(f"{Fore.YELLOW}Pathfinder: Model chce użyć narzędzia '{tool_name}' z argumentami {tool_args}. Zgadzasz się? [T/N]: {Style.RESET_ALL}")
 
                 if confirm.lower() == 't':
                     tool_function = AVAILABLE_TOOLS.get(tool_name)
@@ -161,15 +197,15 @@ async def run_agent():
                         # Lepsze rozwiązanie to nazwane argumenty, ale to wymaga więcej logiki
                         args_list = list(tool_args.values())
                         result = await tool_function(*args_list)
-                        print(f"Pathfinder: Odpowiedź z narzędzia: {result}")
+                        print(f"{Fore.MAGENTA}Pathfinder: Odpowiedź z narzędzia: {result}{Style.RESET_ALL}")
                         conversation_history.append({'role': 'tool', 'content': str(result)}) # Upewnij się, że wynik jest stringiem
                         final_response = ollama_handler.get_ai_response(conversation_history, all_tools_list)
                         if final_response:
                             final_message = parse_think_tags(final_response['message']['content'])
-                            print(f"Pathfinder: {final_message}")
+                            print(f"{Fore.CYAN}Pathfinder: {Style.RESET_ALL}{final_message}")
                             conversation_history.append(final_response['message'])
                 else:
-                    print("Pathfinder: Odmówiono użycia narzędzia.")
+                    print(f"{Fore.YELLOW}Pathfinder: Odmówiono użycia narzędzia.{Style.RESET_ALL}")
                     # Usuwamy ostatnią wiadomość usera i próbę wywołania narzędzia przez AI
                     conversation_history.pop() 
                     conversation_history.pop()
@@ -178,4 +214,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(run_agent())
     except KeyboardInterrupt:
-        print("\nPathfinder: Przerwano eksplorację.")
+        print(f"\n{Fore.YELLOW}Pathfinder: Przerwano eksplorację.{Style.RESET_ALL}")

@@ -1,5 +1,20 @@
+G:\Dokumenty\Projekty\GEMINICLI\Internet Computer\voyager\voyager-pathfinder-agent>python main.py
+←[33mZnaleziono istniejącą tożsamość w: G:\Dokumenty\Projekty\GEMINICLI\Internet Computer\voyager\voyager-pathfinder-agent\identity.pem←[0m
+VoyagerConnector initialized with a direct ic-py Agent.
+Łączenie z głównym DataBoxem: wewn4-aqaaa-aaaam-qdxoa-cai
+VoyagerConnector is now connected to DataBox: wewn4-aqaaa-aaaam-qdxoa-cai
+Połączono z DataBoxem. Odkrywanie aplikacji (conn)...
+Executing QUERY call: wewn4-aqaaa-aaaam-qdxoa-cai.conn_one
+Rejestrowanie narzędzi dla aplikacji: 'ascii-chan freedom and chaos' (iruwa-4iaaa-aaaam-aemaq-cai) z konektorami: ['help', 'glue']
+  -> Zarejestrowano narzędzie: app_ascii-chan_freedom_and_chaos_help
+  -> Zarejestrowano narzędzie: app_ascii-chan_freedom_and_chaos_glue_get
+  -> Zarejestrowano narzędzie: app_ascii-chan_freedom_and_chaos_glue_push
+Executing QUERY call: wewn4-aqaaa-aaaam-qdxoa-cai.conn_one
 
-// HWOISME (meta DataBox/ voyager app)
-  public query func hwoisme() : async Conn {
-    return { conn = "--"; title = "voyager-databox (node)"; conector = ["help", "one"]; };
-  };
+Pathfinder: Agent komunikacyjny VOYAGER gotowy. Wszystkie narzędzia załadowane dynamicznie.
+Dostępne narzędzia: ['app_ascii-chan_freedom_and_chaos_help', 'app_ascii-chan_freedom_and_chaos_glue_get', 'app_ascii-chan_freedom_and_chaos_glue_push']
+Wpisz 'wyjdź', aby zakończyć.
+Ty: use app_ascii-chan_freedom_and_chaos_help tool
+Pathfinder: Przetwarzam kontekst lokalnie przy użyciu modelu qwen3:1.7b...
+Pathfinder: Model chce użyć narzędzia 'tool_func' z argumentami {'func_args': 'help'}. Zgadzasz się? [T/N]: N
+Pathfinder: Odmówiono użycia narzędzia.

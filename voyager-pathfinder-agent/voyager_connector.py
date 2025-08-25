@@ -45,12 +45,9 @@ class VoyagerConnector:
             print(f"Exception during IC call to {canister_id}.{method_name}: {e}")
             raise e
 
-        # Prawidłowa obsługa odpowiedzi z ic-py
         if isinstance(response, list) and len(response) > 0 and isinstance(response[0], dict) and 'value' in response[0]:
-            decoded_response = decode(response, out_types)
-            return decoded_response[0] if decoded_response else None
+            return response[0]['value']
         else:
-            # Jeśli odpowiedź jest w innym formacie, rzuć błąd, aby to zbadać
             raise TypeError(f"Unexpected response format from canister: {response}")
 
     # --- Metody specyficzne dla DataBoxa ---
@@ -70,19 +67,23 @@ class VoyagerConnector:
         args = []
         out_types = [Types.Record({'conn': Types.Text, 'title': Types.Text, 'conector': Types.Vec(Types.Text)})]
         response_dict = await self.call_databox_method("hwoisme", args, out_types)
-        return Conn(**response_dict)
+        values = list(response_dict.values())
+        return Conn(title=values[0], conn=values[1], conector=values[2])
 
     async def get_databox_frend_one(self, index: int) -> Voyager:
         args = [{'type': Types.Nat, 'value': int(index)}]
         out_types = [Types.Record({'conn': Types.Text, 'title': Types.Text, 'conector': Types.Vec(Types.Text)})]
         response_dict = await self.call_databox_method("frend_one", args, out_types)
-        return Voyager(**response_dict)
+        values = list(response_dict.values())
+        return Voyager(title=values[0], conn=values[1], conector=values[2])
 
     async def get_databox_conn_one(self, index: int) -> Conn:
         args = [{'type': Types.Nat, 'value': int(index)}]
         out_types = [Types.Record({'conn': Types.Text, 'title': Types.Text, 'conector': Types.Vec(Types.Text)})]
         response_dict = await self.call_databox_method("conn_one", args, out_types)
-        return Conn(**response_dict)
+        # Ręczne mapowanie pól, ponieważ kanister zwraca nienazwane pola (hashe)
+        values = list(response_dict.values())
+        return Conn(title=values[0], conn=values[1], conector=values[2])
 
     # --- Metoda generyczna dla Aplikacji ---
 
