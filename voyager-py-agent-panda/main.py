@@ -18,12 +18,12 @@ async def monitor():
         print("\n")
 
 if __name__ == "__main__":
-    print("")
-    print("")
-    print("[the panda] naiprosztrzy agnet do voyagera")
-    print("zyczymy miłej zabawy jak [nie wiesz] co robić")
-    print("wpisz [help]")
-    print("")
-    print("")
+    print("""
+
+[PANDA]
+
+NAJPROSTRZY AGENT VOYAGER
+NIE WIESZ CO I JAK WPISZ [help]
+""")    
     while True:
        asyncio.run(monitor())

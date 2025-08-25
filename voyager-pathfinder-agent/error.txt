@@ -1,89 +1,32 @@
-Basic, [04.08.2025 15:10]
-Ok lecz jak będę tedy chronił społeczność przed niechcianym spamem 
+Ty: kim jest bkxiq-haaaa-aaaad-abo5q-cai
+Pathfinder: Przetwarzam kontekst lokalnie przy użyciu modelu qwen3:1.7b...
+Pathfinder: Model chce użyć narzędzia 'hwoisme' z argumentami {'kwargs': 'bkxiq-haaaa-aaaad-abo5q-cai'}. Zgadzasz się? [T/N]: t
+Pathfinder: Odpowiedź z narzędzia: Error during IC call: Non-base32 digit found
+Pathfinder: Przetwarzam kontekst lokalnie przy użyciu modelu qwen3:1.7b...
+Pathfinder: The canister ID `bkxiq-haaaa-aaaad-abo5q-cai` contains invalid characters (hyphens) that are not allowed in base32 encoding. Valid canister IDs must be 32 characters long and consist only of letters (a-z) and numbers (0-9).
 
-Podejrzałem to od polskiego hubu i pomyślałem że to dobra taktyka 
+This invalid ID cannot be resolved directly. If you have a valid canister ID, please share it, and I can help check its details. In a decentralized network, always verify canister IDs for correctness to avoid errors.
 
-Znacie morze jakieś dobre boty anty spam ?\
-
-Basic, [04.08.2025 15:14]
-Prosze
-
-Basic, [04.08.2025 15:14]
-Powinnien być off
-
-Basic, [05.08.2025 18:17]
-nowa wersja dokumentacji 
-update
-
-Basic, [05.08.2025 19:36]
-@ORWASH @dominikben @Adolmeister 
-
-czy ktoś z was może wiedzieć co to może być i czy to na pewno miało do mnie trafić ?
-
-Basic, [05.08.2025 19:36]
-sprawdzałem może chodzi tu o mój kod ale na pierwszy rzut oka go nie kojarzże
-
-Basic, [05.08.2025 19:37]
-moja pierwsza reakcja to NIE KŁAMIE 
-
-"CO TO KURWA JEST"
-
-Deto, [05.08.2025 19:42]
-Cóż ludzie już forki za pewne robią na gicie
-
-Deto, [05.08.2025 19:43]
-albo nie wiem
-
-Basic, [05.08.2025 20:15]
-czekaj czemu github wysyła wszytko co się dzieje wewnątrz na opserowanych repo
-
-Basic, [05.08.2025 20:16]
-ja pierdole
-
-Basic, [05.08.2025 20:16]
-a pomyślałem penie dodali mnie do organizacji pomyłkowo potroluje ich trole to zauwarzą ej dodaliśmy kogoś kogo nie mieliśmy
-
-Basic, [05.08.2025 20:16]
-a teraz patrze XD
-
-Basic, [05.08.2025 20:17]
-czemu ja muszę wkręcać się automatycznie w jakieś dziwne akcje
-
-Basic, [05.08.2025 20:20]
-czy ja jestem jakiś magnesem na pojebane akcje że co jakiś czas niezależnie od intencji muszę coś odjebać
-
-Basic, [05.08.2025 20:40]
-https://z0r.de/630
-my brain now
-
-Magic | ICP HUB 🇵🇱, [06.08.2025 13:49]
-😆
-
-Basic, [07.08.2025 19:57]
-potwierdzam dostarczenie kasy za 2 miejsce  @ORWASH 
-
-proszę wszystkich w OG-dev-team o zgłoszenie się w sprawie odebranie swojej działki 
-@Deto300 @dominikben
-
-Basic, [08.08.2025 18:27]
-Hej @ORWASH 
-Dało by się umuwić się na jakiegoś calla w przyszłym tygodniu ?
-
-Basic, [10.08.2025 14:53]
-https://bnwoe-kyaaa-aaaad-abo5a-cai.icp1.io/
-
-Basic, [16.08.2025 18:57]
-VOYAGER X ALLEBIT 
-
-znacie ALLEBIT dostał on dzisiaj bardzo ważną aktualizacje 
-aktualnie współpracuje z systemem Voyager a dodatkowo ogłoszenia są zapisywane w pamięci stable 
-
-grunt to ewoluować projekty wraz z tworzeniem nowych rozwiązań
-w następny w kolejności jest chceck-bit
-
-Basic, [17.08.2025 13:25]
- ALLEBIT
- VMESGAE
-ASCI-CHAN 
-
-to są usługi które już dziś funkcjonują w wewnątrz VOYAGER
+Would you like to proceed with a valid ID?
+Ty: ustal komunikację z karnistrem bkxiq-haaaa-aaaad-abo5q-cai
+Pathfinder: Przetwarzam kontekst lokalnie przy użyciu modelu qwen3:1.7b...
+Pathfinder: Model chce użyć narzędzia 'set_canister_id' z argumentami {'kwargs': 'bkxiq-haaaa-aaaad-abo5q-cai'}. Zgadzasz się? [T/N]: T
+Traceback (most recent call last):
+  File "G:\Dokumenty\Projekty\GEMINICLI\Internet Computer\voyager\voyager-pathfinder-agent\main.py", line 337, in <module>
+    asyncio.run(run_agent())
+  File "C:\Python312\Lib\asyncio\runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\asyncio\base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "G:\Dokumenty\Projekty\GEMINICLI\Internet Computer\voyager\voyager-pathfinder-agent\main.py", line 321, in run_agent
+    result = await tool_function(**tool_args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\Dokumenty\Projekty\GEMINICLI\Internet Computer\voyager\voyager-pathfinder-agent\main.py", line 98, in wrapper
+    return await original_func(**filtered_kwargs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ICConnector.set_canister_id() missing 1 required positional argument: 'canister_id'

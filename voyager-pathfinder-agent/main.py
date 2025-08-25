@@ -13,6 +13,9 @@ from ic.client import Client
 from ic.identity import Identity
 from ic.agent import Agent
 
+# Import ICConnector from the new tools directory
+from tools.ic_connector import ICConnector
+
 # --- Konfiguracja ---
 # Jedyny wymagany na stałe ID to punkt wejścia do sieci - główny DataBox.
 DATABOX_CANISTER_ID = "wewn4-aqaaa-aaaam-qdxoa-cai" # Używam znanego publicznego ID jako przykładu
@@ -38,7 +41,7 @@ def create_agent_with_identity(pem_path: Path) -> Agent:
 # Tworzymy agenta z poprawnie załadowaną tożsamością
 ic_agent = create_agent_with_identity(IDENTITY_PEM_PATH)
 # Przekazujemy agenta, a nie konektor z innego projektu
-voyager_conn = VoyagerConnector(ic_agent) 
+voyager_conn = VoyagerConnector(ic_agent)
 
 # --- Dynamiczne Tworzenie Narzędzi ---
 AVAILABLE_TOOLS = {} # Zaczynamy z pustą mapą narzędzi
@@ -68,14 +71,16 @@ def register_tools_for_app(app_conn: Conn):
         "help": [("help", (int,))],
         "hwoisme": [("hwoisme", ())],
         "glue": [("glue_get", (list,)), ("glue_push", (list,))],
-        "ping": [("ping", (str,))]
+        "ping": [("ping", (str,))],
+        "set_canister_id": [("set_canister_id", (str,))],
+        "get_app": [("get_app", (int,))],
+        "get_box": [("get_box", (int,))],
+        "use_glue_get": [("use_glue_get", (list,))],
+        "use_glue_push": [("use_glue_push", (list,))],
+        "get_help": [("get_help", (int,))],
     }
 
     for standard in app_conn.conector:
-        # Specjalna obsługa dla problematycznego kanistra iruwa-4iaaa-aaaam-aemaq-cai
-        if app_conn.conn == "iruwa-4iaaa-aaaam-aemaq-cai" and standard == "help":
-            print(f"{Fore.YELLOW}  -> Pomijam rejestrację narzędzia 'help' dla {app_conn.title} ({app_conn.conn}) z powodu błędu kanistra.{Style.RESET_ALL}")
-            continue
 
         if standard in standard_to_functions_map:
             for func_name, args_template in standard_to_functions_map[standard]:
@@ -86,9 +91,110 @@ def register_tools_for_app(app_conn: Conn):
                 AVAILABLE_TOOLS[tool_name] = tool_function
                 print(f"{Fore.GREEN}  -> Zarejestrowano narzędzie: {tool_name}{Style.RESET_ALL}")
 
+def create_panda_tool_wrapper(original_func, tool_name, description, parameters, required):
+    async def wrapper(**kwargs):
+        # Filter kwargs to only include those expected by the original_func
+        # This assumes 'parameters' correctly reflects the expected arguments of original_func
+        final_kwargs = {k: v for k, v in kwargs.items() if k in parameters}
+        
+        # Ensure all required parameters are present
+        for req_param in required:
+            if req_param not in final_kwargs:
+                # This case should ideally be caught by the model's tool calling logic,
+                # but it's good to have a safeguard.
+                raise ValueError(f"Missing required parameter: {req_param} for tool {tool_name}")
+
+        return await original_func(**final_kwargs)
+
+    wrapper.__name__ = tool_name
+    wrapper.__doc__ = description
+    setattr(wrapper, '__tool_schema__', {
+        'type': 'function',
+        'function': {
+            'name': tool_name,
+            'description': description,
+            'parameters': {
+                'type': 'object',
+                'properties': parameters,
+                'required': required,
+            },
+        },
+    })
+    return wrapper
+
+def register_panda_tools(ic_connector_instance: ICConnector):
+    """Registers tools from ICConnector to the AVAILABLE_TOOLS."""
+    global AVAILABLE_TOOLS
+
+    tools_to_register = [
+        {
+            'name': 'set_canister_id',
+            'func': ic_connector_instance.set_canister_id,
+            'description': 'Sets the target canister ID for all subsequent communication.',
+            'parameters': {'canister_id': {'type': 'string', 'description': 'The new canister ID to target.'}},
+            'required': ['canister_id'],
+        },
+        {
+            'name': 'hwoisme',
+            'func': ic_connector_instance.hwoisme,
+            'description': 'Checks who the agent is talking to and what interfaces the canister has.',
+            'parameters': {},
+            'required': [],
+        },
+        {
+            'name': 'get_app',
+            'func': ic_connector_instance.get_app,
+            'description': 'Fetches information about a specific application (conn) by its index from the current databox.',
+            'parameters': {'index': {'type': 'integer', 'description': 'The index of the application to fetch.'}},
+            'required': ['index'],
+        },
+        {
+            'name': 'get_box',
+            'func': ic_connector_instance.get_box,
+            'description': 'Fetches information about a specific databox (frend) by its index from the current databox.',
+            'parameters': {'index': {'type': 'integer', 'description': 'The index of the databox to fetch.'}},
+            'required': ['index'],
+        },
+        {
+            'name': 'use_glue_get',
+            'func': ic_connector_instance.use_glue_get,
+            'description': "Uses the 'glue_get' interface with the selected target. Typically used to read data, like posts.",
+            'parameters': {'data': {'type': 'array', 'items': {'type': 'string'}, 'description': "A list of strings, where the first is the command (e.g., 'watch') and subsequent are arguments (e.g., post number)."}},
+            'required': ['data'],
+        },
+        {
+            'name': 'use_glue_push',
+            'func': ic_connector_instance.use_glue_push,
+            'description': "Uses the 'glue_push' interface to send data to the target. Typically used to create new content, like posts.",
+            'parameters': {'data': {'type': 'array', 'items': {'type': 'string'}, 'description': "A list of strings, where the first is the command (e.g., 'post') and subsequent are arguments (e.g., nick, content)."}},
+            'required': ['data'],
+        },
+        {
+            'name': 'get_help',
+            'func': ic_connector_instance.get_help,
+            'description': 'Gets a specific help page from the service canister.',
+            'parameters': {'page': {'type': 'integer', 'description': 'The page number of the help text to retrieve.'}},
+            'required': ['page'],
+        },
+    ]
+
+    for tool_spec in tools_to_register:
+        tool_name = tool_spec['name']
+        original_func = tool_spec['func']
+        description = tool_spec['description']
+        parameters = tool_spec['parameters']
+        required = tool_spec['required']
+
+        wrapped_tool_func = create_panda_tool_wrapper(
+            original_func, tool_name, description, parameters, required
+        )
+        AVAILABLE_TOOLS[tool_name] = wrapped_tool_func
+        print(f"{Fore.GREEN}  -> Zarejestrowano narzędzie Panda: {tool_name}{Style.RESET_ALL}")
+
+
 # --- Funkcje Pomocnicze ---
 def parse_think_tags(content: str) -> str:
-    """Usuwa tagi <think>...</think> z odpowiedzi modelu.""" 
+    """Usuwa tagi <think>...</think> z odpowiedzi modelu."""
     return re.sub(r'<think>.*?</think>\s*', '', content, flags=re.DOTALL).strip()
 
 # --- Główna Logika Agenta ---
@@ -125,6 +231,10 @@ async def run_agent():
         print(f"{Fore.RED}Agent nie może kontynuować pracy bez połączenia z DataBoxem. Zamykanie.{Style.RESET_ALL}")
         return
 
+    # Instantiate ICConnector and register its tools
+    ic_connector_instance = ICConnector(agent=ic_agent)
+    register_panda_tools(ic_connector_instance)
+
     # Krok 2: Uruchom pętlę konwersacji z dynamicznie załadowanymi narzędziami
     all_tools_list = list(AVAILABLE_TOOLS.values())
     conversation_history = [{'role': 'system', 'content': ollama_handler.SYSTEM_PROMPT}]
@@ -154,12 +264,12 @@ async def run_agent():
                     print(f"- {tool_name}")
             else:
                 print(f"{Fore.YELLOW}Brak dynamicznie załadowanych narzędzi.{Style.RESET_ALL}")
-            print(f"{Fore.CYAN}-------------------------{Style.RESET_ALL}\n")
+            print(f"{Fore.CYAN}-------------------------")
             continue
 
         if cleaned_prompt == '/help':
-            print(f"""\n{Fore.CYAN}--- Pomoc Agenta Pathfinder ---
-{Style.RESET_ALL}Jestem inteligentnym przewodnikiem po zdecentralizowanej sieci VOYAGER.
+            print(
+                f"""{Fore.CYAN}--- Pomoc Agenta Pathfinder ---
 Możesz ze mną rozmawiać w języku naturalnym lub używać poniższych komend:
 
 {Style.BRIGHT}Komendy:{Style.RESET_ALL}
@@ -167,7 +277,7 @@ Możesz ze mną rozmawiać w języku naturalnym lub używać poniższych komend:
   /clear     - Resetuje historię konwersacji.
   /tools     - Wyświetla listę dynamicznie załadowanych narzędzi.
   wyjdź      - Kończy pracę z agentem.
-{Fore.CYAN}-----------------------------------{Style.RESET_ALL}\n""")
+{Fore.CYAN}-----------------------------------""")
             continue
 
         if cleaned_prompt in GREETINGS:
@@ -216,11 +326,8 @@ Możesz ze mną rozmawiać w języku naturalnym lub używać poniższych komend:
                 if confirm.lower() == 't':
                     tool_function = AVAILABLE_TOOLS.get(tool_name)
                     if tool_function:
-                        # Argumenty z modelu AI są w słowniku, trzeba je przekazać jako *args
-                        # Zakładamy, że model poda argumenty w odpowiedniej kolejności
-                        # Lepsze rozwiązanie to nazwane argumenty, ale to wymaga więcej logiki
-                        args_list = list(tool_args.values())
-                        result = await tool_function(*args_list)
+                        # Przekazujemy argumenty jako kwargs dla lepszej niezawodności
+                        result = await tool_function(**tool_args)
                         print(f"{Fore.MAGENTA}Pathfinder: Odpowiedź z narzędzia: {result}{Style.RESET_ALL}")
                         conversation_history.append({'role': 'tool', 'content': str(result)}) # Upewnij się, że wynik jest stringiem
                         final_response = ollama_handler.get_ai_response(conversation_history, all_tools_list)
