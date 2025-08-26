@@ -1,45 +1,70 @@
+#include <Servo.h>
+
+Servo myservo;
+
 const int LED_PIN = 12;
 unsigned long lastQuery = 0;
 float TempC;
+bool target = false;
+bool mesage = false;
 
 void setup() {
+
+  myservo.attach(9);
+  
   pinMode(13, OUTPUT);    
-  pinMode(LED_PIN, OUTPUT);
+  pinMode(12, OUTPUT);
   Serial.begin(9600);
+  delay(750);
+  myservo.write(110); // move to close
 }
 
 void loop() {
   digitalWrite(13, LOW);
-  delay(500);
-  digitalWrite(13, HIGH);
-  unsigned long now = millis();
-  if (now - lastQuery >= QUERY_INTERVAL) {
-    lastQuery = now;
-    Serial.println("?led");
-    delay(1000);
-    TempC = Read_NTC10k();
-    Serial.print("^");
-    Serial.println(TempC, 2);
-  }
 
+int state = (mesage << 1) | target;
+
+switch (state) {
+  case 0: // mesage = 0, target = 0
+    Serial.println("#bkxiq-haaaa-aaaad-abo5q-cai");
+    delay(250);
+    break;
+
+  case 1: // mesage = 0, target = 1
+    Serial.println("?query");
+    break;
+
+  case 2: // mesage = 1, target = 0
+    Serial.println("^mail");
+    mesage = false;
+    break;
+
+  case 3: // mesage = 1, target = 1
+    Serial.println("^mail");
+    mesage = false;
+    break;
+}
+
+  delay(500);
 
   if (Serial.available() > 0) {
     String resp = Serial.readStringUntil('\n');
     resp.trim();
-    if (resp == "on") {
-      digitalWrite(LED_PIN, HIGH);
-    } else if (resp == "off") {
-      digitalWrite(LED_PIN, LOW);
+
+    if (resp == "from:q6kob-gms3g-pmwe2-dwxlt-lctcw-eghzq-xeaag-kvuq2-uezor-64up3-sae:message:open") {
+      digitalWrite(12, HIGH);
+      myservo.write(0); 
+    } else if (resp == "from:q6kob-gms3g-pmwe2-dwxlt-lctcw-eghzq-xeaag-kvuq2-uezor-64up3-sae:message:close") {
+      digitalWrite(12, LOW);
+      myservo.write(110);
+    }
+    if(resp == "targetnow"){
+      target = true;
+    }
+    if(resp == "mail_get"){
+      mesage = true;
     }
   }
-}
-
-float Read_NTC10k()
-{
-  float a = 639.5, b = -0.1332, c = -162.5;
-  float Rntc, Vntc, Temp;
-  Vntc = (analogRead(A0)*5.0)/1023.0;
-  Rntc = 10000.0 * ((5.0/Vntc) - 1);
-  Temp = a * pow(Rntc, b) + c;
-  return Temp;
+  digitalWrite(13, HIGH);
+  delay(5000);
 }

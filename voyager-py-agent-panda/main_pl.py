@@ -51,7 +51,7 @@ def load_identity_from_pem(pem_data):
             private_key_pem = pem_data.strip()
 
         identity = Identity.from_pem(pem_data)
-        print("Tożsamość załadowana", flush=True)
+        #print("Tożsamość załadowana", flush=True)
         return identity
     except Exception as e:
         print(f"Błąd ładowania tożsamości: {e}", flush=True)
@@ -214,7 +214,7 @@ def load_identity_from_pem(pem_data):
             private_key_pem = pem_data.strip()
 
         identity = Identity.from_pem(pem_data)
-        print("Tożsamość załadowana", flush=True)
+        #print("Tożsamość załadowana", flush=True)
         return identity
     except Exception as e:
         print(f"Błąd ładowania tożsamości: {e}", flush=True)
