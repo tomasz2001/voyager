@@ -1,0 +1,41 @@
+[{
+	"resource": "/g:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/voyager-pathfinder-agent/main.py",
+	"owner": "pylance",
+	"code": {
+		"value": "reportAssignmentType",
+		"target": {
+			"$mid": 1,
+			"path": "/microsoft/pylance-release/blob/main/docs/diagnostics/reportAssignmentType.md",
+			"scheme": "https",
+			"authority": "github.com"
+		}
+	},
+	"severity": 8,
+	"message": "Type \"set[dict[Unknown, Unknown]]\" is not assignable to declared type \"dict[Unknown, Unknown]\"\n  \"set[dict[Unknown, Unknown]]\" is not assignable to \"dict[Unknown, Unknown]\"",
+	"source": "Pylance",
+	"startLineNumber": 296,
+	"startColumn": 43,
+	"endLineNumber": 296,
+	"endColumn": 47,
+	"origin": "extHost1"
+},{
+	"resource": "/g:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/voyager-pathfinder-agent/main.py",
+	"owner": "pylance",
+	"code": {
+		"value": "reportUnhashable",
+		"target": {
+			"$mid": 1,
+			"path": "/microsoft/pylance-release/blob/main/docs/diagnostics/reportUnhashable.md",
+			"scheme": "https",
+			"authority": "github.com"
+		}
+	},
+	"severity": 8,
+	"message": "Set entry must be hashable\n  Type \"dict[Unknown, Unknown]\" is not hashable",
+	"source": "Pylance",
+	"startLineNumber": 296,
+	"startColumn": 44,
+	"endLineNumber": 296,
+	"endColumn": 46,
+	"origin": "extHost1"
+}]
