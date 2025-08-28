@@ -2,12 +2,12 @@
 Warning: This agent requires custom Python libraries:
 
 ic-py
-
 asyncio
+cryptography
 
 You can install them using pip:
 
-pip install ic-py asyncio
+pip install ic-py asyncio cryptography
 
 
 Agent Panda is a Python-based agent for the Voyager system.
