@@ -8,7 +8,9 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.hazmat.backends import default_backend
 from golem_base_sdk import GenericBytes, GolemBaseClient
+
 # import serial
+import split
 import subprocess
 import os
 import signal
@@ -300,7 +302,7 @@ async def monitor():
             print("help: skorzystaj z pomocy")
             print("getbox: spytaj databox o inne databoxy")
             print("getapp: spytaj databox o aplikacje")
-            print
+            print("vo-dz: fukcja dżdżownica aktualnie on-golem-DB")
         else:
             line = input("podaj strone pomocy tej usługi")
             raport = await icpcon("help", line)
@@ -314,19 +316,33 @@ async def monitor():
     elif(command == "vo-dz"):
         target = input("wybierz-target: ")
         work = await vdz_golem_one(target)
-        #parts = work.split("/")
-        print(work);
+        
+        work = work.decode("utf-8")
+        parts = work.split("/")
 
-        #for i, part in enumerate(parts, start=1):
-        #    print(f"Część {i}: {part}")
+        a = parts[0]
+        b = parts[1]  
+        c = parts[2]
+        if(a != "vd"):
+            print("UWAGA! dane tu umieszczone mogą być nie poprawne lub uszkodzone")
+        print("canister-databox-id: ", b)
+        print("zdefiniowany poprzedni zapis: ", c)
+        while True:
+            qwery = input("chcesz sprawdzić zdefiniowany wcześniejszy zapis tak/nie: ")
+            if(qwery == "tak"):
+                target = c
+                work = await vdz_golem_one(target)
+        
+                work = work.decode("utf-8")
+                parts = work.split("/")
 
-
-       #a = parts[0]
-        #b = parts[1]  
-        #c = parts[2] 
-        #print("sampel: ", a)
-        #print("canister-databox-id: ", b)
-        #print("zdefiniowany poprzedni zapis: ", c)
+                a = parts[0]
+                b = parts[1]  
+                c = parts[2]
+                print("canister-databox-id: ", b)
+                print("zdefiniowany poprzedni zapis: ", c)
+            else:
+                break
 
     else:
         print("komenda nie obsługiwana")
