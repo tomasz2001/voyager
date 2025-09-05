@@ -225,6 +225,7 @@ async def get_vd_by_index(index=0):
     vd_entities = await client.query_entities('type="vd"')
     
     if index < 0 or index >= len(vd_entities):
+        await client.disconnect()
         return None, None  # brak encji pod tym indeksem
 
     entity = vd_entities[index]
@@ -241,7 +242,7 @@ async def get_vd_by_index(index=0):
             value = raw_value.hex()
     else:
         value = str(raw_value)
-
+    await client.disconnect()
     return target_hash, value
 
 
@@ -350,9 +351,11 @@ async def monitor():
     elif(command == "vo-dz"):
         target = input("wybierz-target lub wpisz auto: ")
         if(target == "auto"):
-            index = input("podaj-index [liczba] szukaj: ") 
+            index = input("podaj-index [liczba] szukaj: ")
+            print("") 
             target, value = await get_vd_by_index(int(index))
-            print("Target hash:", target)
+            print("Target hash: ", target)
+            print("")
         work = await vdz_golem_one(target)
         
         work = work.decode("utf-8")
@@ -365,9 +368,11 @@ async def monitor():
             print("UWAGA! dane tu umieszczone mogą być nie poprawne lub uszkodzone")
         print("canister-databox-id: ", b)
         print("zdefiniowany poprzedni zapis: ", c)
+        print("")
         while True:
             print("chcesz sprawdzić zdefiniowany wcześniejszy zapis: [tak/nie]")
             qwery = input("jeżeli chcesz już ustawić ten databox jako target napisz [target]: ")
+            print("")
             if(qwery == "tak"):
                 target = c
                 work = await vdz_golem_one(target)
@@ -380,6 +385,8 @@ async def monitor():
                 c = parts[2]
                 print("canister-databox-id: ", b)
                 print("zdefiniowany poprzedni zapis hash: ", c)
+                print("")
+                
             elif(qwery == "target"):
                 canisterId = b
                 break
