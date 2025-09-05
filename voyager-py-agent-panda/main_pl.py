@@ -202,23 +202,6 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
         print(f'Error: {e} ')
         er_data = True
         return None
-            
-def load_identity_from_pem(pem_data):
-    global private_key_pem
-    try:
-        if not pem_data or not pem_data.startswith("-----BEGIN PRIVATE KEY-----"):
-            print("Brak klucza, generowanie nowej tożsamości...", flush=True)
-            pem_data = generate_new_identity()
-            if pem_data is None:
-                return None
-            private_key_pem = pem_data.strip()
-
-        identity = Identity.from_pem(pem_data)
-        #print("Tożsamość załadowana", flush=True)
-        return identity
-    except Exception as e:
-        print(f"Błąd ładowania tożsamości: {e}", flush=True)
-        return None
 
 async def monitor():
     global canisterId, received_conn, received_title, received_conector
