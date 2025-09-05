@@ -1,0 +1,25 @@
+{
+  "canisters": {
+    "voyager-personal-hub-backend": {
+      "main": "src/voyager-personal-hub-backend/main.mo",
+      "type": "motoko"
+    },
+    "voyager-personal-hub-frontend": {
+      "dependencies": [
+        "voyager-personal-hub-backend"
+      ],
+      "source": [
+        "src/voyager-personal-hub-frontend/assets"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
