@@ -16,7 +16,11 @@ import os
 import signal
 import sys
 
+
+# global value
 identity_file = "identity.pem"
+
+
 
 if os.path.exists(identity_file):
     with open(identity_file, "r") as f:
@@ -203,6 +207,7 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
 
 # dzdzownica funk code
 async def vdz_golem_one(target):
+
     client = await GolemBaseClient.create_ro_client(
         "https://ethwarsaw.holesky.golemdb.io/rpc", 
         "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
@@ -210,6 +215,35 @@ async def vdz_golem_one(target):
     get = (await client.get_storage_value(GenericBytes.from_hex_string(target)))
     await client.disconnect()
     return get
+
+async def get_vd_by_index(index=0):
+    # Pobieramy wszystkie encje typu vd – w SDK można też użyć LIMIT/OFFSET jeśli obsługuje
+    client = await GolemBaseClient.create_ro_client(
+        "https://ethwarsaw.holesky.golemdb.io/rpc", 
+        "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
+    )
+    vd_entities = await client.query_entities('type="vd"')
+    
+    if index < 0 or index >= len(vd_entities):
+        return None, None  # brak encji pod tym indeksem
+
+    entity = vd_entities[index]
+
+    # target hash
+    target_hash = entity.entity_key
+
+    # wartość storage
+    raw_value = entity.storage_value
+    if isinstance(raw_value, (bytes, bytearray)):
+        try:
+            value = raw_value.decode("utf-8")
+        except UnicodeDecodeError:
+            value = raw_value.hex()
+    else:
+        value = str(raw_value)
+
+    return target_hash, value
+
 
 
 
@@ -314,7 +348,11 @@ async def monitor():
 
 
     elif(command == "vo-dz"):
-        target = input("wybierz-target: ")
+        target = input("wybierz-target lub wpisz auto: ")
+        if(target == "auto"):
+            index = input("podaj-index [liczba] szukaj: ") 
+            target, value = await get_vd_by_index(int(index))
+            print("Target hash:", target)
         work = await vdz_golem_one(target)
         
         work = work.decode("utf-8")
@@ -341,7 +379,7 @@ async def monitor():
                 b = parts[1]  
                 c = parts[2]
                 print("canister-databox-id: ", b)
-                print("zdefiniowany poprzedni zapis: ", c)
+                print("zdefiniowany poprzedni zapis hash: ", c)
             elif(qwery == "target"):
                 canisterId = b
                 break
@@ -352,8 +390,6 @@ async def monitor():
         print("komenda nie obsługiwana")
 
     
-
-
 if __name__ == '__main__':
     print("")
     print("")
