@@ -328,7 +328,8 @@ async def monitor():
         print("canister-databox-id: ", b)
         print("zdefiniowany poprzedni zapis: ", c)
         while True:
-            qwery = input("chcesz sprawdzić zdefiniowany wcześniejszy zapis tak/nie: ")
+            print("chcesz sprawdzić zdefiniowany wcześniejszy zapis: [tak/nie]")
+            qwery = input("jeżeli chcesz już ustawić ten databox jako target napisz [target]: ")
             if(qwery == "tak"):
                 target = c
                 work = await vdz_golem_one(target)
@@ -341,6 +342,9 @@ async def monitor():
                 c = parts[2]
                 print("canister-databox-id: ", b)
                 print("zdefiniowany poprzedni zapis: ", c)
+            elif(qwery == "target"):
+                canisterId = b
+                break
             else:
                 break
 
