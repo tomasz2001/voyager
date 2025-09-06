@@ -6,24 +6,24 @@ WS_RPC = "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
 PRIVATE_KEY = "bfcb7d6bf916cc6fbf48f35c2cbc61989297d8d95cb08e461494411ab69af979"
 
 async def main():
-    input("gif me voyager data/box or data pripical to push dżdżownica ekosystem: ")
+    databox = input("gif me voyager data/box or data pripical to push dżdżownica ekosystem: ")
 
     receipts = None
     client = None
     try:
-        # 🟢 RW client (obsługuje create_entities)
+        # RW client (obsługuje create_entities)
         client = await GolemBaseClient.create_rw_client(HTTP_RPC, WS_RPC, PRIVATE_KEY)
 
-        # możesz query też robić na RW, działa tak samo
+        # query też działa na RW
         vd_entities = await client.query_entities('type="vd"')
         entity = vd_entities[0]  # index = 0
         old = entity.entity_key
 
-        # zabezpieczenie dla str/bytes
+        # entity_key może być str lub bytes
         old_bytes = old.encode() if isinstance(old, str) else old
 
         entity = GolemBaseCreate(
-            data=b"vd/wewn4-aqaaa-aaaam-qdxoa-cai/" + old_bytes,
+            data=f"vd/{databox}/{old}".encode(),  # 👈 przecinek!
             btl=21370000,
             string_annotations=[
                 Annotation(key="type", value="vd"),
@@ -36,10 +36,10 @@ async def main():
         )
 
         receipts = await client.create_entities([entity])
-        print("Entity key:", receipts[0].entity_key)
+        print("entity created successfully")
 
     except Exception as e:
-        print("error plesse try later: ", e)
+        print("error plesse try later:", e)
 
     finally:
         if receipts:
@@ -50,4 +50,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
