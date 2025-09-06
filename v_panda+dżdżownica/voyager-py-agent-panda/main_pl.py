@@ -9,7 +9,7 @@ from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.hazmat.backends import default_backend
 from golem_base_sdk import GenericBytes, GolemBaseClient
 
-# import serial
+# import
 import split
 import subprocess
 import os
@@ -217,7 +217,7 @@ async def vdz_golem_one(target):
     return get
 
 async def get_vd_by_index(index=0):
-    # Pobieramy wszystkie encje typu vd – w SDK można też użyć LIMIT/OFFSET jeśli obsługuje
+    
     client = await GolemBaseClient.create_ro_client(
         "https://ethwarsaw.holesky.golemdb.io/rpc", 
         "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
@@ -226,24 +226,15 @@ async def get_vd_by_index(index=0):
     
     if index < 0 or index >= len(vd_entities):
         await client.disconnect()
-        return None, None  # brak encji pod tym indeksem
+        return None
 
     entity = vd_entities[index]
 
-    # target hash
+    
     target_hash = entity.entity_key
 
-    # wartość storage
-    raw_value = entity.storage_value
-    if isinstance(raw_value, (bytes, bytearray)):
-        try:
-            value = raw_value.decode("utf-8")
-        except UnicodeDecodeError:
-            value = raw_value.hex()
-    else:
-        value = str(raw_value)
     await client.disconnect()
-    return target_hash, value
+    return target_hash
 
 
 
@@ -353,7 +344,7 @@ async def monitor():
         if(target == "auto"):
             index = input("podaj-index [liczba] szukaj: ")
             print("") 
-            target, value = await get_vd_by_index(int(index))
+            target = await get_vd_by_index(int(index))
             print("Target hash: ", target)
             print("")
         work = await vdz_golem_one(target)
