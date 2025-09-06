@@ -341,12 +341,13 @@ async def monitor():
 
     elif(command == "vo-dz"):
         target = input("wybierz-target lub wpisz auto: ")
+        print("") 
         if(target == "auto"):
             index = input("podaj-index [liczba] szukaj: ")
             print("") 
             target = await get_vd_by_index(int(index))
             print("Target hash: ", target)
-            print("")
+            
         work = await vdz_golem_one(target)
         
         work = work.decode("utf-8")
@@ -355,11 +356,13 @@ async def monitor():
         a = parts[0]
         b = parts[1]  
         c = parts[2]
+        print("") 
         if(a != "vd"):
             print("UWAGA! dane tu umieszczone mogą być nie poprawne lub uszkodzone")
+            print("")
         print("canister-databox-id: ", b)
-        print("zdefiniowany poprzedni zapis: ", c)
         print("")
+        print("zdefiniowany poprzedni zapis: ", c)
         while True:
             print("chcesz sprawdzić zdefiniowany wcześniejszy zapis: [tak/nie]")
             qwery = input("jeżeli chcesz już ustawić ten databox jako target napisz [target]: ")
@@ -375,8 +378,8 @@ async def monitor():
                 b = parts[1]  
                 c = parts[2]
                 print("canister-databox-id: ", b)
-                print("zdefiniowany poprzedni zapis hash: ", c)
                 print("")
+                print("zdefiniowany poprzedni zapis hash: ", c)
                 
             elif(qwery == "target"):
                 canisterId = b

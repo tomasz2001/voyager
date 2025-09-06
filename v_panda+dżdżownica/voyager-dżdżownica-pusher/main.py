@@ -3,7 +3,7 @@ from golem_base_sdk import GolemBaseClient, GolemBaseCreate, Annotation
 
 HTTP_RPC = "https://ethwarsaw.holesky.golemdb.io/rpc"
 WS_RPC = "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
-PRIVATE_KEY = "bfcb7d6bf916cc6fbf48f35c2cbc61989297d8d95cb08e461494411ab69af979"
+PRIVATE_KEY = "dfbe5730855f461c3465d75843023a99ea7c051bf49554a4c6a55e2272823cdc"
 
 async def main():
     databox = input("gif me voyager data/box or data pripical to push dżdżownica ekosystem: ")
@@ -11,19 +11,19 @@ async def main():
     receipts = None
     client = None
     try:
-        # RW client (obsługuje create_entities)
+        
         client = await GolemBaseClient.create_rw_client(HTTP_RPC, WS_RPC, PRIVATE_KEY)
 
-        # query też działa na RW
+        
         vd_entities = await client.query_entities('type="vd"')
-        entity = vd_entities[0]  # index = 0
+        entity = vd_entities[0]  
         old = entity.entity_key
 
-        # entity_key może być str lub bytes
+        
         old_bytes = old.encode() if isinstance(old, str) else old
 
         entity = GolemBaseCreate(
-            data=f"vd/{databox}/{old}".encode(),  # 👈 przecinek!
+            data=f"vd/{databox}/{old}".encode(), 
             btl=21370000,
             string_annotations=[
                 Annotation(key="type", value="vd"),
