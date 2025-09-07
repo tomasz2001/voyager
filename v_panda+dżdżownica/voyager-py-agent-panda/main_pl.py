@@ -207,34 +207,40 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
 
 # dzdzownica funk code
 async def vdz_golem_one(target):
-
-    client = await GolemBaseClient.create_ro_client(
-        "https://ethwarsaw.holesky.golemdb.io/rpc", 
-        "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
-    )
-    get = (await client.get_storage_value(GenericBytes.from_hex_string(target)))
-    await client.disconnect()
-    return get
-
-async def get_vd_by_index(index=0):
-    
-    client = await GolemBaseClient.create_ro_client(
-        "https://ethwarsaw.holesky.golemdb.io/rpc", 
-        "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
-    )
-    vd_entities = await client.query_entities('type="vd"')
-    
-    if index < 0 or index >= len(vd_entities):
+    try:
+        client = await GolemBaseClient.create_ro_client(
+            "https://ethwarsaw.holesky.golemdb.io/rpc", 
+            "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
+        )
+        get = (await client.get_storage_value(GenericBytes.from_hex_string(target)))
         await client.disconnect()
+        return get
+    except Exception as e:
+        print(f"DUPA-debugging: {e}")
         return None
 
-    entity = vd_entities[index]
+async def get_vd_by_index(index=0):
+    try:
+        client = await GolemBaseClient.create_ro_client(
+            "https://ethwarsaw.holesky.golemdb.io/rpc", 
+            "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
+        )
+        vd_entities = await client.query_entities('type="vd"')
+    
+        if index < 0 or index >= len(vd_entities):
+            await client.disconnect()
+            return None
+
+        entity = vd_entities[index]
 
     
-    target_hash = entity.entity_key
+        target_hash = entity.entity_key
 
-    await client.disconnect()
-    return target_hash
+        await client.disconnect()
+        return target_hash
+    except Exception as e:
+        print(f"DUPA-debugging: {e}")
+        return None
 
 
 
@@ -347,15 +353,20 @@ async def monitor():
             print("") 
             target = await get_vd_by_index(int(index))
             print("Target hash: ", target)
-            
-        work = await vdz_golem_one(target)
         
-        work = work.decode("utf-8")
-        parts = work.split("/")
+        work = await vdz_golem_one(target)
+        try:
+            work = work.decode("utf-8")
+            parts = work.split("/")
 
-        a = parts[0]
-        b = parts[1]  
-        c = parts[2]
+            a = parts[0]
+            b = parts[1]  
+            c = parts[2]
+        except Exception as e:
+            print(f"DUPA-debugging: {e}")
+            a = "DUPA"
+            b = "DUPA"
+            c = "DUPA"
         print("") 
         if(a != "vd"):
             print("UWAGA! dane tu umieszczone mogą być nie poprawne lub uszkodzone")
@@ -370,7 +381,10 @@ async def monitor():
             if(qwery == "tak"):
                 target = c
                 work = await vdz_golem_one(target)
-        
+
+                if(work == None):
+                    print("zesrało się")
+                    break
                 work = work.decode("utf-8")
                 parts = work.split("/")
 

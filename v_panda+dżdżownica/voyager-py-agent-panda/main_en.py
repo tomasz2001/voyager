@@ -42,7 +42,7 @@ def generate_new_identity():
         print(f"New identity saved to {identity_file}", flush=True)
         return pem_pkcs8
     except Exception as e:
-        print(f"Error generating identity: {e}", flush=True)
+        print(f"Identity generation error: {e}", flush=True)
         return None
 
 # Function to load identity
@@ -60,7 +60,7 @@ def load_identity_from_pem(pem_data):
         #print("Identity loaded", flush=True)
         return identity
     except Exception as e:
-        print(f"Error loading identity: {e}", flush=True)
+        print(f"Identity loading error: {e}", flush=True)
         return None
 
 
@@ -175,8 +175,6 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
                 if isinstance(first_element, dict) and 'value' in first_element:
                     conn_data = first_element['value']
                     #print(f"Conn data: {conn_data}")
-                    #print(f"Conn data type: {type(conn_data)}")
-                    #print(f"Conn data keys: {conn_data.keys() if isinstance(conn_data, dict) else 'Not dict'}")
                     
                     if isinstance(conn_data, dict):
                         global received_conn, received_title, received_conector
@@ -190,10 +188,6 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
                             received_conector = values[2] if isinstance(values[2], list) else []
                         else:
                             return False
-                        #print(f'Received Conn structure:')
-                        #print(f'conn: {received_conn}')
-                        #print(f'title: {received_title}')
-                        #print(f'conector: {received_conector}')
                         
                         return True
 
@@ -205,36 +199,42 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
         er_data = True
         return None
 
-# worm function code
+
 async def vdz_golem_one(target):
-
-    client = await GolemBaseClient.create_ro_client(
-        "https://ethwarsaw.holesky.golemdb.io/rpc", 
-        "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
-    )
-    get = (await client.get_storage_value(GenericBytes.from_hex_string(target)))
-    await client.disconnect()
-    return get
-
-async def get_vd_by_index(index=0):
-    
-    client = await GolemBaseClient.create_ro_client(
-        "https://ethwarsaw.holesky.golemdb.io/rpc", 
-        "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
-    )
-    vd_entities = await client.query_entities('type="vd"')
-    
-    if index < 0 or index >= len(vd_entities):
+    try:
+        client = await GolemBaseClient.create_ro_client(
+            "https://ethwarsaw.holesky.golemdb.io/rpc", 
+            "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
+        )
+        get = (await client.get_storage_value(GenericBytes.from_hex_string(target)))
         await client.disconnect()
+        return get
+    except Exception as e:
+        print(f"DEBUG-error: {e}")
         return None
 
-    entity = vd_entities[index]
+async def get_vd_by_index(index=0):
+    try:
+        client = await GolemBaseClient.create_ro_client(
+            "https://ethwarsaw.holesky.golemdb.io/rpc", 
+            "wss://ethwarsaw.holesky.golemdb.io/rpc/ws"
+        )
+        vd_entities = await client.query_entities('type="vd"')
+    
+        if index < 0 or index >= len(vd_entities):
+            await client.disconnect()
+            return None
+
+        entity = vd_entities[index]
 
     
-    target_hash = entity.entity_key
+        target_hash = entity.entity_key
 
-    await client.disconnect()
-    return target_hash
+        await client.disconnect()
+        return target_hash
+    except Exception as e:
+        print(f"DEBUG-error: {e}")
+        return None
 
 
 
@@ -245,9 +245,9 @@ async def monitor():
     if(command == "glue"):
         # glue test 
         glue_array.clear()
-        print("Enter data into the array, confirming each line with Enter.")
+        print("Enter data into the array, confirm each line with Enter.")
         print("When finished, type '@push' to send the array.")
-        print("If you don't want to send, type '@break'.")
+        print("If you don't want to send it, type '@break'.")
         print("")
         while True:
             user_input = input("> ")
@@ -276,13 +276,13 @@ async def monitor():
 
     elif(command == "target"):
         print("")
-        canisterId = input("enter the canister of the service you want to interact with: ")
+        canisterId = input("enter canister ID of the service you want to talk to: ")
 
     elif(command == "hwoisme"):
         print("")
         raport = await icpcon("hwoisme")
         if raport == True:
-            print("Conn data successfully received:")
+            print("Conn data received successfully:")
             print(f"received_conn: {received_conn}")
             print(f"received_title: {received_title}")  
             print(f"received_conector: {received_conector}")
@@ -296,7 +296,7 @@ async def monitor():
         print("")
         raport = await icpcon("getapp", get)
         if raport == True:
-            print("Conn data successfully received:")
+            print("Conn data received successfully:")
             print(f"received_conn: {received_conn}")
             print(f"received_title: {received_title}")  
             print(f"received_conector: {received_conector}")
@@ -310,7 +310,7 @@ async def monitor():
         print("")
         raport = await icpcon("getbox", get)
         if raport == True:
-            print("Conn data successfully received:")
+            print("Conn data received successfully:")
             print(f"received_conn: {received_conn}")
             print(f"received_title: {received_title}")  
             print(f"received_conector: {received_conector}")
@@ -322,15 +322,15 @@ async def monitor():
         print("");
         if(canisterId == "p2137-cai" or canisterId == ""):
             print("")
-            print("hwosime: check who you are talking to and their interfaces")
-            print("target: choose the canister you want to interact with")
+            print("hwoisme: check who you are talking to and what interfaces it has")
+            print("target: select the canister you want to talk to")
             print("glue: use the glue interface with the selected target")
-            print("help: use help")
-            print("getbox: ask a databox about other databoxes")
-            print("getapp: ask a databox about applications")
-            print("vo-dz: worm function currently on Golem-DB")
+            print("help: get help")
+            print("getbox: ask databox about other databoxy")
+            print("getapp: ask databox about applications")
+            print("vo-dz: worm function currently on golem-DB")
         else:
-            line = input("enter the help page of this service")
+            line = input("enter the help page of this service: ")
             raport = await icpcon("help", line)
             print(raport)
             print("")
@@ -344,33 +344,41 @@ async def monitor():
         print("") 
         if(target == "auto"):
             index = input("enter index [number] to search: ")
+            print("") 
             target = await get_vd_by_index(int(index))
             print("Target hash: ", target)
-            
-        work = await vdz_golem_one(target)
         
-        work = work.decode("utf-8")
-        parts = work.split("/")
+        work = await vdz_golem_one(target)
+        try:
+            work = work.decode("utf-8")
+            parts = work.split("/")
 
-        a = parts[0]
-        b = parts[1]  
-        c = parts[2]
-        print("")
+            a = parts[0]
+            b = parts[1]  
+            c = parts[2]
+        except Exception as e:
+            print(f"DEBUG-error: {e}")
+            a = "ASS"
+            b = "ASS"
+            c = "ASS"
+        print("") 
         if(a != "vd"):
-            print("WARNING! The data here may be incorrect or corrupted")
+            print("WARNING! data here may be incorrect or corrupted")
             print("")
         print("canister-databox-id: ", b)
         print("")
-        print("previously defined record: ", c)
-        
+        print("defined previous record: ", c)
         while True:
-            print("do you want to check the previously defined record: [yes/no]")
-            qwery = input("if you want to set this databox as target, type [target]: ")
+            print("Do you want to check the previously defined record: [yes/no]")
+            qwery = input("if you want to set this databox as the target, type [target]: ")
             print("")
             if(qwery == "yes"):
                 target = c
                 work = await vdz_golem_one(target)
-        
+
+                if(work == None):
+                    print("it crashed")
+                    break
                 work = work.decode("utf-8")
                 parts = work.split("/")
 
@@ -379,7 +387,7 @@ async def monitor():
                 c = parts[2]
                 print("canister-databox-id: ", b)
                 print("")
-                print("previous record hash: ", c)
+                print("previously defined record hash: ", c)
                 
             elif(qwery == "target"):
                 canisterId = b
@@ -394,8 +402,8 @@ async def monitor():
 if __name__ == '__main__':
     print("")
     print("")
-    print("[the panda] simplest agent for voyager")
-    print("have fun if [you don't know] what to do")
+    print("[the panda] the simplest agent for voyager")
+    print("wish you fun, if [you don't know] what to do")
     print("type [help]")
     print("")
     print("")
