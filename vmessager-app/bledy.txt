@@ -1,21 +1,85 @@
 [{
 	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
 	"owner": "pylance",
+	"severity": 8,
+	"message": "\"(\" was not closed",
+	"source": "Pylance",
+	"startLineNumber": 20,
+	"startColumn": 10,
+	"endLineNumber": 20,
+	"endColumn": 11,
+	"origin": "extHost1"
+},{
+	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
+	"owner": "pylance",
+	"severity": 8,
+	"message": "String literal is unterminated",
+	"source": "Pylance",
+	"startLineNumber": 20,
+	"startColumn": 25,
+	"endLineNumber": 20,
+	"endColumn": 26,
+	"origin": "extHost1"
+},{
+	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
+	"owner": "pylance",
 	"code": {
-		"value": "reportAttributeAccessIssue",
+		"value": "reportUndefinedVariable",
 		"target": {
 			"$mid": 1,
-			"path": "/microsoft/pylance-release/blob/main/docs/diagnostics/reportAttributeAccessIssue.md",
+			"path": "/microsoft/pylance-release/blob/main/docs/diagnostics/reportUndefinedVariable.md",
 			"scheme": "https",
 			"authority": "github.com"
 		}
 	},
 	"severity": 8,
-	"message": "Cannot access attribute \"AlignTop\" for class \"type[Qt]\"\n  Attribute \"AlignTop\" is unknown",
+	"message": "\"MENU\" is not defined",
 	"source": "Pylance",
-	"startLineNumber": 36,
-	"startColumn": 54,
-	"endLineNumber": 36,
-	"endColumn": 62,
+	"startLineNumber": 21,
+	"startColumn": 5,
+	"endLineNumber": 21,
+	"endColumn": 9,
+	"origin": "extHost1"
+},{
+	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
+	"owner": "pylance",
+	"code": {
+		"value": "reportOperatorIssue",
+		"target": {
+			"$mid": 1,
+			"path": "/microsoft/pylance-release/blob/main/docs/diagnostics/reportOperatorIssue.md",
+			"scheme": "https",
+			"authority": "github.com"
+		}
+	},
+	"severity": 8,
+	"message": "Operator \"-\" not supported for type \"Literal[')']\"",
+	"source": "Pylance",
+	"startLineNumber": 21,
+	"startColumn": 12,
+	"endLineNumber": 21,
+	"endColumn": 15,
+	"origin": "extHost1"
+},{
+	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
+	"owner": "pylance",
+	"severity": 8,
+	"message": "String literal is unterminated",
+	"source": "Pylance",
+	"startLineNumber": 21,
+	"startColumn": 13,
+	"endLineNumber": 21,
+	"endColumn": 15,
+	"origin": "extHost1"
+},{
+	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
+	"owner": "pylance",
+	"severity": 8,
+	"message": "Statements must be separated by newlines or semicolons",
+	"source": "Pylance",
+	"startLineNumber": 120,
+	"startColumn": 1,
+	"endLineNumber": 120,
+	"endColumn": 1,
 	"origin": "extHost1"
 }]
