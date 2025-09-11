@@ -7,9 +7,9 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtMultimedia import QSound
 from PyQt5.QtGui import QFont, QFontDatabase
-from PyQt5.QtCore import Qt
+from PyQt5 import QtCore
 # pip install qasync
-import qasync  
+import qasync
 
 class ChatApp(QWidget):
     def __init__(self):
@@ -32,7 +32,7 @@ class ChatApp(QWidget):
         # Chat area
         self.chat_area_layout = QVBoxLayout()
         self.chat_area_layout.setSpacing(5)
-        self.chat_area_layout.setAlignment(Qt.AlignTop)
+        self.chat_area_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
 
         scroll_widget = QWidget()
         scroll_widget.setLayout(self.chat_area_layout)
@@ -115,7 +115,9 @@ class ChatApp(QWidget):
         v_layout.addWidget(message_label)
 
         self.chat_area_layout.addWidget(frame)
-        self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
+        v_scroll_bar = self.scroll_area.verticalScrollBar()
+        if v_scroll_bar:
+            v_scroll_bar.setValue(v_scroll_bar.maximum())
 
         if direction == "outgoing":
             self.message_input.clear()
