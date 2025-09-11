@@ -8,5 +8,5 @@ service : {
   glue_get: (get: vec text) -> (text) query;
   glue_push: (push: vec text) -> (text);
   help: (line: nat) -> (text) query;
-  hwoisme: () -> (vec Conn) query;
+  hwoisme: () -> (Conn) query;
 }
