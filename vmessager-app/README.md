@@ -52,11 +52,14 @@ Aby uruchomić aplikację w trybie konsolowym, wykonaj polecenie:
 python "main copyConsole.py"
 ```
 
-## Struktura Projektu
+## Struktura Projektu i Sposób Działania
 
-- `maingui.py`: Główny plik aplikacji w wersji graficznej (PyQt5).
-- `main copyConsole.py`: Główny plik aplikacji w wersji konsolowej.
-- `ic_connector.py`: Moduł obsługujący całą logikę komunikacji z kanistrem `vmessage`.
-- `identity.pem`: Plik przechowujący Twoją unikalną, lokalną tożsamość w sieci.
-- `joystix.otf` / `sound.wav`: Zasoby wykorzystywane przez aplikację GUI.
-- `requirements.txt`: Lista zależności projektu.
+Prawidłowa komunikacja z kanistrami w projekcie opiera się na kilku kluczowych zasadach zaimplementowanych w `ic_connector.py`:
+
+1.  **Tożsamość**: Przy pierwszym uruchomieniu tworzony jest plik `identity.pem`, który przechowuje unikalny klucz. Przy kolejnych uruchomieniach jest on wczytywany, zapewniając stałą tożsamość w sieci.
+
+2.  **Agent i Konektor**: Po wczytaniu tożsamości, tworzona jest jedna, stała instancja `Agent` z biblioteki `ic-py`. Jest ona hermetyzowana w klasie `VMessageConnector`, która udostępnia proste metody (`send_message`, `check_messages`) i ukrywa złożoność komunikacji z siecią.
+
+3.  **Wywołania Query vs. Update**: Konektor automatycznie rozróżnia typy wywołań. Do odczytu danych (np. sprawdzanie wiadomości) używa szybkich wywołań `query_raw_async`, a do zapisu (wysyłanie wiadomości) wolniejszych, ale gwarantujących zapis `update_raw_async`.
+
+4.  **Kodowanie Danych (Candid)**: Wszystkie dane wysyłane do kanistra są odpowiednio formatowane zgodnie ze standardem Candid przy użyciu `ic.candid.encode` i `ic.candid.Types`.
