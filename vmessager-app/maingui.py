@@ -87,11 +87,11 @@ class ChatApp(QWidget):
         self.status_bar = QStatusBar()
         self.status_bar.setStyleSheet("color: #aaa;")
         my_principal = self.connector.get_my_principal()
-        self.status_bar.showMessage(f"Twój Principal: {my_principal[:15]}...")
+        self.status_bar.showMessage(f"Twój Principal: {my_principal}")
         layout.addWidget(self.status_bar)
 
         # Pierwsza wiadomość systemowa
-        self.add_message_bubble("System", "Witaj w V-Messenger. Automatyczne sprawdzanie wiadomości aktywne.", "system")
+        self.add_message_bubble("System", f"Witaj w V-Messenger. Automatyczne sprawdzanie wiadomości aktywne. \n Twój Principal: {my_principal}", "system")
 
     def get_color_from_text(self, text):
         hash_int = int(hashlib.md5(text.encode()).hexdigest()[:6], 16)
@@ -117,7 +117,7 @@ class ChatApp(QWidget):
         message_label = QLabel(message)
         message_label.setFont(self.custom_font)
         message_label.setWordWrap(True)
-        message_label.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        message_label.setTextInteractionFlags(QtCore.Qt.TextInteractionFlag.TextSelectableByMouse)
 
         if direction == "outgoing":
             bubble.setStyleSheet("background-color: #007acc; border-radius: 10px; padding: 8px;")
