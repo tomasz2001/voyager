@@ -1,85 +1,21 @@
 [{
-	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
-	"owner": "pylance",
-	"severity": 8,
-	"message": "\"(\" was not closed",
-	"source": "Pylance",
-	"startLineNumber": 20,
-	"startColumn": 10,
-	"endLineNumber": 20,
-	"endColumn": 11,
-	"origin": "extHost1"
-},{
-	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
-	"owner": "pylance",
-	"severity": 8,
-	"message": "String literal is unterminated",
-	"source": "Pylance",
-	"startLineNumber": 20,
-	"startColumn": 25,
-	"endLineNumber": 20,
-	"endColumn": 26,
-	"origin": "extHost1"
-},{
-	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
+	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/maingui.py",
 	"owner": "pylance",
 	"code": {
-		"value": "reportUndefinedVariable",
+		"value": "reportAttributeAccessIssue",
 		"target": {
 			"$mid": 1,
-			"path": "/microsoft/pylance-release/blob/main/docs/diagnostics/reportUndefinedVariable.md",
+			"path": "/microsoft/pylance-release/blob/main/docs/diagnostics/reportAttributeAccessIssue.md",
 			"scheme": "https",
 			"authority": "github.com"
 		}
 	},
 	"severity": 8,
-	"message": "\"MENU\" is not defined",
-	"source": "Pylance",
-	"startLineNumber": 21,
-	"startColumn": 5,
-	"endLineNumber": 21,
-	"endColumn": 9,
-	"origin": "extHost1"
-},{
-	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
-	"owner": "pylance",
-	"code": {
-		"value": "reportOperatorIssue",
-		"target": {
-			"$mid": 1,
-			"path": "/microsoft/pylance-release/blob/main/docs/diagnostics/reportOperatorIssue.md",
-			"scheme": "https",
-			"authority": "github.com"
-		}
-	},
-	"severity": 8,
-	"message": "Operator \"-\" not supported for type \"Literal[')']\"",
-	"source": "Pylance",
-	"startLineNumber": 21,
-	"startColumn": 12,
-	"endLineNumber": 21,
-	"endColumn": 15,
-	"origin": "extHost1"
-},{
-	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
-	"owner": "pylance",
-	"severity": 8,
-	"message": "String literal is unterminated",
-	"source": "Pylance",
-	"startLineNumber": 21,
-	"startColumn": 13,
-	"endLineNumber": 21,
-	"endColumn": 15,
-	"origin": "extHost1"
-},{
-	"resource": "/G:/Dokumenty/Projekty/GEMINICLI/Internet Computer/voyager/vmessager-app/main.py",
-	"owner": "pylance",
-	"severity": 8,
-	"message": "Statements must be separated by newlines or semicolons",
+	"message": "Cannot access attribute \"TextSelectableByMouse\" for class \"type[Qt]\"\n  Attribute \"TextSelectableByMouse\" is unknown",
 	"source": "Pylance",
 	"startLineNumber": 120,
-	"startColumn": 1,
+	"startColumn": 57,
 	"endLineNumber": 120,
-	"endColumn": 1,
+	"endColumn": 78,
 	"origin": "extHost1"
 }]

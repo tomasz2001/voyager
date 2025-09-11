@@ -1,2 +1,4 @@
 ic-py
 colorama
+PyQt5
+qasync
