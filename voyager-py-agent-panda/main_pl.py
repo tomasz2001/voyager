@@ -305,8 +305,6 @@ async def monitor():
     else:
         print("komenda nie obsługiwana")
 
-    
-
 
 if __name__ == '__main__':
     print("")
