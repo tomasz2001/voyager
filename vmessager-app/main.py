@@ -20,12 +20,14 @@ import os
 
 canisterId = "bkxiq-haaaa-aaaad-abo5q-cai"
 identity_file = "identity.pem"
+vms_repete = "welcome to vmessager please say to me to be more help"
 me = ""
 if os.path.exists(identity_file):
     with open(identity_file, "r") as f:
         private_key_pem = f.read().strip()
 else:
     private_key_pem = ""
+
 
 def generate_new_identity():
     private_key = ed25519.Ed25519PrivateKey.generate()
@@ -38,12 +40,14 @@ def generate_new_identity():
         f.write(pem_pkcs8)
     return pem_pkcs8
 
+
 def load_identity_from_pem(pem_data):
     global private_key_pem
     if not pem_data or not pem_data.startswith("-----BEGIN PRIVATE KEY-----"):
         pem_data = generate_new_identity()
         private_key_pem = pem_data.strip()
     return Identity.from_pem(pem_data)
+
 
 async def icpcon(metode, items=None):
     client = Client(url='https://ic0.app')
@@ -65,6 +69,14 @@ async def icpcon(metode, items=None):
         print(f'ICP error: {e}')
         return None
 
+
+# Funkcja do skracania ID dla wyświetlania
+def shorten_id(id_str, start=6, end=6):
+    if len(id_str) <= start + end:
+        return id_str
+    return f"{id_str[:start]}...{id_str[-end:]}"
+
+
 class ChatApp(QWidget):
     def __init__(self):
         super().__init__()
@@ -73,7 +85,7 @@ class ChatApp(QWidget):
         self.resize(600, 500)
 
         # Font zmniejszony o 40%
-        font_id = QFontDatabase.addApplicationFont("joystix.otf")
+        font_id = QFontDatabase.addApplicationFont("font.ttf")
         if font_id != -1:
             font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
             self.custom_font = QFont(font_family, int(10 * 0.6))
@@ -98,10 +110,13 @@ class ChatApp(QWidget):
         layout.addWidget(self.scroll_area)
 
         # Input fields
-        self.me = "" 
-        self.sender_label = QLabel("YOU-ID: " + self.me)
+        self.me = ""
+        self.sender_label = QLabel("YOU-ID: " + shorten_id(self.me))
         self.sender_label.setFont(self.custom_font)
         layout.addWidget(self.sender_label)
+
+        # kliknięcie w moje ID → kopiowanie do schowka
+        self.sender_label.mousePressEvent = self.copy_my_id_to_clipboard
 
         self.external_sender_input = QLineEdit()
         self.external_sender_input.setPlaceholderText("ID-TARGET")
@@ -115,14 +130,21 @@ class ChatApp(QWidget):
         self.message_input.setFont(self.custom_font)
         layout.addWidget(self.message_input)
 
-        self.send_button = QPushButton("Wyślij")
-        self.send_button.setStyleSheet("background-color: black; color: white; border: 1px solid white;")
+        self.send_button = QPushButton("SAY")
+        self.send_button.setStyleSheet("background-color: black; color: white; border: 1px solid white; padding: 17px;")
         self.send_button.setFont(self.custom_font)
         self.send_button.clicked.connect(lambda: asyncio.create_task(self.send_message()))
         layout.addWidget(self.send_button)
+
     def update_me_label(self, new_me):
         self.me = new_me
-        self.sender_label.setText("YOU-ID: " + str(self.me))
+        self.sender_label.setText("YOU-ID: " + shorten_id(str(self.me)))
+
+    def copy_my_id_to_clipboard(self, event):
+        clipboard = QApplication.clipboard()
+        clipboard.setText(self.me)
+        print(f"[INFO] Skopiowano ID do schowka: {self.me}")
+
     # Kolor nadawcy
     def get_color_from_text(self, text):
         hash_int = int(hashlib.md5(text.encode()).hexdigest()[:6], 16)
@@ -137,12 +159,19 @@ class ChatApp(QWidget):
         message = message_override if message_override else self.message_input.toPlainText().strip()
         if not message:
             return
+        if(sender == "vms"):
+            self._show_message(sender, message, direction="outgoing")
+            info = await vms_boot(message)
+            self._show_message(sender, info, direction="incoming")
+        else:
+            value = await icpcon("gluePUSH", ["say", sender, message])
+            print(f"[SEND] {sender}: {message}")
+            if value != "ok":
+                message = "error: " + value
 
-        await asyncio.sleep(0)
-        print(f"[SEND] {sender}: {message}")
-        self._show_message(sender, message, direction="outgoing")
-        self.message_input.clear()
-        self.external_sender_input.clear()
+            self._show_message(sender, message, direction="outgoing")
+            self.message_input.clear()
+            self.external_sender_input.clear()
 
     # ASYNC odbieranie
     async def receive_message(self, sender, message):
@@ -164,6 +193,9 @@ class ChatApp(QWidget):
         bubble.setLayout(v_layout)
         bubble.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
 
+        max_bubble_width = int(self.width() * 0.9)  # max 70% szerokości okna
+        bubble.setMaximumWidth(max_bubble_width)
+
         if direction == "outgoing":
             bubble.setStyleSheet("background-color: #222; border-radius: 5px; padding: 5px;")
             h_layout.addStretch()
@@ -173,30 +205,39 @@ class ChatApp(QWidget):
             h_layout.addWidget(bubble)
             h_layout.addStretch()
 
-        # Kliknięcie nadawcy wkleja go do pola odbiorcy
-        sender_label = QLabel(sender)
+        sender_label = QLabel(shorten_id(sender))
         sender_label.setFont(self.custom_font)
         sender_label.setStyleSheet(f"color: {color}; font-weight: bold;")
+        sender_label.setWordWrap(True)
         sender_label.mousePressEvent = lambda event, s=sender: self.external_sender_input.setText(s)
         v_layout.addWidget(sender_label)
 
-        message_label = QLabel(message)
+    # Wiadomość z automatycznym łamaniem nawet długich ciągów
+        message_label = QLabel()
         message_label.setFont(self.custom_font)
-        message_label.setStyleSheet("color: white;" if direction == "outgoing" else "color: #FFFF88;")
+        message_label.setTextInteractionFlags(Qt.TextSelectableByMouse)  # umożliwia kopiowanie
         message_label.setWordWrap(True)
+        message_label.setMaximumWidth(max_bubble_width)
+        # HTML + word-break: break-all dla bardzo długich ciągów
+        message_label.setText(f'<div style="color: {"white" if direction=="outgoing" else "white"}; word-break: break-all;">{message}</div>')
+
         v_layout.addWidget(message_label)
 
         self.chat_area_layout.addWidget(frame)
         self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
 
+
 # ASYNC BOT LOOP
 async def bot_loop(window: ChatApp):
-    global me
+    global vms_repete
+    if(vms_repete != ""):
+        await window.receive_message("vms", vms_repete)
+        vms_repete = ""
     while True:
         await asyncio.sleep(1)
         me_value = await icpcon("glue", ["me"])
         if me_value:
-            window.update_me_label(me_value) 
+            window.update_me_label(me_value)
         qwery = ["watch"]
         value = await icpcon("glue", qwery)
         if value == "PUSH":
@@ -205,6 +246,25 @@ async def bot_loop(window: ChatApp):
             from_value = parts[0].replace("--from--", "").strip()
             message_value = parts[1].strip()
             await window.receive_message(from_value, message_value)
+
+async def vms_boot(message):
+    global canisterId, vms_repete
+    if(message == "mlem"):
+        return "mlem"
+    elif(message == "info"):
+        return """VMESSAGER V0.8 - Multi-Canister Messaging Application
+
+This is an application operating within the Voyager ecosystem, where anyone can run their own nodes and set their own rules. 
+It represents a new approach to decentralization in the on-chain ecosystem.
+
+Learn more about the Voyager project on GitHub:
+https://github.com/tomasz2001/voyager
+To see available bot commands, type: help """
+    else:
+        return "escusme what"
+
+    
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
