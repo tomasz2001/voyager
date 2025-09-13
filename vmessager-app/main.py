@@ -19,7 +19,7 @@ from cryptography.hazmat.primitives.asymmetric import ed25519
 import os
 
 canisterId = "bkxiq-haaaa-aaaad-abo5q-cai"
-identity_file = "identity.pem"
+identity_file = "backpack/identity.pem"
 vms_repete = "welcome to vmessager please say to me to be more help"
 me = ""
 if os.path.exists(identity_file):
@@ -85,7 +85,7 @@ class ChatApp(QWidget):
         self.resize(600, 500)
 
         # Font zmniejszony o 40%
-        font_id = QFontDatabase.addApplicationFont("font.ttf")
+        font_id = QFontDatabase.addApplicationFont("backpack/font.ttf")
         if font_id != -1:
             font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
             self.custom_font = QFont(font_family, int(10 * 0.6))
@@ -176,7 +176,7 @@ class ChatApp(QWidget):
     # ASYNC odbieranie
     async def receive_message(self, sender, message):
         self._show_message(sender, message, direction="incoming")
-        QSound.play("sound.wav")
+        QSound.play("backpack/sound.wav")
         print(f"[RECEIVE] {sender}: {message}")
 
     # Wyświetlanie
@@ -260,8 +260,25 @@ It represents a new approach to decentralization in the on-chain ecosystem.
 Learn more about the Voyager project on GitHub:
 https://github.com/tomasz2001/voyager
 To see available bot commands, type: help """
+    elif(message == "help"):
+        return""" get-mlem: 
+        [mlem]
+        more info: 
+        [info]
+        get new canister target: 
+        [target]/z[caniter-id] 
+        get help: [help]
+        """
+
+    elif message.startswith("target"):
+        parts = message.split("/")
+        print(parts)
+        canisterId = parts[1]
+        return("now target: " + parts[1])
     else:
-        return "escusme what"
+
+        return "escusme what try help"
+    
 
     
 
