@@ -278,9 +278,6 @@ To see available bot commands, type: help """
     else:
 
         return "escusme what try help"
-    
-
-    
 
 
 if __name__ == "__main__":

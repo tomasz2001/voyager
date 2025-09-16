@@ -19,9 +19,8 @@ actor {
     conn: Text;
     title: Text;
     conector: [Text];
-    
   };
-
+  
   public query func hwoisme() : async Conn{
        return {
         conn = "bkxiq-haaaa-aaaad-abo5q-cai";
@@ -143,3 +142,5 @@ actor {
     };
     
   };
+
+};
