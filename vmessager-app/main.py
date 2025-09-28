@@ -18,10 +18,16 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 import os
 
+
+canisters = ["bkxiq-haaaa-aaaad-abo5q-cai", "e6lpp-6iaaa-aaaaa-qajnq-cai"]
 canisterId = "bkxiq-haaaa-aaaad-abo5q-cai"
 identity_file = "backpack/identity.pem"
+
+
 vms_repete = "welcome to vmessager please say to me to be more help"
 me = ""
+
+
 if os.path.exists(identity_file):
     with open(identity_file, "r") as f:
         private_key_pem = f.read().strip()
@@ -49,19 +55,19 @@ def load_identity_from_pem(pem_data):
     return Identity.from_pem(pem_data)
 
 
-async def icpcon(metode, items=None):
+async def icpcon(metode, items=None, canister=canisterId):
     client = Client(url='https://ic0.app')
     identity = load_identity_from_pem(private_key_pem)
     agent = Agent(identity, client)
     try:
         if metode == 'glue':
             param_glue = [{'type': Types.Vec(Types.Text), 'value': items}]
-            result = await agent.query_raw_async(canisterId, "glue_get", encode(param_glue))
+            result = await agent.query_raw_async(canister, "glue_get", encode(param_glue))
             if isinstance(result, list) and len(result) > 0 and 'value' in result[0]:
                 return result[0]['value']
         if metode == 'gluePUSH':
             param_glue = [{'type': Types.Vec(Types.Text), 'value': items}]
-            result = await agent.update_raw_async(canisterId, "glue_push", encode(param_glue))
+            result = await agent.update_raw_async(canister, "glue_push", encode(param_glue))
             if isinstance(result, list) and len(result) > 0 and 'value' in result[0]:
                 return result[0]['value']
         return None
@@ -159,28 +165,31 @@ class ChatApp(QWidget):
         message = message_override if message_override else self.message_input.toPlainText().strip()
         if not message:
             return
-        if(sender == "vms"):
-            self._show_message(sender, message, direction="outgoing")
+        if(sender == "local_bot/vms"):
+            self._show_message(sender, message, "local_bot", direction="outgoing")
             info = await vms_boot(message)
-            self._show_message(sender, info, direction="incoming")
+            self._show_message(sender, info, "local_bot", direction="incoming")
         else:
-            value = await icpcon("gluePUSH", ["say", sender, message])
+            parts = sender.split("/")
+            value = await icpcon("gluePUSH", ["say", parts[1], message], parts[0])
             print(f"[SEND] {sender}: {message}")
             if value != "ok":
                 message = "error: " + value
 
-            self._show_message(sender, message, direction="outgoing")
+            self._show_message(sender, message, parts[0], direction="outgoing")
             self.message_input.clear()
             self.external_sender_input.clear()
 
     # ASYNC odbieranie
-    async def receive_message(self, sender, message):
-        self._show_message(sender, message, direction="incoming")
+    async def receive_message(self, sender, message, canistere):
+        self._show_message(sender, message, canistere, direction="incoming")
         QSound.play("backpack/sound.wav")
         print(f"[RECEIVE] {sender}: {message}")
 
     # Wyświetlanie
-    def _show_message(self, sender, message, direction):
+    def _show_message(self, sender, message, canister, direction ):
+        global canisterId
+        canister_target = canister
         color = self.get_color_from_text(sender)
 
         frame = QFrame()
@@ -193,7 +202,7 @@ class ChatApp(QWidget):
         bubble.setLayout(v_layout)
         bubble.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        max_bubble_width = int(self.width() * 0.9)  # max 70% szerokości okna
+        max_bubble_width = int(self.width() * 0.9) 
         bubble.setMaximumWidth(max_bubble_width)
 
         if direction == "outgoing":
@@ -209,7 +218,7 @@ class ChatApp(QWidget):
         sender_label.setFont(self.custom_font)
         sender_label.setStyleSheet(f"color: {color}; font-weight: bold;")
         sender_label.setWordWrap(True)
-        sender_label.mousePressEvent = lambda event, s=sender: self.external_sender_input.setText(s)
+        sender_label.mousePressEvent = lambda event, s=canister_target+"/"+sender: self.external_sender_input.setText(s)
         v_layout.addWidget(sender_label)
 
     # Wiadomość z automatycznym łamaniem nawet długich ciągów
@@ -218,10 +227,16 @@ class ChatApp(QWidget):
         message_label.setTextInteractionFlags(Qt.TextSelectableByMouse)  # umożliwia kopiowanie
         message_label.setWordWrap(True)
         message_label.setMaximumWidth(max_bubble_width)
-        # HTML + word-break: break-all dla bardzo długich ciągów
+    # HTML + word-break: break-all dla bardzo długich ciągów
         message_label.setText(f'<div style="color: {"white" if direction=="outgoing" else "white"}; word-break: break-all;">{message}</div>')
-
+        
+        canister_label = QLabel(f"{canister_target}")
+        canister_label.setFont(self.custom_font)
+        canister_label.setStyleSheet("color: gray; font-size: 9px;")
+        canister_label.setWordWrap(True)
         v_layout.addWidget(message_label)
+
+        v_layout.addWidget(canister_label)
 
         self.chat_area_layout.addWidget(frame)
         self.scroll_area.verticalScrollBar().setValue(self.scroll_area.verticalScrollBar().maximum())
@@ -229,26 +244,37 @@ class ChatApp(QWidget):
 
 # ASYNC BOT LOOP
 async def bot_loop(window: ChatApp):
-    global vms_repete
+    global vms_repete, canisterId, canisters
     if(vms_repete != ""):
-        await window.receive_message("vms", vms_repete)
+        await window.receive_message("vms", vms_repete, "local_bot")
         vms_repete = ""
     while True:
         await asyncio.sleep(1)
-        me_value = await icpcon("glue", ["me"])
-        if me_value:
-            window.update_me_label(me_value)
-        qwery = ["watch"]
-        value = await icpcon("glue", qwery)
-        if value == "PUSH":
-            value = await icpcon("gluePUSH", qwery)
-            parts = value.split("--mesage--")
-            from_value = parts[0].replace("--from--", "").strip()
-            message_value = parts[1].strip()
-            await window.receive_message(from_value, message_value)
+        for canister in canisters:
+            canisterId = canister
+            print(canisterId)
+            me_value = await icpcon("glue", ["me"])
+            if me_value:
+                window.update_me_label(me_value)
+            qwery = ["watch"]
+            value = await icpcon("glue", qwery, canister)
+            try:
+                if value == "PUSH":
+                    value = await icpcon("gluePUSH", qwery, canister)
+                    print(value)
+                    parts = value.split("--mesage--")
+                    print(parts)
+                    from_value = parts[0].replace("--from--", "").strip()
+                    message_value = parts[1].strip()
+                
+                    await window.receive_message(from_value, message_value, canister)
+                    parts = None
+                    value = None
+            except:
+                print("try read error")
 
 async def vms_boot(message):
-    global canisterId, vms_repete
+    global canisterId, vms_repete, canisters
     if(message == "mlem"):
         return "mlem"
     elif(message == "info"):
@@ -273,7 +299,8 @@ To see available bot commands, type: help """
     elif message.startswith("target"):
         parts = message.split("/")
         print(parts)
-        canisterId = parts[1]
+        canisters.append(parts[1])
+        print(canisters)
         return("now target: " + parts[1])
     else:
 
