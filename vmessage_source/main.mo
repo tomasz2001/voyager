@@ -22,12 +22,17 @@ persistent actor {
     title: Text;
     conector: [Text];
   };
+
+  type prompt_cube = {
+      context: Text;
+      input_map: Text;
+  };
   
   public query func hwoisme() : async Conn{
        return {
         conn = "bkxiq-haaaa-aaaad-abo5q-cai";
         title = "this si V-MESSAGE welcome to first messenger on the Voyager system";
-        conector = ["glue", "chip", "help"];
+        conector = ["glue", "chip", "help", "prompt_cube"];
        };
   };
 
@@ -134,6 +139,30 @@ persistent actor {
 
     };
     
+
+  };
+
+  public query func prompt_cube_list() : async Text{
+    return "say_message/glue/take_message/glue ";
+  };
+  public query func prompt_cube_query(value : Text) : async prompt_cube{
+    var repete = {
+     context = "NULL";
+     input_map = "NULL";
+    };
+    if(value == "say_message"){
+     repete := {
+     context = "Send a text message to another user in the Vmessage system. If the recipient's inbox is occupied, the message will be rejected.";
+     input_map = "Recipient Principal/text/Message text/text";
+     };
+    };
+    if(value == "take_message"){
+     repete := {
+     context = "Retrieve and delete a message from your inbox. Returns the sender and message content.";
+     input_map = "none";
+     };
+    };
+    return repete;
   };
 
 };
