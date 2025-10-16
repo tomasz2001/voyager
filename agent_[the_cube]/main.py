@@ -2,23 +2,28 @@ import ollama
 
 system_prompt = """
 You are a literal assistant.
-Follow all instructions exactly.
-Do not explain or comment.
-Return only the exact literal outputs requested.
+You extract only the value requested.
+Do not add, merge, explain, or include extra context.
+Return only the exact string that matches the field specification.
 """
 
-def call_model_batch(prompts, model="obedient:latest"):
-    joined = "\n".join(f"Task {i+1}: {p}" for i, p in enumerate(prompts))
-    messages = [{"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"Perform all of these tasks:\n{joined}"}]
+def call_model_single_task(prompts, model="obedient:latest"):
+    combined_prompt = "\n".join(prompts)
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": combined_prompt}
+    ]
     res = ollama.chat(model=model, messages=messages)
     return res["message"]["content"].strip()
 
 if __name__ == "__main__":
     prompts = [
-        "Write B",
-        "Now write A",
-        "Join both letters together",
+        "Opis: Send a text message to another user in the Vmessage system. If the recipient's inbox is occupied, the message will be rejected.",
+        "Pole do wypełnienia: Recipient-Principal/text",
+        "Polecenie użytkownika: Napisz mojemu znajomemu Stefanowi — jesteś pan menda. jego principal to a 2222-4444-6644-2211",
+        "Zwróć wyłącznie numer principal z treści. Nie dodawaj imienia, słów, prefiksu 'a' ani wiadomości. Odpowiedź powinna wyglądać jak: 2222-4444-6644-2211"
     ]
-    print("=== Batch Agent ===\n")
-    print(call_model_batch(prompts, model="obedient:latest"))
+
+    print("=== Literal One-Task Agent ===\n")
+    output = call_model_single_task(prompts, model="obedient:latest")
+    print(output)
