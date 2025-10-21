@@ -6,9 +6,9 @@ import Nat "mo:base/Nat";
 
 // every one here is chaos plesse dont reat wait to new update 
 
-actor {
+persistent actor {
 
-  var table = Buffer.Buffer<Post>(15);
+  transient var table = Buffer.Buffer<Post>(15);
 
   type Post = {
    nick: Text;
