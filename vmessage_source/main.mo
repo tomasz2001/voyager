@@ -23,9 +23,10 @@ persistent actor {
     conector: [Text];
   };
 
-  type prompt_cube = {
+  type Prompt_cube = {
       context: Text;
       input_map: Text;
+      output_map: Text;
   };
   
   public query func hwoisme() : async Conn{
@@ -145,7 +146,7 @@ persistent actor {
   public query func prompt_cube_list() : async Text{
     return "say_message/glue/take_message/glue ";
   };
-  public query func prompt_cube_query(value : Text) : async prompt_cube{
+  public query func prompt_cube_query(value : Text) : async Prompt_cube{
     var repete = {
      context = "NULL";
      input_map = "NULL";
@@ -153,13 +154,15 @@ persistent actor {
     if(value == "say_message"){
      repete := {
      context = "Send a text message to another user in the Vmessage system. If the recipient's inbox is occupied, the message will be rejected.";
-     input_map = "Recipient Principal/text/Message text/text";
+     input_map = "Principal/text/Message_text/text";
+     output_map = "If the response is OK, the message has been delivered to the address, if it is not OK, the reason for the problem can be found in this response"
      };
     };
     if(value == "take_message"){
      repete := {
      context = "Retrieve and delete a message from your inbox. Returns the sender and message content.";
      input_map = "none";
+     output_map = "there are replies with the sender's ID and the message itself, but if the message equal to mail_empty appears, it means that the message has not arrived yet"
      };
     };
     return repete;
