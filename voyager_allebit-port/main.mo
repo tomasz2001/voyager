@@ -6,7 +6,7 @@ import Time "mo:base/Time";
 import Ledger "Ledger";
 import Principal "mo:base/Principal";
 import Blob "mo:base/Blob";
-import File "file";
+
 
 actor {
 
