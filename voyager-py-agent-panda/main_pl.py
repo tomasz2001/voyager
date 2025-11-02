@@ -7,7 +7,7 @@ from ic.candid import encode, Types
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.hazmat.backends import default_backend
-
+from v_file import upload_file, download_file
 # import serial
 import subprocess
 import os
@@ -241,6 +241,23 @@ async def monitor():
     elif(command == "target"):
         print("")
         canisterId = input("wpisz canister usługi z n/ którą chcesz rozmawiać: ")
+    elif(command == "file"):
+        try:
+            print("")
+            get = input("upload lub download: ")
+            if(get == "upload"):
+                up1 = input("ścieszka do pliku : ")
+                up2 = input("dodaj opis pliku  : ")
+                await upload_file(canisterId, up1, up2)
+
+            elif(get == "download"):
+                do1 = input("podaj index pliku : ")
+                await download_file(canisterId, do1)
+
+            else:
+                print("nie znana komenda [file]")
+        except:
+            print("moduł file napotkał problem w działaniu")
 
     elif(command == "hwoisme"):
         print("")
