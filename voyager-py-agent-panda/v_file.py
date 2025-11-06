@@ -128,7 +128,6 @@ async def download_file(canister_id: str, pin_index: int, save_dir: str = "./dow
         print("[ERROR] Nie udało się pobrać metadanych pliku.")
         return None
 
-    # 🔹 Klucze są zhashowane, więc bierzemy po kolejności
     values = list(pin.values())
     file_name = values[0]
     chunk_ids = values[1]
@@ -154,3 +153,40 @@ async def download_file(canister_id: str, pin_index: int, save_dir: str = "./dow
 
     print(f"[OK] Zapisano plik: {save_path} ({round(len(all_data)/1024/1024,2)} MB)")
     return save_path
+
+
+async def check_file(canister_id: str, pin_index: int):
+    identity = load_identity()
+    client = Client(url=IC_URL)
+    agent = Agent(identity, client)
+
+    param = [{"type": Types.Nat, "value": int(pin_index)}]
+    pin = await ic_query(agent, canister_id, "query_pin", param)
+
+    if not pin or not isinstance(pin, dict):
+        print("[ERROR] Nie udało się pobrać metadanych pliku.")
+        return None
+
+    values = list(pin.values())
+    if len(values) < 3:
+        print("[ERROR] Zbyt mało danych w pin.")
+        return None
+
+    file_name = values[0]
+    chunk_ids = values[1]
+    file_note = values[2]
+    if(file_name == "ERROR"):
+        raport = f"file index = {pin_index} is not exist"
+        print(raport)
+        return raport
+
+    
+    raport = f"""
+    file name = {file_name}
+    file note = {file_note}
+
+    file index  =  {pin_index}
+    file chunk size =  {len(chunk_ids)}
+    """
+    print(raport)
+    return raport

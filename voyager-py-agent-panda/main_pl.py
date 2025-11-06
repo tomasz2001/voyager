@@ -7,7 +7,7 @@ from ic.candid import encode, Types
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.hazmat.backends import default_backend
-from v_file import upload_file, download_file
+from v_file import upload_file, download_file, check_file
 # import serial
 import subprocess
 import os
@@ -79,13 +79,6 @@ async def icpcon(metode, item1=None, item2=None, item3=None, item4=None, item5=N
     agent = Agent(identity, client)    
     
     try:
-
-
-
-        if metode == 'file_one':
-            param_file = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
-            result = await agent.query_raw_async(canisterId, "file_one", encode(param_file))
-            
 
 
         if metode == 'glue':
@@ -244,7 +237,12 @@ async def monitor():
     elif(command == "file"):
         try:
             print("")
-            get = input("upload lub download: ")
+            get = input(""" komendy file
+
+            upload : prześli plik
+            download : pobierz plik
+            check : sprawdzi plik w canistrze
+            """)
             if(get == "upload"):
                 up1 = input("ścieszka do pliku : ")
                 up2 = input("dodaj opis pliku  : ")
@@ -254,6 +252,10 @@ async def monitor():
                 do1 = input("podaj index pliku : ")
                 await download_file(canisterId, do1)
 
+            elif(get == "check"):
+                do1 = input("podaj index pliku : ")
+                await check_file(canisterId, do1)
+                
             else:
                 print("nie znana komenda [file]")
         except:
@@ -309,15 +311,12 @@ async def monitor():
             print("help: skorzystaj z pomocy")
             print("getbox: spytaj databox o inne databoxy")
             print("getapp: spytaj databox o aplikacje")
-            print
+            print("file: pobierz lub prześli plik")
         else:
             line = input("podaj strone pomocy tej usługi")
             raport = await icpcon("help", line)
             print(raport)
             print("")
-    elif(command == "fileone"):
-        print("fukcja fileone jest nadal w budowie")
-        print("dzienkujemy za skorzystanie z usług panda_voyager_agnet")
 
     else:
         print("komenda nie obsługiwana")
@@ -333,3 +332,4 @@ if __name__ == '__main__':
     print("")
     while True:
        asyncio.run(monitor())
+# agent-panda 1.1 file,s edition

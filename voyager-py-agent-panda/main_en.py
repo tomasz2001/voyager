@@ -7,7 +7,8 @@ from ic.candid import encode, Types
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.hazmat.backends import default_backend
-
+from v_file import upload_file, download_file, check_file
+# import serial
 import subprocess
 import os
 import signal
@@ -20,7 +21,6 @@ if os.path.exists(identity_file):
         private_key_pem = f.read().strip()
 else:
     private_key_pem = ""
-
 
 # Function to generate a new identity
 def generate_new_identity():
@@ -39,8 +39,7 @@ def generate_new_identity():
         print(f"Identity generation error: {e}", flush=True)
         return None
 
-
-# Function to load identity from PEM data
+# Function to load identity
 def load_identity_from_pem(pem_data):
     global private_key_pem
     try:
@@ -59,28 +58,26 @@ def load_identity_from_pem(pem_data):
 
 
 er_data = False
+
+
 canisterId = 'p2137-cai'
 glue_array = []
 
 received_conn = ""
 received_title = ""
-received_connector = []
+received_conector = []
 
 binfile = []
 
-
 async def icpcon(method, item1=None, item2=None, item3=None, item4=None, item5=None, item6=None, item7=None):
-    global er_data, received_conn, received_title, received_connector
-
+    global er_data, received_conn, received_title, received_conector
+   
     ic_url = 'https://ic0.app'
     client = Client(url=ic_url)
     identity = load_identity_from_pem(private_key_pem)
-    agent = Agent(identity, client)
-
+    agent = Agent(identity, client)    
+    
     try:
-        if method == 'file_one':
-            param_file = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
-            result = await agent.query_raw_async(canisterId, "file_one", encode(param_file))
 
         if method == 'glue':
             param_glue = [{'type': Types.Vec(Types.Text), 'value': glue_array}]
@@ -89,12 +86,13 @@ async def icpcon(method, item1=None, item2=None, item3=None, item4=None, item5=N
             if isinstance(result, list) and len(result) > 0:
                 first_element = result[0]
                 if isinstance(first_element, dict) and 'value' in first_element:
-                    return first_element['value']
+                    result_nice = first_element['value']
+                    return result_nice
                 else:
-                    print("Data error")
+                    print("data error")
                     return None
             else:
-                print("Data error")
+                print("data error")
                 return None
 
         if method == 'gluePUSH':
@@ -104,12 +102,13 @@ async def icpcon(method, item1=None, item2=None, item3=None, item4=None, item5=N
             if isinstance(result, list) and len(result) > 0:
                 first_element = result[0]
                 if isinstance(first_element, dict) and 'value' in first_element:
-                    return first_element['value']
+                    result_nice = first_element['value']
+                    return result_nice
                 else:
-                    print("Data error")
+                    print("data error")
                     return None
             else:
-                print("Data error")
+                print("data error")
                 return None
 
         if method == 'help':
@@ -119,15 +118,17 @@ async def icpcon(method, item1=None, item2=None, item3=None, item4=None, item5=N
             if isinstance(result, list) and len(result) > 0:
                 first_element = result[0]
                 if isinstance(first_element, dict) and 'value' in first_element:
-                    return first_element['value']
+                    result_nice = first_element['value']
+                    return result_nice
                 else:
-                    print("Data error")
+                    print("data error")
                     return None
             else:
-                print("Data error")
+                print("data error")
                 return None
+        
 
-        if method in ('hwoisme', 'getapp', 'getbox'):
+        if method in ['hwoisme', 'getapp', 'getbox']:
             if method == 'getapp':
                 param_query = [{'type': Types.Nat, 'value': int(item1)}]
                 result = await agent.query_raw_async(canisterId, "conn_one", encode(param_query))
@@ -135,40 +136,45 @@ async def icpcon(method, item1=None, item2=None, item3=None, item4=None, item5=N
                 param_query = [{'type': Types.Nat, 'value': int(item1)}]
                 result = await agent.query_raw_async(canisterId, "frend_one", encode(param_query))
             else:
-                result = await agent.query_raw_async(canisterId, "hwoisme", encode([]))
+                param_query = []
+                result = await agent.query_raw_async(canisterId, "hwoisme", encode(param_query))
 
             if isinstance(result, list) and len(result) > 0:
                 first_element = result[0]
+                
                 if isinstance(first_element, dict) and 'value' in first_element:
                     conn_data = first_element['value']
+                    
                     if isinstance(conn_data, dict):
+                        global received_conn, received_title, received_conector
                         values = list(conn_data.values())
+
                         if len(values) >= 3:
                             received_title = str(values[0]) if isinstance(values[0], str) else ''
                             received_conn = str(values[1]) if isinstance(values[1], str) else ''
-                            received_connector = values[2] if isinstance(values[2], list) else []
+                            received_conector = values[2] if isinstance(values[2], list) else []
                         else:
                             return False
+                        
                         return True
+
             return None
 
         return None
     except Exception as e:
-        print(f'Error: {e}')
+        print(f'Error: {e} ')
         er_data = True
         return None
 
-
 async def monitor():
-    global canisterId, received_conn, received_title, received_connector
-    command = input("Command ready: ")
-
-    if command == "glue":
+    global canisterId, received_conn, received_title, received_conector
+    command = input("command ready: ")
+    if(command == "glue"):
         glue_array.clear()
-        print("Enter data for the array, pressing Enter after each line.")
+        print("Enter data into the array, confirming each line with Enter.")
         print("When finished, type '@push' to send the array.")
-        print("If you don't want to send, type '@break'.\n")
-
+        print("If you don't want to send, type '@break'.")
+        print("")
         while True:
             user_input = input("> ")
             if user_input.strip().lower() == "@push":
@@ -177,77 +183,120 @@ async def monitor():
                 glue_array.clear()
                 break
             glue_array.append(user_input)
-
+            
         if user_input == "@break":
-            report = "Glue process was cancelled and not sent."
+            report = "Glue was broken and not sent."
         else:
             report = await icpcon("glue", glue_array)
-
-        if report == "PUSH":
+            print("")
+        
+        if(report == "PUSH"):
             report = await icpcon("gluePUSH", glue_array)
             print(report)
+            print("")
         else:
             print(report)
+            print("")
 
-    elif command == "target":
-        canisterId = input("Enter the canister ID you want to interact with: ")
+    elif(command == "target"):
+        print("")
+        canisterId = input("enter canister ID you want to talk to: ")
+    elif(command == "file"):
+        try:
+            print("")
+            get = input(""" file commands
 
-    elif command == "hwoisme":
+            upload : upload file
+            download : download file
+            check : check file in canister
+            """)
+            if(get == "upload"):
+                up1 = input("file path : ")
+                up2 = input("add file description : ")
+                await upload_file(canisterId, up1, up2)
+
+            elif(get == "download"):
+                do1 = input("enter file index : ")
+                await download_file(canisterId, do1)
+
+            elif(get == "check"):
+                do1 = input("enter file index : ")
+                await check_file(canisterId, do1)
+                
+            else:
+                print("unknown [file] command")
+        except:
+            print("file module encountered a problem")
+
+    elif(command == "hwoisme"):
+        print("")
         report = await icpcon("hwoisme")
-        if report is True:
+        if report == True:
             print("Conn data successfully received:")
             print(f"received_conn: {received_conn}")
-            print(f"received_title: {received_title}")
-            print(f"received_connector: {received_connector}")
+            print(f"received_title: {received_title}")  
+            print(f"received_conector: {received_conector}")
         else:
             print("Failed to receive Conn data")
+            print("")
 
-    elif command == "getapp":
-        idx = input("Enter index: ")
-        report = await icpcon("getapp", idx)
-        if report is True:
+    elif(command == "getapp"):
+        print("")
+        get = input("enter index: ")
+        print("")
+        report = await icpcon("getapp", get)
+        if report == True:
             print("Conn data successfully received:")
             print(f"received_conn: {received_conn}")
-            print(f"received_title: {received_title}")
-            print(f"received_connector: {received_connector}")
+            print(f"received_title: {received_title}")  
+            print(f"received_conector: {received_conector}")
         else:
             print("Failed to receive Conn data")
+            print("")
 
-    elif command == "getbox":
-        idx = input("Enter index: ")
-        report = await icpcon("getbox", idx)
-        if report is True:
+    elif(command == "getbox"):
+        print("")
+        get = input("enter index: ")
+        print("")
+        report = await icpcon("getbox", get)
+        if report == True:
             print("Conn data successfully received:")
             print(f"received_conn: {received_conn}")
-            print(f"received_title: {received_title}")
-            print(f"received_connector: {received_connector}")
+            print(f"received_title: {received_title}")  
+            print(f"received_conector: {received_conector}")
         else:
             print("Failed to receive Conn data")
-
-    elif command == "help":
-        if canisterId == "p2137-cai" or canisterId == "":
-            print("\nAvailable commands:")
-            print("hwoisme: check who you are talking to and their interfaces")
-            print("target: select the canister you want to talk to")
+            print("")
+        
+    elif(command == "help"):
+        print("");
+        if(canisterId == "p2137-cai" or canisterId == ""):
+            print("")
+            print("hwoisme: check who you are talking to and what interfaces it has")
+            print("target: choose the canister you want to talk to")
             print("glue: use the glue interface with the selected target")
-            print("help: display this help message")
-            print("getbox: ask a databox about other databoxy")
-            print("getapp: ask a databox about applications")
+            print("help: use the help interface")
+            print("getbox: ask databox about other databoxy")
+            print("getapp: ask databox about applications")
+            print("file: upload or download file")
         else:
-            line = input("Enter the help page of this service: ")
+            line = input("enter help page number of this service")
             report = await icpcon("help", line)
             print(report)
-
-    elif command == "fileone":
-        print("The fileone function is still under construction.")
-        print("Thank you for using panda_voyager_agent")
+            print("")
 
     else:
-        print("Unsupported command")
+        print("unsupported command")
 
 
 if __name__ == '__main__':
-    print("\n[the panda] The simplest agent for Voyager")
-    print("We wish you fun! If you don't know what to do, type [help]\n")
+    print("")
+    print("")
+    print("[the panda] the simplest agent for voyager")
+    print("enjoy your experience! if [you don't know] what to do,")
+    print("type [help]")
+    print("")
+    print("")
     while True:
-        asyncio.run(monitor())
+       asyncio.run(monitor())
+# agent-panda 1.1 file,s edition
