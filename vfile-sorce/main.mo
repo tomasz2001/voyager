@@ -8,12 +8,16 @@ persistent actor {
 
 transient var data_clasters_A = Buffer.Buffer<Blob>(5);
 transient var pin_clasters_A = Buffer.Buffer<File_pin>(5);
+
 transient var wallet_one : wallet = {
+  payer = "aaaaa-aaa";
   trap_time = 0;
   adress = "";
   margin = 0;
 };
+
  type wallet = {
+  payer: Principal;
   trap_time: Int;
   adress: BitcoinAddress;
   margin: Satoshi;
@@ -54,8 +58,8 @@ transient var wallet_one : wallet = {
   public query func hwoisme() : async Conn{
        return {
         conn = "";
-        title = "free-file run on voyager power by freedom";
-        conector = ["glue", "help", "file", "help"];
+        title = "free-file run on voyager power by freedom \n plesse use vBp pay by donate voyager project";
+        conector = ["vBp", "help", "file"];
        };
   };
 
@@ -99,6 +103,19 @@ public func add_file(target : Blob) : async Nat {
             min_confirmations = null;
         })
     };
+    public func btc_get_balance(network : Network, address : BitcoinAddress) : async Satoshi {
+        ExperimentalCycles.add<system>(GET_BALANCE_COST_CYCLES);
+        await management_canister_actor.bitcoin_get_balance({
+            address = address;
+            network = network;
+            min_confirmations = null;
+        })
+    };
 
+    public func pay_start
+
+    public func pay_check
+
+    public func pay_end
   
 };
