@@ -1,8 +1,13 @@
 import Buffer "mo:base/Buffer";
+import Region "mo:base/Region";
+import Option "mo:base/Option";
+import Text "mo:base/Text";
 import Blob "mo:base/Blob";
 import Error "mo:base/Error";
 import ExperimentalCycles "mo:base/ExperimentalCycles";
 import Time "mo:base/Time";
+import Principal "mo:base/Principal";
+import Nat64 "mo:base/Nat64";
 
 persistent actor {
 
@@ -10,16 +15,16 @@ transient var data_clasters_A = Buffer.Buffer<Blob>(5);
 transient var pin_clasters_A = Buffer.Buffer<File_pin>(5);
 
 transient var wallet_one : wallet = {
-  payer = "aaaaa-aaa";
+  payer = Principal.fromText("aaaaa-aa");
   trap_time = 0;
-  adress = "";
+  address = "";
   margin = 0;
 };
 
  type wallet = {
   payer: Principal;
   trap_time: Int;
-  adress: BitcoinAddress;
+  address: BitcoinAddress;
   margin: Satoshi;
  };
  type Conn = {
@@ -95,27 +100,31 @@ public func add_file(target : Blob) : async Nat {
 
 // BTC funk
 
-    private func btc_get_balance(network : Network, address : BitcoinAddress) : async Satoshi {
+    private func btc_get_balance(address : BitcoinAddress) : async Satoshi {
         ExperimentalCycles.add<system>(GET_BALANCE_COST_CYCLES);
         await management_canister_actor.bitcoin_get_balance({
             address = address;
-            network = network;
+            network = #mainnet;
             min_confirmations = null;
         })
     };
-    public func btc_get_balance(network : Network, address : BitcoinAddress) : async Satoshi {
+    public func btc_get_balance_debug(address : BitcoinAddress) : async Satoshi {
         ExperimentalCycles.add<system>(GET_BALANCE_COST_CYCLES);
         await management_canister_actor.bitcoin_get_balance({
             address = address;
-            network = network;
+            network = #mainnet;
             min_confirmations = null;
         })
     };
 
-    public func pay_start
-
-    public func pay_check
-
-    public func pay_end
+    public shared (msg) func pay_start(pay : Int) : async Text{
+      var caller = msg.caller;
+      var now = Time.now();
+      var margin = await btc_get_balance(wallet_one.address);
+      return Nat64.toText(margin);
+      
+      
+    };
+    // public func pay_end
   
 };
