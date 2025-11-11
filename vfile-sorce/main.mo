@@ -117,14 +117,51 @@ public func add_file(target : Blob) : async Nat {
         })
     };
 
-    public shared (msg) func pay_start(pay : Int) : async Text{
-      var caller = msg.caller;
+    public shared (msg) func pay_start() : async Text{
+
       var now = Time.now();
       var margin = await btc_get_balance(wallet_one.address);
-      return Nat64.toText(margin);
-      
-      
+
+      if(now > wallet_one.trap_time){
+          return "pay Bitcoin address is busy, plesse try later";
+      };
+      wallet_one := {
+        payer = msg.caller;
+        trap_time = now + 600_000_000_000;
+        address = wallet_one.address;
+        margin = margin;
+      };
+      return "pay Bitcoin address is ready to pay plesse say here you Bitcoin \n" # wallet_one.address;
     };
-    // public func pay_end
+
+    public shared (msg) func pay_end() : async Text{ 
+      var now = Time.now();
+      var pay = await btc_get_balance(wallet_one.address);
+      
+      if(wallet_one.payer == msg.caller){
+        if(wallet_one.margin == pay){
+          
+          wallet_one := {
+            payer = wallet_one.payer;
+            trap_time = now + 600_000_000_000;
+            address = wallet_one.address;
+            margin = wallet_one.margin;
+          };
+          return "app wait to pay";
+        }else{
+          wallet_one := {
+            payer = wallet_one.payer;
+            trap_time = 0;
+            address = wallet_one.address;
+            margin = wallet_one.margin;
+          };
+          var to_pay = pay - wallet_one.margin;
+          return "thank you for pay " # Nat64.toText(to_pay) # "  for this app";
+        };
+      }else{
+        return "you are not have active pay";
+
+      };
+    };
   
 };
