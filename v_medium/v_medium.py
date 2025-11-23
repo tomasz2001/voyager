@@ -1,5 +1,7 @@
 from v_medium_newspaper import paint_text, np_print, paper_test
+from ollama_core import evaluate
 from v_chip import chip, chip_up
+from time import sleep
 import serial
 import asyncio
 import os
@@ -7,7 +9,8 @@ import signal
 import sys
 text1 = """"""
 text2 = """"""
-
+# tu zapisujesz swoje dyrektywy co do artykułuw 
+fresh = ""
 
 def paper_make():
     global text1, text2
@@ -48,23 +51,28 @@ def raport_work(margin):
     print(margin)
 
 async def main(canister):
-
     margin_local = await chip("margin", canister)
 
     while True:
         chceck = await chip("margin", canister)
-
+        while chceck == "dupa":
+            chceck = await chip("margin", canister)
+            
         if margin_local != chceck:
             texttext = await chip(margin_local, canister)
             while texttext == "dupa":
                 texttext = await chip(margin_local, canister)
-                
-            import_text(texttext)
+            
+            if(evaluate( fresh + "[" + texttext + "]") == True):        
+                import_text(texttext)
+                print("text został przyjenty")
+            else:
+                print("text został odzucony ponieważ złamał dyrektywy \n lub model AI nie działa")
             margin_local = chceck
-
-        raport_work(margin_local)
         await asyncio.sleep(5)
+        sleep(10)
+        raport_work(margin_local)
+        
 
 if __name__ == "__main__":
-    asyncio.run(main("---ICP-canister-ID---"))
-
+    asyncio.run(main("srfms-nqaaa-aaaah-qqipa-cai"))
