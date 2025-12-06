@@ -154,6 +154,8 @@ def paper_test(text_add: str, text1: str, text2: str):
     else:
         return "no_ok"
 if __name__ == "__main__":
+    text1 = input(":")
+    text2 = input(":")
     paint_text(text1, text2)
     np_print()
 

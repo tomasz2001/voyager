@@ -1,5 +1,5 @@
 from v_medium_newspaper import paint_text, np_print, paper_test
-from ollama_core import evaluate
+from AI_core import evaluate
 from v_chip import chip, chip_up
 from time import sleep
 import serial
@@ -11,6 +11,9 @@ text1 = """"""
 text2 = """"""
 # tu zapisujesz swoje dyrektywy co do artykułuw 
 fresh = ""
+
+# confing
+news_chceck = "H"
 
 def paper_make():
     global text1, text2
@@ -59,15 +62,30 @@ async def main(canister):
             chceck = await chip("margin", canister)
             
         if margin_local != chceck:
-            texttext = await chip(margin_local, canister)
-            while texttext == "dupa":
+            if news_chceck == "AI":
                 texttext = await chip(margin_local, canister)
-            
-            if(evaluate( fresh + "[" + texttext + "]") == True):        
-                import_text(texttext)
-                print("text został przyjenty")
-            else:
-                print("text został odzucony ponieważ złamał dyrektywy \n lub model AI nie działa")
+                while texttext == "dupa":
+                    texttext = await chip(margin_local, canister)
+                
+                if(evaluate( fresh + "[" + texttext + "]") == True):        
+                    import_text(texttext)
+                    print("text został przyjenty")
+                else:
+                    print("text został odzucony ponieważ złamał dyrektywy \n lub model AI nie działa")
+
+
+            if news_chceck == "H":
+                texttext = await chip(margin_local, canister)
+                while texttext == "dupa":
+                    texttext = await chip(margin_local, canister)
+                os.system("clear")
+                print(texttext + "\n" + "-----------------------------")
+                print("czy dopuszczasz ten artykuł do gazety tak/nie")
+                if(input("//: ") == "tak"):        
+                    import_text(texttext)
+                    print("text został przyjenty")
+                else:
+                    print("text został odzucony")
             margin_local = chceck
         await asyncio.sleep(5)
         sleep(10)
