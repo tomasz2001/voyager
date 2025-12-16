@@ -1,0 +1,5 @@
+kivy
+pillow
+cryptography
+ic-py
+pyserial
