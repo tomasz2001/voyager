@@ -3,7 +3,7 @@
 # ===============================
 
 # --- IC / CANISTER ---
-DEFAULT_CANISTER = "srfms-nqaaa-aaaah-qqipa-cai"
+DEFAULT_CANISTER = ""
 IC_URL = "https://ic0.app"
 
 # --- TRYB PRACY ---
