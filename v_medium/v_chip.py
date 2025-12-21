@@ -84,10 +84,10 @@ async def icpcon(metode, item1=None):
                     return result_nice
                 else:
                     print("Data error")
-                    return "dupa"
+                    return "v_con_error"
             else:
                 print("Data error")
-                return "dupa"
+                return "v_con_error"
 
         if metode == 'chip_up':
             
@@ -102,17 +102,17 @@ async def icpcon(metode, item1=None):
                     return result_nice
                 else:
                     print("Data error")
-                    return "dupa"
+                    return "v_con_error"
             else:
                 print("Data error")
-                return "dupa"
+                return "v_con_error"
 
         
-        return "dupa"
+        return "v_con_error"
     except Exception as e:
         print(f'Error: {e} ')
         er_data = True
-        return "dupa"
+        return "v_con_error"
 
 async def chip(input, canister):
     global canisterId
