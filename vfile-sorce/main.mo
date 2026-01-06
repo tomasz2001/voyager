@@ -64,7 +64,7 @@ transient var wallet_one : wallet = {
        return {
         conn = "";
         title = "free-file run on voyager power by freedom \n plesse use vBp pay by donate voyager project";
-        conector = ["vBp", "help", "file"];
+        conector = ["vBp", "file"];
        };
   };
 
