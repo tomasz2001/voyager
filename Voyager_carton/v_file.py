@@ -59,7 +59,7 @@ async def ic_update(agent, canister_id, method, args=None):
 # =====================================
 #  Upload pliku w paczkach po 1 MB
 # =====================================
-async def upload_file(canister_id: str, file_path: str, note: str = "", ic_url: str | None = None):
+async def upload_file(canister_id: str, file_path: str, note: str = "", ic_url: str | None = None, progress_callback=None):
     """Wysyła plik do wskazanego canistera w paczkach po 1 MB."""
     agent = create_agent(ic_url)
 
@@ -85,6 +85,10 @@ async def upload_file(canister_id: str, file_path: str, note: str = "", ic_url: 
             chunk_indices.append(index)
         else:
             print(f"[ERROR] Nie udało się zapisać paczki {i+1}")
+        
+        # Aktualizuj pasek postępu
+        if progress_callback:
+            progress_callback(i + 1, len(chunks))
 
     # Rekord File_pin
     file_pin = {
@@ -126,6 +130,7 @@ async def download_file(
     save_dir: str = "./downloads",
     save_path: str | None = None,
     ic_url: str | None = None,
+    progress_callback=None,
 ):
     agent = create_agent(ic_url)
 
@@ -157,6 +162,10 @@ async def download_file(
             print(f"[WARN] Brak paczki {chunk_id}")
             continue
         all_data.extend(chunk)
+        
+        # Aktualizuj pasek postępu
+        if progress_callback:
+            progress_callback(i + 1, len(chunk_ids))
 
     if save_path:
         # Jeśli podano pełną ścieżkę pliku, użyj jej bezpośrednio

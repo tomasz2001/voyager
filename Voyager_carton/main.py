@@ -100,8 +100,39 @@ class VoyagerCartonApp(tk.Tk):
         self.status_label = ttk.Label(status_frame, text="Gotowy.")
         self.status_label.pack(side="left")
 
+        # Pasek postępu
+        progress_frame = ttk.Frame(frame)
+        progress_frame.pack(fill="both", expand=False, pady=(6, 0))
+        ttk.Label(progress_frame, text="Postęp:").pack(side="left", padx=(0, 6))
+        self.progress_var = tk.DoubleVar(value=0)
+        self.progress_bar = ttk.Progressbar(
+            progress_frame,
+            variable=self.progress_var,
+            maximum=100,
+            length=650,
+            mode="determinate",
+        )
+        self.progress_bar.pack(side="left", fill="both", expand=True, padx=(0, 6))
+        self.progress_label = ttk.Label(progress_frame, text="0%", width=5)
+        self.progress_label.pack(side="left")
+
     def _set_status(self, text: str):
         self.status_label.config(text=text)
+        self.update_idletasks()
+
+    def _update_progress(self, current: int, total: int):
+        """Aktualizuje pasek postępu (current to bieżący kawałek, total to suma)."""
+        if total <= 0:
+            return
+        progress = (current / total) * 100
+        self.progress_var.set(progress)
+        self.progress_label.config(text=f"{int(progress)}%")
+        self.update_idletasks()
+
+    def _reset_progress(self):
+        """Resetuje pasek postępu."""
+        self.progress_var.set(0)
+        self.progress_label.config(text="0%")
         self.update_idletasks()
 
     def _ensure_connected(self):
@@ -191,6 +222,7 @@ class VoyagerCartonApp(tk.Tk):
         if not save_path:
             return
 
+        self._reset_progress()
         self._set_status(f"Pobieram plik (pin {pin_idx})...")
         try:
             saved_path = asyncio.run(
@@ -199,11 +231,13 @@ class VoyagerCartonApp(tk.Tk):
                     pin_idx,
                     save_path=save_path,
                     ic_url=self.ic_url.get().strip(),
+                    progress_callback=self._update_progress,
                 )
             )
         except Exception as e:
             messagebox.showerror("Błąd pobierania", str(e))
             self._set_status("Błąd pobierania.")
+            self._reset_progress()
             return
 
         if saved_path:
@@ -211,6 +245,7 @@ class VoyagerCartonApp(tk.Tk):
             self._set_status(f"Plik pobrany: {saved_path}")
         else:
             self._set_status("Nie udało się pobrać pliku.")
+        self._reset_progress()
 
     def on_upload_file(self):
         if not self._ensure_connected():
@@ -221,6 +256,7 @@ class VoyagerCartonApp(tk.Tk):
             return
 
         note = self.note_var.get().strip()
+        self._reset_progress()
         self._set_status("Wysyłam plik do canistera...")
 
         try:
@@ -230,11 +266,13 @@ class VoyagerCartonApp(tk.Tk):
                     file_path,
                     note,
                     ic_url=self.ic_url.get().strip(),
+                    progress_callback=self._update_progress,
                 )
             )
         except Exception as e:
             messagebox.showerror("Błąd wysyłania", str(e))
             self._set_status("Błąd wysyłania.")
+            self._reset_progress()
             return
 
         if result and result.get("pin_index") is not None:
@@ -246,6 +284,7 @@ class VoyagerCartonApp(tk.Tk):
             self.on_refresh_list()
         else:
             self._set_status("Wgrywanie zakończone niepowodzeniem.")
+        self._reset_progress()
 
 
 if __name__ == "__main__":
